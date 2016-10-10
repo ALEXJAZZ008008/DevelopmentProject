@@ -1,0 +1,22 @@
+delim	[ \t\r]
+ws	{delim}+
+digit	[0-9]
+number	{digit}+
+
+%%
+
+{ws}	;
+\n	return(NEWLINE);
+
+"+"	return(PLUS);
+"*"	return(TIMES);
+
+"("	return(BRA);
+")"	return(KET);
+
+{number}	{
+				yylval.iVal = atoi(yytext);
+				return(NUMBER);
+			}
+
+%%
