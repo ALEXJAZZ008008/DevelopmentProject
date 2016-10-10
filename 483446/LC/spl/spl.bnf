@@ -1,0 +1,150 @@
+<program> ::=	<identifier> ":" <block> ENDP <identifier> "."
+
+<block>	::=	CODE <statement_list>
+			| DECLARATIONS <declaration_block> CODE <statement_list>
+
+<declaration_block>	::=	<identifier> "," <declaration_block>
+						| <identifier> OF TYPE <type> ";"
+						| <identifier> OF TYPE <type> ";" <declaration_block>
+
+<type>	::=	REAL
+			| INTEGER
+			| CHARACTER
+
+<statement_list>	::=	<statement>
+						| <statement> ";" <statement_list>
+
+<statement>	::=	<do_statement>
+				| <if_statement>
+				| <for_statement>
+				| <read_statement>
+				| <while_statement>
+				| <write_statement>
+				| <assignment_statement>
+
+<assignment_statement>	::=	<expression> "->" <identifier>
+
+<if_statement>	::=	IF <conditional> THEN <statement_list> ENDIF
+					| IF <conditional> THEN <statement_list> ELSE <statement_list> ENDIF
+
+<do_statement>	::=	DO <statement_list> WHILE <conditional> ENDDO
+
+<while_statement>	::=	WHILE <conditional> DO <statement_list> ENDWHILE
+
+<for_statement>	::=	FOR <identifier> IS <expression> BY <expression> TO <expression> DO <statement_list> ENDFOR
+
+<write_statement>	::=	WRITE NEWLINE
+						| WRITE "(" <output_list> ")"
+
+<read_statement>	::=	READ "(" <identifier> ")"
+
+<output_list>	::=	<value>
+					| <value> "," <output_list>
+
+<conditional>	::=	NOT <conditional>
+					| <expression> <comparator> <expression>
+					| <expression> <comparator> <expression> OR <conditional>
+					| <expression> <comparator> <expression> AND <conditional>
+
+<comparator>	::=	"="
+					| "<"
+					| ">"
+					| "<="
+					| ">="
+					| "<>"
+
+<expression>	::=	<term>
+					| <term> "+" <expression>
+					| <term> "-" <expression>
+
+<term>	::=	<value>
+			| <value> "*" <term>
+			| <value> "/" <term>
+
+<value>	::=	<constant>
+			| <identifier>
+			| "(" <expression> ")"
+
+<constant>	::= <number_constant>
+				| <character_constant>
+
+<character_constant>	::=	"'" <character> "'"
+
+<character>	::= <letter>
+				| <character> <letter>
+
+<number_constant>	::= <number>
+						| "-" <number>
+						| <number> "." <number>
+						| "-" <number> "." <number>
+
+<number>	::=	<digit>
+				| <number> <digit>
+
+<identifier>	::=	<character>
+					| <character> <number>
+					| <character> <number> <identifier>
+
+<letter>	::=	A
+				| B
+				| C
+				| D
+				| E
+				| F
+				| G
+				| H
+				| I
+				| J
+				| K
+				| L
+				| M
+				| N
+				| O
+				| P
+				| Q
+				| R
+				| S
+				| T
+				| U
+				| V
+				| W
+				| X
+				| Y
+				| Z
+				| a
+				| b
+				| c
+				| d
+				| e
+				| f
+				| g
+				| h
+				| i
+				| j
+				| k
+				| l
+				| m
+				| n
+				| o
+				| p
+				| q
+				| r
+				| s
+				| t
+				| u
+				| v
+				| w
+				| x
+				| y
+				| z	
+
+<digit>	::=	0
+			| 1
+			| 2
+			| 3
+			| 4
+			| 5
+			| 6
+			| 7
+			| 8
+			| 9

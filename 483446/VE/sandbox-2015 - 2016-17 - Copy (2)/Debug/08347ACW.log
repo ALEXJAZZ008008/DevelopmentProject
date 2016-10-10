@@ -1,0 +1,31 @@
+﻿  trackglut.cpp
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(98): warning C4244: '=': conversion from 'const vrpn_float64' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(125): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(133): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(146): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(147): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(148): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(149): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(150): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(152): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(159): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(160): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(161): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(163): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(178): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(179): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(180): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(183): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+z:\ve\sandbox-2015 - 2016-17 - copy (2)\trackglut.cpp(432): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+trackglut.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+quat.lib(matrix.obj) : warning LNK4099: PDB 'quatlib.pdb' was not found with 'quat.lib(matrix.obj)' or at 'Z:\VE\sandbox-2015 - 2016-17 - Copy (2)\Debug\quatlib.pdb'; linking object as if no debug info
+quat.lib(quat.obj) : warning LNK4099: PDB 'quatlib.pdb' was not found with 'quat.lib(quat.obj)' or at 'Z:\VE\sandbox-2015 - 2016-17 - Copy (2)\Debug\quatlib.pdb'; linking object as if no debug info
+quat.lib(vector.obj) : warning LNK4099: PDB 'quatlib.pdb' was not found with 'quat.lib(vector.obj)' or at 'Z:\VE\sandbox-2015 - 2016-17 - Copy (2)\Debug\quatlib.pdb'; linking object as if no debug info
+vrpn.lib(vrpn_BaseClass.obj) : warning LNK4099: PDB 'vrpn.pdb' was not found with 'vrpn.lib(vrpn_BaseClass.obj)' or at 'Z:\VE\sandbox-2015 - 2016-17 - Copy (2)\Debug\vrpn.pdb'; linking object as if no debug info
+vrpn.lib(vrpn_Connection.obj) : warning LNK4099: PDB 'vrpn.pdb' was not found with 'vrpn.lib(vrpn_Connection.obj)' or at 'Z:\VE\sandbox-2015 - 2016-17 - Copy (2)\Debug\vrpn.pdb'; linking object as if no debug info
+vrpn.lib(vrpn_FileConnection.obj) : warning LNK4099: PDB 'vrpn.pdb' was not found with 'vrpn.lib(vrpn_FileConnection.obj)' or at 'Z:\VE\sandbox-2015 - 2016-17 - Copy (2)\Debug\vrpn.pdb'; linking object as if no debug info
+vrpn.lib(vrpn_Serial.obj) : warning LNK4099: PDB 'vrpn.pdb' was not found with 'vrpn.lib(vrpn_Serial.obj)' or at 'Z:\VE\sandbox-2015 - 2016-17 - Copy (2)\Debug\vrpn.pdb'; linking object as if no debug info
+vrpn.lib(vrpn_Shared.obj) : warning LNK4099: PDB 'vrpn.pdb' was not found with 'vrpn.lib(vrpn_Shared.obj)' or at 'Z:\VE\sandbox-2015 - 2016-17 - Copy (2)\Debug\vrpn.pdb'; linking object as if no debug info
+vrpn.lib(vrpn_Tracker.obj) : warning LNK4099: PDB 'vrpn.pdb' was not found with 'vrpn.lib(vrpn_Tracker.obj)' or at 'Z:\VE\sandbox-2015 - 2016-17 - Copy (2)\Debug\vrpn.pdb'; linking object as if no debug info
+  08347ACW.vcxproj -> Z:\VE\sandbox-2015 - 2016-17 - Copy (2)\Debug\08347ACW.exe
+  08347ACW.vcxproj -> Debug\08347ACW.pdb (Full PDB)
