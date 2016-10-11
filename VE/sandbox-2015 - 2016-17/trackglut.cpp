@@ -195,8 +195,16 @@ void Camera(qgl_matrix_type dest, const q_vec_type eye, const q_vec_type focus, 
 void ViewSystem(const bool righteye) {
 	bViewchanged = false;
 	if (numeyes == 2) {// stereo, i.e. two trips through render loop, right eye first, then left
-		if (righteye) {} ////*** fifth stage - use quat's vector methods to move Pos along (global) Yaxis - but in which direction and by how much?
-		else {} ////*** fifth stage -  move Pos back to centre then along Y in opposite direction
+		if (righteye)
+			{
+				q_vec_scale(Yaxis, 0.034, Yaxis);
+				q_vec_subtract(Pos, Yaxis, Pos);
+			} ////*** fifth stage - use quat's vector methods to move Pos along (global) Yaxis - but in which direction and by how much?
+		else 
+			{
+				q_vec_add(Pos, Yaxis, Pos);
+				q_vec_add(Pos, Yaxis, Pos);
+			} ////*** fifth stage -  move Pos back to centre then along Y in opposite direction
 	}
 
 	qgl_matrix_type proj;  // perspective matrix
@@ -208,10 +216,10 @@ void ViewSystem(const bool righteye) {
 		////*** fourth (+subsequent) stage(s) - 5 variables needed for cube fixed on the screen, moving view. Global Pos, with tracker X component in element 0, Y in 1, Z in 2
 		double unsignedleft = ((screenheight * viewaspect) / 2.0) - Pos[1]; // calculation here using eye position Pos, screen height and viewaspect
 		double unsignedright = ((screenheight * viewaspect) / 2.0) + Pos[1]; // calculation here using eye position Pos, screen height and viewaspect
-		double unsignedbottom = Pos[2] - screenup; // calculation here using eye position Pos and screenup
-		double unsignedtop = (screenup + screenheight) - Pos[2]; // calculation here using eye position Pos, screen height and screenup
+		double unsignedbottom = Pos[2] - screenup - (screenheight / 2.0); // calculation here using eye position Pos and screenup
+		double unsignedtop = screenup - (screenheight / 2.0) - Pos[2]; // calculation here using eye position Pos, screen height and screenup
 		double S = 0.1 / (screendist - Pos[0]); // calculation here using eye position Pos, near (= 0.1) and screendist
-		AsymmetricFrustum(proj, -(unsignedleft * S), unsignedright * S, -(unsignedbottom * S), unsignedtop * S, 0.1, 10.0); // uses above, scaled AND with appropriate l, r, t, b signs practised at stage 3
+		AsymmetricFrustum(proj, (unsignedleft * -S), unsignedright * S, (unsignedbottom * -S), unsignedtop * S, 0.1, 10.0); // uses above, scaled AND with appropriate l, r, t, b signs practised at stage 3
 	}
 	else { // static 
 		SymmetricFrustum(proj, 55.0, viewaspect, 0.1, 10.0);  // the vertical (OpenGL axes) angle of the frustum, aspect ratio, near and far - don't change
@@ -236,8 +244,8 @@ void ViewSystem(const bool righteye) {
 		q_vec_set(up, 0.0, 1.0, 0.0);
 	}
 	else if (bSideon) { // not impemented yet, so make same as infront
-		q_vec_set(eyepos, 4.0, 1.0, -2.5);  //// *** second stage - same plane as screen at around glasses height, right-hand edge of the ground plane (NB this is OpenGl space)
-		q_vec_set(focus, -4.0, 1.0, -2.5); //// *** second stage - opposite side of scene to eye (reflect in gl's x=0 plane)
+		q_vec_set(eyepos, 4.0, screenup, -screendist);  //// *** second stage - same plane as screen at around glasses height, right-hand edge of the ground plane (NB this is OpenGl space)
+		q_vec_set(focus, -4.0, screenup, -screendist); //// *** second stage - opposite side of scene to eye (reflect in gl's x=0 plane)
 		q_vec_set(up, 0.0, 1.0, 0.0);
 	}
 	else { // shouldn't arrive here unless the camera preset logic is faulty
@@ -584,10 +592,10 @@ void OnDisplay() {
 		////     Use above sizing and placing variables plus viewaspect wherever they occur, numerical values elsewhere
 		qgl_matrix_type tmp3 = Q_ID_MATRIX;
 
-		q_vec_set(scale, cubefacesize[0], cubefacesize[0], cubefacesize[0]);
+		q_vec_set(scale, cubefacesize[0], cubefacesize[1], cubefacesize[0]);
 		scaleObject(tmp3, scale);
 
-		q_vec_set(translation, ((cubefacesize[0] / 2.0) + screendist), 0.0, screenup);  //what is the significance of the halved translation in the original?
+		q_vec_set(translation, ((cubefacesize[0] / 4.0) + screendist), 0.0, screenup);  //what is the significance of the halved translation in the original?
 		translateObject(tmp3, translation);
 
 		//// *** original - rotated 45 degrees anticlockwise with tracker z pointing towards us
@@ -602,7 +610,7 @@ void OnDisplay() {
 		q_vec_set(scale, -cubefacesize[0], -cubefacesize[0], -cubefacesize[0]);
 		scaleObject(tmp3, scale);
 
-		q_vec_set(translation, -((cubefacesize[0] / 2.0) + screendist), 0.0, -screenup);  //what is the significance of the halved translation in the original?
+		q_vec_set(translation, -((cubefacesize[0] / 4.0) + screendist), 0.0, -screenup);  //what is the significance of the halved translation in the original?
 		translateObject(tmp3, translation);
 
 		q_vec_set(axis, 0.0, 1.0, 0.0);

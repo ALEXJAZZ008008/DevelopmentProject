@@ -236,8 +236,8 @@ void ViewSystem(const bool righteye) {
 		q_vec_set(up, 0.0, 1.0, 0.0);
 	}
 	else if (bSideon) { // not impemented yet, so make same as infront
-		q_vec_set(eyepos, 4.0, 1.0, -2.5);  //// *** second stage - same plane as screen at around glasses height, right-hand edge of the ground plane (NB this is OpenGl space)
-		q_vec_set(focus, -4.0, 1.0, -2.5); //// *** second stage - opposite side of scene to eye (reflect in gl's x=0 plane)
+		q_vec_set(eyepos, 4.0, screenup, -screendist);  //// *** second stage - same plane as screen at around glasses height, right-hand edge of the ground plane (NB this is OpenGl space)
+		q_vec_set(focus, -4.0, screenup, -screendist); //// *** second stage - opposite side of scene to eye (reflect in gl's x=0 plane)
 		q_vec_set(up, 0.0, 1.0, 0.0);
 	}
 	else { // shouldn't arrive here unless the camera preset logic is faulty
