@@ -43,8 +43,8 @@
 
 <conditional>	::=	NOT <conditional>
 					| <expression> <comparator> <expression>
-					| <expression> <comparator> <expression> OR <conditional>
-					| <expression> <comparator> <expression> AND <conditional>
+					| <conditional> OR <conditional>
+					| <conditional> AND <conditional>
 
 <comparator>	::=	"="
 					| "<"
@@ -66,12 +66,12 @@
 			| "(" <expression> ")"
 
 <constant>	::= <number_constant>
-				| <character_constant>
+				| <word_constant>
 
-<character_constant>	::=	"'" <character> "'"
+<word_constant>	::=	"'" <word> "'"
 
-<character>	::= <letter>
-				| <character> <letter>
+<word>	::= <character>
+				| <word> <character>
 
 <number_constant>	::= <number>
 						| "-" <number>
@@ -81,11 +81,11 @@
 <number>	::=	<digit>
 				| <number> <digit>
 
-<identifier>	::=	<character>
-					| <character> <number>
-					| <character> <number> <identifier>
+<identifier>	::=	<word>
+					| <identifier> <word>
+					| <identifier> <number>
 
-<letter>	::=	A
+<character>	::=	A
 				| B
 				| C
 				| D
