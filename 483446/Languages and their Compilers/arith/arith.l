@@ -9,7 +9,10 @@ number	{digit}+
 \n	return(NEWLINE);
 
 "+"	return(PLUS);
+"-"	return(MINUS);
+
 "*"	return(TIMES);
+"/"	return(DIVIDE);
 
 "("	return(BRA);
 ")"	return(KET);
