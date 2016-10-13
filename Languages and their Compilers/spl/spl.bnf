@@ -3,9 +3,10 @@
 <block>	::=	CODE <statement_list>
 			| DECLARATIONS <declaration_block> CODE <statement_list>
 
-<declaration_block>	::=	<identifier> "," <declaration_block>
-						| <identifier> OF TYPE <type> ";"
-						| <identifier> OF TYPE <type> ";" <declaration_block>
+<declaration_list>	::=	<declaration>
+						| <declaration> <declaration_list>
+
+<declaration>	::=	<identifier_list> OF TYPE <type> ";"
 
 <type>	::=	REAL
 			| INTEGER
@@ -71,7 +72,7 @@
 <word_constant>	::=	"'" <word> "'"
 
 <word>	::= <character>
-				| <word> <character>
+			| <word> <character>
 
 <number_constant>	::= <number>
 						| "-" <number>
@@ -81,70 +82,14 @@
 <number>	::=	<digit>
 				| <number> <digit>
 
+<identifier_list>	::=	<identifier>
+						| <identifier_list> "," <identifier>
+				
 <identifier>	::=	<word>
 					| <identifier> <word>
 					| <identifier> <number>
 
-<character>	::=	A
-				| B
-				| C
-				| D
-				| E
-				| F
-				| G
-				| H
-				| I
-				| J
-				| K
-				| L
-				| M
-				| N
-				| O
-				| P
-				| Q
-				| R
-				| S
-				| T
-				| U
-				| V
-				| W
-				| X
-				| Y
-				| Z
-				| a
-				| b
-				| c
-				| d
-				| e
-				| f
-				| g
-				| h
-				| i
-				| j
-				| k
-				| l
-				| m
-				| n
-				| o
-				| p
-				| q
-				| r
-				| s
-				| t
-				| u
-				| v
-				| w
-				| x
-				| y
-				| z	
+<character>	::=	A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
+				| a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z	
 
-<digit>	::=	0
-			| 1
-			| 2
-			| 3
-			| 4
-			| 5
-			| 6
-			| 7
-			| 8
-			| 9
+<digit>	::=	0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
