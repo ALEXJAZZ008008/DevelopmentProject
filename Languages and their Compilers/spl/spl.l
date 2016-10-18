@@ -1,56 +1,91 @@
-":"	TOKEN("COLON")
-"."	TOKEN("FULLSTOP")
-","	TOKEN("COMMA")
-";"	TOKEN("SEMICOLON")
-"->"	TOKEN("ARROW")
+%{
+	#ifdef PRINT
+	#define TOKEN(k, t) printf(#k ": " #t "\n");
+	#define VALUE(k, t) printf(#k ": " #t " %s\n", yytext);
+	
+	#else
+	#define TOKEN(k, t) return(t);
+	#define VALUE(k, t) return(t);
+	
+	#endif
+%}
 
-"("	TOKEN("OPENBRACKET")
-")"	TOKEN("CLOSEBRACKET")
+delim	[ \t]
+white_space	{delim}+
+character	[a-zA-Z]
+character_constant	"'"{character}"'"
+digit	[0-9]
+number	{digit}+
+identifier	{character}({character}|{digit})*
 
-"="	TOKEN("EQUAL")
-"<"	TOKEN("LESSTHAN")
-">"	TOKEN("GREATERTHAN")
-"<="	TOKEN("LESSTHANOREQUAL")
-">="	TOKEN("GREATERTHANOREQUAL")
-"<>"	TOKEN("NOTEQUAL")
+%%
 
-"+"	TOKEN("PLUS")
-"-"	TOKEN("MINUS")
-"*"	TOKEN("TIMES")
-"/"	TOKEN("DIVIDE")
+	int l = 1;
 
-"'"	TOKEN("APOSTROPHE")
+{white_space}	;
+{character_constant}	VALUE(Constant, CHARACTER_CONSTANT)
+{number}	VALUE(Constant, NUMBER)
 
-ENDP	TOKEN(ENDP)
-CODE	TOKEN(CODE)
-DECLARATIONS	TOKEN(DECLARATIONS)
+":"	TOKEN(Separator, COLON)
+"."	TOKEN(Separator, FULL_STOP)
+","	TOKEN(Separator, COMMA)
+";"	TOKEN(Separator, SEMICOLON)
 
-OF	TOKEN(OF)
-TYPE	TOKEN(TYPE)
-REAL	TOKEN(REAL)
-INTEGER	TOKEN(INTEGER)
-CHARACTER	TOKEN(CHARACTER)
+"->"	TOKEN(Operator, HYPHEN_GREATER_THAN)
 
-IF	TOKEN(IF)
-THEN	TOKEN(THEN)
-ENDIF	TOKEN(ENDIF)
-ELSE	TOKEN(ELSE)
+"("	TOKEN(Separator, OPEN_BRACKET)
+")"	TOKEN(Separator, CLOSE_BRACKET)
 
-DO	TOKEN(DO)
-WHILE	TOKEN(WHILE)
-ENDDO	TOKEN(ENDDO)
-ENDWHILE	TOKEN(ENDWHILE)
+"="	TOKEN(Operator, EQUAL)
+"<"	TOKEN(Operator, LESS_THAN)
+">"	TOKEN(Operator, GREATER_THAN)
+"<="	TOKEN(Operator, LESS_THAN_EQUAL)
+">="	TOKEN(Operator, GREATER_THAN_EQUAL)
+"<>"	TOKEN(Operator, LESS_THAN_GREATER_THAN)
 
-FOR	TOKEN(FOR)
-IS	TOKEN(IS)
-BY	TOKEN(BY)
-TO	TOKEN(TO)
-ENDFOR	TOKEN(ENDFOR)
+"+"	TOKEN(Operator, PLUS)
+"-"	TOKEN(Operator, HYPHEN)
+"*"	TOKEN(Operator, ASTERIX)
+"/"	TOKEN(Operator, FORWARD_SLASH)
 
-WRITE	TOKEN(WRITE)
-NEWLINE	TOKEN(NEWLINE)
-READ	TOKEN(READ)
+ENDP	TOKEN(Keyword, ENDP)
+CODE	TOKEN(Keyword, CODE)
+DECLARATIONS	TOKEN(Keyword, DECLARATIONS)
 
-NOT	TOKEN(NOT)
-OR	TOKEN(OR)
-AND	TOKEN(AND)
+OF	TOKEN(Keyword, OF)
+TYPE	TOKEN(Keyword, TYPE)
+REAL	TOKEN(Keyword, REAL)
+INTEGER	TOKEN(Keyword, INTEGER)
+CHARACTER	TOKEN(Keyword, CHARACTER)
+
+IF	TOKEN(Keyword, IF)
+THEN	TOKEN(Keyword, THEN)
+ENDIF	TOKEN(Keyword, ENDIF)
+ELSE	TOKEN(Keyword, ELSE)
+
+DO	TOKEN(Keyword, DO)
+WHILE	TOKEN(Keyword, WHILE)
+ENDDO	TOKEN(Keyword, ENDDO)
+ENDWHILE	TOKEN(Keyword, ENDWHILE)
+
+FOR	TOKEN(Keyword, FOR)
+IS	TOKEN(Keyword, IS)
+BY	TOKEN(Keyword, BY)
+TO	TOKEN(Keyword, TO)
+ENDFOR	TOKEN(Keyword, ENDFOR)
+
+WRITE	TOKEN(Keyword, WRITE)
+NEWLINE	TOKEN(Keyword, NEWLINE)
+READ	TOKEN(Keyword, READ)
+
+NOT	TOKEN(Keyword, NOT)
+OR	TOKEN(Keyword, OR)
+AND	TOKEN(Keyword, AND)
+
+{identifier}	VALUE(Identifier, IDENTIFIER)
+
+"\n"	l++;
+
+. printf("ERROR unrecognised character on line %d: %s\n", yytext, l);
+
+%%
