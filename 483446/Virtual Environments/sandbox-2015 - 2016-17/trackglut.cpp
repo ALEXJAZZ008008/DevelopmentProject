@@ -198,12 +198,12 @@ void ViewSystem(const bool righteye) {
 		if (righteye)
 			{
 				q_vec_scale(Yaxis, 0.034, Yaxis);
-				q_vec_subtract(Pos, Yaxis, Pos);
+				q_vec_subtract(Pos, Pos, Yaxis);
 			} ////*** fifth stage - use quat's vector methods to move Pos along (global) Yaxis - but in which direction and by how much?
 		else 
 			{
-				q_vec_add(Pos, Yaxis, Pos);
-				q_vec_add(Pos, Yaxis, Pos);
+				q_vec_add(Pos, Pos, Yaxis);
+				q_vec_add(Pos, Pos, Yaxis);
 			} ////*** fifth stage -  move Pos back to centre then along Y in opposite direction
 	}
 
