@@ -34,7 +34,7 @@
 
 <for_statement>	::=	FOR <identifier> IS <expression> BY <expression> TO <expression> DO <statement_list> ENDFOR
 
-<write_statement>	::=	WRITE NEWLINE
+<write_statement>	::=	NEWLINE
 						| WRITE "(" <output_list> ")"
 
 <read_statement>	::=	READ "(" <identifier> ")"

@@ -709,7 +709,7 @@ TOKEN(Separator, COLON)
 case 5:
 YY_RULE_SETUP
 #line 30 "spl.l"
-TOKEN(Separator, FULLSTOP)
+TOKEN(Separator, FULL_STOP)
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
@@ -723,222 +723,222 @@ TOKEN(Separator, SEMICOLON)
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 33 "spl.l"
-TOKEN(Operator, ARROW)
+#line 34 "spl.l"
+TOKEN(Operator, HYPHEN_GREATER_THAN)
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 35 "spl.l"
+#line 36 "spl.l"
 TOKEN(Separator, OPEN_BRACKET)
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 36 "spl.l"
+#line 37 "spl.l"
 TOKEN(Separator, CLOSE_BRACKET)
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 38 "spl.l"
+#line 39 "spl.l"
 TOKEN(Operator, EQUAL)
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 39 "spl.l"
+#line 40 "spl.l"
 TOKEN(Operator, LESS_THAN)
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 40 "spl.l"
+#line 41 "spl.l"
 TOKEN(Operator, GREATER_THAN)
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 41 "spl.l"
+#line 42 "spl.l"
 TOKEN(Operator, LESS_THAN_EQUAL)
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 42 "spl.l"
+#line 43 "spl.l"
 TOKEN(Operator, GREATER_THAN_EQUAL)
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 43 "spl.l"
-TOKEN(Operator, NOT_EQUAL)
+#line 44 "spl.l"
+TOKEN(Operator, LESS_THAN_GREATER_THAN)
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 45 "spl.l"
+#line 46 "spl.l"
 TOKEN(Operator, PLUS)
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 46 "spl.l"
-TOKEN(Operator, MINUS)
+#line 47 "spl.l"
+TOKEN(Operator, HYPHEN)
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 47 "spl.l"
-TOKEN(Operator, TIMES)
+#line 48 "spl.l"
+TOKEN(Operator, ASTERIX)
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 48 "spl.l"
-TOKEN(Operator, DIVIDE)
+#line 49 "spl.l"
+TOKEN(Operator, FORWARD_SLASH)
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 50 "spl.l"
+#line 51 "spl.l"
 TOKEN(Keyword, ENDP)
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 51 "spl.l"
+#line 52 "spl.l"
 TOKEN(Keyword, CODE)
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 52 "spl.l"
+#line 53 "spl.l"
 TOKEN(Keyword, DECLARATIONS)
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 54 "spl.l"
+#line 55 "spl.l"
 TOKEN(Keyword, OF)
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 55 "spl.l"
+#line 56 "spl.l"
 TOKEN(Keyword, TYPE)
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 56 "spl.l"
+#line 57 "spl.l"
 TOKEN(Keyword, REAL)
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 57 "spl.l"
+#line 58 "spl.l"
 TOKEN(Keyword, INTEGER)
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 58 "spl.l"
+#line 59 "spl.l"
 TOKEN(Keyword, CHARACTER)
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 60 "spl.l"
+#line 61 "spl.l"
 TOKEN(Keyword, IF)
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 61 "spl.l"
+#line 62 "spl.l"
 TOKEN(Keyword, THEN)
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 62 "spl.l"
+#line 63 "spl.l"
 TOKEN(Keyword, ENDIF)
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 63 "spl.l"
+#line 64 "spl.l"
 TOKEN(Keyword, ELSE)
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 65 "spl.l"
+#line 66 "spl.l"
 TOKEN(Keyword, DO)
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 66 "spl.l"
+#line 67 "spl.l"
 TOKEN(Keyword, WHILE)
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 67 "spl.l"
+#line 68 "spl.l"
 TOKEN(Keyword, ENDDO)
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 68 "spl.l"
+#line 69 "spl.l"
 TOKEN(Keyword, ENDWHILE)
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 70 "spl.l"
+#line 71 "spl.l"
 TOKEN(Keyword, FOR)
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 71 "spl.l"
+#line 72 "spl.l"
 TOKEN(Keyword, IS)
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 72 "spl.l"
+#line 73 "spl.l"
 TOKEN(Keyword, BY)
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 73 "spl.l"
+#line 74 "spl.l"
 TOKEN(Keyword, TO)
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 74 "spl.l"
+#line 75 "spl.l"
 TOKEN(Keyword, ENDFOR)
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 76 "spl.l"
+#line 77 "spl.l"
 TOKEN(Keyword, WRITE)
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 77 "spl.l"
+#line 78 "spl.l"
 TOKEN(Keyword, NEWLINE)
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 78 "spl.l"
+#line 79 "spl.l"
 TOKEN(Keyword, READ)
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 80 "spl.l"
+#line 81 "spl.l"
 TOKEN(Keyword, NOT)
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 81 "spl.l"
+#line 82 "spl.l"
 TOKEN(Keyword, OR)
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 82 "spl.l"
+#line 83 "spl.l"
 TOKEN(Keyword, AND)
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 84 "spl.l"
+#line 85 "spl.l"
 VALUE(Identifier, IDENTIFIER)
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 86 "spl.l"
+#line 87 "spl.l"
 l++;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 88 "spl.l"
+#line 89 "spl.l"
 printf("ERROR unrecognised character on line %d: %s\n", yytext, l);
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 90 "spl.l"
+#line 91 "spl.l"
 ECHO;
 	YY_BREAK
 #line 945 "lex.yy.c"
@@ -1827,4 +1827,4 @@ int main()
 	return 0;
 	}
 #endif
-#line 90 "spl.l"
+#line 91 "spl.l"

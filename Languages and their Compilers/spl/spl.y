@@ -1,3 +1,8 @@
+%{
+	void yyerror(char * s);
+	int yylex(void);
+%}
+
 %token	CHARACTER_CONSTANT NUMBER COLON FULL_STOP COMMA SEMICOLON HYPHEN_GREATER_THAN OPEN_BRACKET CLOSE_BRACKET EQUAL LESS_THAN GREATER_THAN LESS_THAN_EQUAL GREATER_THAN_EQUAL LESS_THAN_GREATER_THAN PLUS HYPHEN ASTERIX
 		FORWARD_SLASH ENDP CODE DECLARATIONS OF TYPE REAL INTEGER CHARACTER IF THEN ENDIF ELSE DO WHILE ENDDO ENDWHILE FOR IS BY TO ENDFOR WRITE NEWLINE READ NOT OR AND IDENTIFIER
 
@@ -51,7 +56,7 @@ while_statement	:	WHILE conditional DO statement_list ENDWHILE
 for_statement	:	FOR IDENTIFIER IS expression BY expression TO expression DO statement_list ENDFOR
 					;
 
-write_statement	:	WRITE NEWLINE
+write_statement	:	NEWLINE
 					| WRITE OPEN_BRACKET output_list CLOSE_BRACKET
 					;
 
@@ -64,8 +69,8 @@ output_list	:	value
 
 conditional	:	NOT conditional
 				| expression comparator expression
-				| conditional OR conditional
-				| conditional AND conditional
+				| expression comparator expression OR conditional
+				| expression comparator expression AND conditional
 				;
 
 comparator	:	EQUAL
@@ -104,3 +109,7 @@ number_constant	:	NUMBER
 identifier_list	:	IDENTIFIER
 					| identifier_list COMMA IDENTIFIER
 					;
+
+%%
+
+#include "lex.yy.c"
