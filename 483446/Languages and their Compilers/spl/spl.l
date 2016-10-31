@@ -1,13 +1,22 @@
 %{
+	#include <string.h>
+	
 	#ifdef PRINT
-	#define TOKEN(k, t) printf(#k ": " #t "\n");
-	#define VALUE(k, t) printf(#k ": " #t " %s\n", yytext);
-	
+		#define TOKEN(k, t) printf(#k ": " #t "\n");
+		#define VALUE_C(k, t) printf(#k ": " #t " %c\n", yytext[1]);
+		#define VALUE_N(k, t) printf(#k ": " #t " %s\n", yytext);
+		#define VALUE_I(k, t) printf(#k ": " #t " %s\n", yytext);
 	#else
-	#define TOKEN(k, t) return(t);
-	#define VALUE(k, t) return(t);
-	
+		#define TOKEN(k, t) return(t);
+		#define VALUE_C(k, t) yylval.iVal = yytext[1]; return(t);
+		#define VALUE_N(k, t) yylval.iVal = atoi(yytext); return(t);
+		#define VALUE_I(k, t) yylval.iVal = installId(yytext); return(t);
+		
+		extern SYMTABNODEPTR symTab[SYMTABSIZE];
+		extern int currentSymTabSize;
 	#endif
+	
+	int installId(char *);
 %}
 
 delim	[ \t]
@@ -23,8 +32,8 @@ identifier	{character}({character}|{digit})*
 	int l = 1;
 
 {white_space}	;
-{character_constant}	VALUE(Constant, CHARACTER_CONSTANT)
-{number}	VALUE(Constant, NUMBER)
+{character_constant}	VALUE_C(Constant, CHARACTER_CONSTANT)
+{number}	VALUE_N(Constant, NUMBER)
 
 ":"	TOKEN(Separator, COLON)
 "."	TOKEN(Separator, FULL_STOP)
@@ -53,7 +62,7 @@ CODE	TOKEN(Keyword, CODE)
 DECLARATIONS	TOKEN(Keyword, DECLARATIONS)
 
 OF	TOKEN(Keyword, OF)
-TYPE	TOKEN(Keyword, TYPE)
+TYPE	TOKEN(Keyword, TYPE_L)
 REAL	TOKEN(Keyword, REAL)
 INTEGER	TOKEN(Keyword, INTEGER)
 CHARACTER	TOKEN(Keyword, CHARACTER)
@@ -82,10 +91,58 @@ NOT	TOKEN(Keyword, NOT)
 OR	TOKEN(Keyword, OR)
 AND	TOKEN(Keyword, AND)
 
-{identifier}	VALUE(Identifier, IDENTIFIER)
+{identifier}	VALUE_I(Identifier, IDENTIFIER)
 
 "\n"	l++;
 
 . printf("ERROR unrecognised character on line %d: %s\n", yytext, l);
 
 %%
+
+SYMTABNODEPTR newSymTabNode()
+{
+	return ((SYMTABNODEPTR)malloc(sizeof(SYMTABNODE)));
+}
+
+int lookup(char * s)
+{
+	extern SYMTABNODEPTR symTab[SYMTABSIZE];
+	extern int currentSymTabSize;
+	
+	for(int i = 0; i < currentSymTabSize; i++)
+	{
+		if(strncmp(s, symTab[i] -> identifier, IDLENGTH) == 0)
+		{
+			return (i);
+		}
+	}
+	
+	return (-1);    
+}
+
+int installId(char * id)
+{
+	extern SYMTABNODEPTR symTab[SYMTABSIZE];
+	extern int currentSymTabSize;
+	int index = lookup(id);
+	
+	if (index >= 0)
+	{
+		return (index);
+	}
+	else
+	{
+		if (currentSymTabSize >= SYMTABSIZE) 
+		{
+			return (NOTHING) ;
+		}
+		else
+		{
+			symTab[currentSymTabSize] = newSymTabNode();
+			strncpy(symTab[currentSymTabSize] -> identifier,id,IDLENGTH);
+			symTab[currentSymTabSize] -> identifier[IDLENGTH-1] = '\0';
+			
+			return(currentSymTabSize++);
+		}
+	}
+}

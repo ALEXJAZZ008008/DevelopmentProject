@@ -743,7 +743,7 @@ void OnIdle() {
 
 int main (int argc, char **argv) {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH|GLUT_STEREO);
 
 	// print usage information
 	if (argc < 2) {
