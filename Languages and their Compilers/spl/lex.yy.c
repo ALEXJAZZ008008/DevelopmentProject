@@ -438,16 +438,25 @@ char *yytext;
 #line 1 "spl.l"
 #define INITIAL 0
 #line 2 "spl.l"
+	#include <string.h>
+	
 	#ifdef PRINT
-	#define TOKEN(k, t) printf(#k ": " #t "\n");
-	#define VALUE(k, t) printf(#k ": " #t " %s\n", yytext);
-	
+		#define TOKEN(k, t) printf(#k ": " #t "\n");
+		#define VALUE_C(k, t) printf(#k ": " #t " %c\n", yytext[1]);
+		#define VALUE_N(k, t) printf(#k ": " #t " %s\n", yytext);
+		#define VALUE_I(k, t) printf(#k ": " #t " %s\n", yytext);
 	#else
-	#define TOKEN(k, t) return(t);
-	#define VALUE(k, t) return(t);
-	
+		#define TOKEN(k, t) return(t);
+		#define VALUE_C(k, t) yylval.iVal = yytext[1]; return(t);
+		#define VALUE_N(k, t) yylval.iVal = atoi(yytext); return(t);
+		#define VALUE_I(k, t) yylval.iVal = installId(yytext); return(t);
+		
+		extern SYMTABNODEPTR symTab[SYMTABSIZE];
+		extern int currentSymTabSize;
 	#endif
-#line 451 "lex.yy.c"
+	
+	int installId(char *);
+#line 460 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -598,12 +607,12 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 21 "spl.l"
+#line 30 "spl.l"
 
 
 	int l = 1;
 
-#line 607 "lex.yy.c"
+#line 616 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -688,260 +697,260 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 25 "spl.l"
+#line 34 "spl.l"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 26 "spl.l"
-VALUE(Constant, CHARACTER_CONSTANT)
+#line 35 "spl.l"
+VALUE_C(Constant, CHARACTER_CONSTANT)
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 27 "spl.l"
-VALUE(Constant, NUMBER)
+#line 36 "spl.l"
+VALUE_N(Constant, NUMBER)
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 29 "spl.l"
+#line 38 "spl.l"
 TOKEN(Separator, COLON)
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 30 "spl.l"
+#line 39 "spl.l"
 TOKEN(Separator, FULL_STOP)
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 31 "spl.l"
+#line 40 "spl.l"
 TOKEN(Separator, COMMA)
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 32 "spl.l"
+#line 41 "spl.l"
 TOKEN(Separator, SEMICOLON)
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 34 "spl.l"
+#line 43 "spl.l"
 TOKEN(Operator, HYPHEN_GREATER_THAN)
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 36 "spl.l"
+#line 45 "spl.l"
 TOKEN(Separator, OPEN_BRACKET)
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 37 "spl.l"
+#line 46 "spl.l"
 TOKEN(Separator, CLOSE_BRACKET)
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 39 "spl.l"
+#line 48 "spl.l"
 TOKEN(Operator, EQUAL)
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 40 "spl.l"
+#line 49 "spl.l"
 TOKEN(Operator, LESS_THAN)
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 41 "spl.l"
+#line 50 "spl.l"
 TOKEN(Operator, GREATER_THAN)
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 42 "spl.l"
+#line 51 "spl.l"
 TOKEN(Operator, LESS_THAN_EQUAL)
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 43 "spl.l"
+#line 52 "spl.l"
 TOKEN(Operator, GREATER_THAN_EQUAL)
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 44 "spl.l"
+#line 53 "spl.l"
 TOKEN(Operator, LESS_THAN_GREATER_THAN)
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 46 "spl.l"
+#line 55 "spl.l"
 TOKEN(Operator, PLUS)
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 47 "spl.l"
+#line 56 "spl.l"
 TOKEN(Operator, HYPHEN)
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 48 "spl.l"
+#line 57 "spl.l"
 TOKEN(Operator, ASTERIX)
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 49 "spl.l"
+#line 58 "spl.l"
 TOKEN(Operator, FORWARD_SLASH)
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 51 "spl.l"
+#line 60 "spl.l"
 TOKEN(Keyword, ENDP)
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 52 "spl.l"
+#line 61 "spl.l"
 TOKEN(Keyword, CODE)
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 53 "spl.l"
+#line 62 "spl.l"
 TOKEN(Keyword, DECLARATIONS)
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 55 "spl.l"
+#line 64 "spl.l"
 TOKEN(Keyword, OF)
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 56 "spl.l"
-TOKEN(Keyword, TYPE)
+#line 65 "spl.l"
+TOKEN(Keyword, TYPE_L)
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 57 "spl.l"
+#line 66 "spl.l"
 TOKEN(Keyword, REAL)
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 58 "spl.l"
+#line 67 "spl.l"
 TOKEN(Keyword, INTEGER)
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 59 "spl.l"
+#line 68 "spl.l"
 TOKEN(Keyword, CHARACTER)
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 61 "spl.l"
+#line 70 "spl.l"
 TOKEN(Keyword, IF)
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 62 "spl.l"
+#line 71 "spl.l"
 TOKEN(Keyword, THEN)
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 63 "spl.l"
+#line 72 "spl.l"
 TOKEN(Keyword, ENDIF)
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 64 "spl.l"
+#line 73 "spl.l"
 TOKEN(Keyword, ELSE)
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 66 "spl.l"
+#line 75 "spl.l"
 TOKEN(Keyword, DO)
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 67 "spl.l"
+#line 76 "spl.l"
 TOKEN(Keyword, WHILE)
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 68 "spl.l"
+#line 77 "spl.l"
 TOKEN(Keyword, ENDDO)
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 69 "spl.l"
+#line 78 "spl.l"
 TOKEN(Keyword, ENDWHILE)
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 71 "spl.l"
+#line 80 "spl.l"
 TOKEN(Keyword, FOR)
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 72 "spl.l"
+#line 81 "spl.l"
 TOKEN(Keyword, IS)
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 73 "spl.l"
+#line 82 "spl.l"
 TOKEN(Keyword, BY)
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 74 "spl.l"
+#line 83 "spl.l"
 TOKEN(Keyword, TO)
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 75 "spl.l"
+#line 84 "spl.l"
 TOKEN(Keyword, ENDFOR)
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 77 "spl.l"
+#line 86 "spl.l"
 TOKEN(Keyword, WRITE)
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 78 "spl.l"
+#line 87 "spl.l"
 TOKEN(Keyword, NEWLINE)
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 79 "spl.l"
+#line 88 "spl.l"
 TOKEN(Keyword, READ)
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 81 "spl.l"
+#line 90 "spl.l"
 TOKEN(Keyword, NOT)
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 82 "spl.l"
+#line 91 "spl.l"
 TOKEN(Keyword, OR)
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 83 "spl.l"
+#line 92 "spl.l"
 TOKEN(Keyword, AND)
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 85 "spl.l"
-VALUE(Identifier, IDENTIFIER)
+#line 94 "spl.l"
+VALUE_I(Identifier, IDENTIFIER)
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 87 "spl.l"
+#line 96 "spl.l"
 l++;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 89 "spl.l"
+#line 98 "spl.l"
 printf("ERROR unrecognised character on line %d: %s\n", yytext, l);
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 91 "spl.l"
+#line 100 "spl.l"
 ECHO;
 	YY_BREAK
-#line 945 "lex.yy.c"
+#line 954 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1827,4 +1836,53 @@ int main()
 	return 0;
 	}
 #endif
-#line 91 "spl.l"
+#line 100 "spl.l"
+
+
+SYMTABNODEPTR newSymTabNode()
+{
+	return ((SYMTABNODEPTR)malloc(sizeof(SYMTABNODE)));
+}
+
+int lookup(char * s)
+{
+	extern SYMTABNODEPTR symTab[SYMTABSIZE];
+	extern int currentSymTabSize;
+	
+	for(int i = 0; i < currentSymTabSize; i++)
+	{
+		if(strncmp(s, symTab[i] -> identifier, IDLENGTH) == 0)
+		{
+			return (i);
+		}
+	}
+	
+	return (-1);    
+}
+
+int installId(char * id)
+{
+	extern SYMTABNODEPTR symTab[SYMTABSIZE];
+	extern int currentSymTabSize;
+	int index = lookup(id);
+	
+	if (index >= 0)
+	{
+		return (index);
+	}
+	else
+	{
+		if (currentSymTabSize >= SYMTABSIZE) 
+		{
+			return (NOTHING) ;
+		}
+		else
+		{
+			symTab[currentSymTabSize] = newSymTabNode();
+			strncpy(symTab[currentSymTabSize] -> identifier,id,IDLENGTH);
+			symTab[currentSymTabSize] -> identifier[IDLENGTH-1] = '\0';
+			
+			return(currentSymTabSize++);
+		}
+	}
+}
