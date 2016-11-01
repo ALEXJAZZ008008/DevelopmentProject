@@ -286,7 +286,7 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 #define YY_END_OF_BUFFER 52
 static yyconst short int yy_accept[128] =
     {   0,
-        0,    0,   52,   50,    1,   49,   50,    9,   10,   19,
+        1,    1,   52,   50,    1,   49,   50,    9,   10,   19,
        17,    6,   18,    5,   20,    3,    4,    7,   12,   11,
        13,   48,   48,   48,   48,   48,   48,   48,   48,   48,
        48,   48,   48,   48,    1,    0,    8,    3,   14,   16,
@@ -305,7 +305,7 @@ static yyconst short int yy_accept[128] =
 static yyconst int yy_ec[256] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    2,    1,    1,    1,    1,    1,    1,    4,    5,
         6,    7,    8,    9,   10,   11,   12,   13,   13,   13,
@@ -451,11 +451,11 @@ char *yytext;
 		#define VALUE_N(k, t) yylval.iVal = atoi(yytext); return(t);
 		#define VALUE_I(k, t) yylval.iVal = installId(yytext); return(t);
 		
-		extern SYMTABNODEPTR symTab[SYMTABSIZE];
-		extern int currentSymTabSize;
+		extern symbolTableNodePointer symbolTable[SYMTABSIZE];
+		extern int currentSymbolTableSize;
+		
+		int installId(char *);
 	#endif
-	
-	int installId(char *);
 #line 460 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
@@ -943,7 +943,7 @@ l++;
 case 50:
 YY_RULE_SETUP
 #line 98 "spl.l"
-printf("ERROR unrecognised character on line %d: %s\n", yytext, l);
+printf("ERROR unrecognised character on line %d: %s (%d)\n", l, yytext, yytext[0]);
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
@@ -1839,50 +1839,52 @@ int main()
 #line 100 "spl.l"
 
 
-SYMTABNODEPTR newSymTabNode()
-{
-	return ((SYMTABNODEPTR)malloc(sizeof(SYMTABNODE)));
-}
-
-int lookup(char * s)
-{
-	extern SYMTABNODEPTR symTab[SYMTABSIZE];
-	extern int currentSymTabSize;
-	
-	for(int i = 0; i < currentSymTabSize; i++)
+#ifndef PRINT
+	symbolTableNodePointer newsymbolTableNode()
 	{
-		if(strncmp(s, symTab[i] -> identifier, IDLENGTH) == 0)
+		return ((symbolTableNodePointer)malloc(sizeof(symbolTableNode)));
+	}
+
+	int lookup(char * s)
+	{
+		extern symbolTableNodePointer symbolTable[SYMTABSIZE];
+		extern int currentSymbolTableSize;
+		
+		for(int i = 0; i < currentSymbolTableSize; i++)
 		{
-			return (i);
+			if(strncmp(s, symbolTable[i] -> identifier, IDLENGTH) == 0)
+			{
+				return (i);
+			}
 		}
+		
+		return (-1);    
 	}
-	
-	return (-1);    
-}
 
-int installId(char * id)
-{
-	extern SYMTABNODEPTR symTab[SYMTABSIZE];
-	extern int currentSymTabSize;
-	int index = lookup(id);
-	
-	if (index >= 0)
+	int installId(char * id)
 	{
-		return (index);
-	}
-	else
-	{
-		if (currentSymTabSize >= SYMTABSIZE) 
+		extern symbolTableNodePointer symbolTable[SYMTABSIZE];
+		extern int currentSymbolTableSize;
+		int index = lookup(id);
+		
+		if (index >= 0)
 		{
-			return (NOTHING) ;
+			return (index);
 		}
 		else
 		{
-			symTab[currentSymTabSize] = newSymTabNode();
-			strncpy(symTab[currentSymTabSize] -> identifier,id,IDLENGTH);
-			symTab[currentSymTabSize] -> identifier[IDLENGTH-1] = '\0';
-			
-			return(currentSymTabSize++);
+			if (currentSymbolTableSize >= SYMTABSIZE) 
+			{
+				return (NOTHING) ;
+			}
+			else
+			{
+				symbolTable[currentSymbolTableSize] = newsymbolTableNode();
+				strncpy(symbolTable[currentSymbolTableSize] -> identifier,id,IDLENGTH);
+				symbolTable[currentSymbolTableSize] -> identifier[IDLENGTH-1] = '\0';
+				
+				return(currentSymbolTableSize++);
+			}
 		}
 	}
-}
+#endif

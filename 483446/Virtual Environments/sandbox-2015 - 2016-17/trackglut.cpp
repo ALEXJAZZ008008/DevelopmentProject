@@ -489,15 +489,17 @@ void OnDestroy() {
 void OnDisplay() {
 	bool bRightEye = true;
 	q_vec_type scale, translation, axis;
-	glClear(GL_COLOR_BUFFER_BIT);
 
 	for (int i = 0; i < numeyes; i++) {
-		glClear(GL_DEPTH_BUFFER_BIT);
 		if (bRightEye) {// stereo filters - don't change
-			if (numeyes == 2) glColorMask(GL_FALSE, GL_TRUE, GL_TRUE, GL_TRUE);  // right eye draws cyan
+			glDrawBuffer(GL_BACK_RIGHT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			//if (numeyes == 2) glColorMask(GL_FALSE, GL_TRUE, GL_TRUE, GL_TRUE);  // right eye draws cyan
 		} 
 		else {
-			glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);  // left eye draws red
+			glDrawBuffer(GL_BACK_LEFT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			//glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);  // left eye draws red
 		}
 
 		if (bInperson || bViewchanged) ViewSystem(bRightEye); // multi-function moving/static - don't change

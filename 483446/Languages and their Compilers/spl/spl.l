@@ -12,15 +12,15 @@
 		#define VALUE_N(k, t) yylval.iVal = atoi(yytext); return(t);
 		#define VALUE_I(k, t) yylval.iVal = installId(yytext); return(t);
 		
-		extern SYMTABNODEPTR symTab[SYMTABSIZE];
-		extern int currentSymTabSize;
+		extern symbolTableNodePointer symbolTable[SYMTABSIZE];
+		extern int currentSymbolTableSize;
+		
+		int installId(char *);
 	#endif
-	
-	int installId(char *);
 %}
 
-delim	[ \t]
-white_space	{delim}+
+delimiter	[ \r\t]
+white_space	{delimiter}*
 character	[a-zA-Z]
 character_constant	"'"{character}"'"
 digit	[0-9]
@@ -95,54 +95,56 @@ AND	TOKEN(Keyword, AND)
 
 "\n"	l++;
 
-. printf("ERROR unrecognised character on line %d: %s\n", yytext, l);
+. printf("ERROR unrecognised character on line %d: %s (%d)\n", l, yytext, yytext[0]);
 
 %%
 
-SYMTABNODEPTR newSymTabNode()
-{
-	return ((SYMTABNODEPTR)malloc(sizeof(SYMTABNODE)));
-}
-
-int lookup(char * s)
-{
-	extern SYMTABNODEPTR symTab[SYMTABSIZE];
-	extern int currentSymTabSize;
-	
-	for(int i = 0; i < currentSymTabSize; i++)
+#ifndef PRINT
+	symbolTableNodePointer newsymbolTableNode()
 	{
-		if(strncmp(s, symTab[i] -> identifier, IDLENGTH) == 0)
+		return ((symbolTableNodePointer)malloc(sizeof(symbolTableNode)));
+	}
+
+	int lookup(char * s)
+	{
+		extern symbolTableNodePointer symbolTable[SYMTABSIZE];
+		extern int currentSymbolTableSize;
+		
+		for(int i = 0; i < currentSymbolTableSize; i++)
 		{
-			return (i);
+			if(strncmp(s, symbolTable[i] -> identifier, IDLENGTH) == 0)
+			{
+				return (i);
+			}
 		}
+		
+		return (-1);    
 	}
-	
-	return (-1);    
-}
 
-int installId(char * id)
-{
-	extern SYMTABNODEPTR symTab[SYMTABSIZE];
-	extern int currentSymTabSize;
-	int index = lookup(id);
-	
-	if (index >= 0)
+	int installId(char * id)
 	{
-		return (index);
-	}
-	else
-	{
-		if (currentSymTabSize >= SYMTABSIZE) 
+		extern symbolTableNodePointer symbolTable[SYMTABSIZE];
+		extern int currentSymbolTableSize;
+		int index = lookup(id);
+		
+		if (index >= 0)
 		{
-			return (NOTHING) ;
+			return (index);
 		}
 		else
 		{
-			symTab[currentSymTabSize] = newSymTabNode();
-			strncpy(symTab[currentSymTabSize] -> identifier,id,IDLENGTH);
-			symTab[currentSymTabSize] -> identifier[IDLENGTH-1] = '\0';
-			
-			return(currentSymTabSize++);
+			if (currentSymbolTableSize >= SYMTABSIZE) 
+			{
+				return (NOTHING) ;
+			}
+			else
+			{
+				symbolTable[currentSymbolTableSize] = newsymbolTableNode();
+				strncpy(symbolTable[currentSymbolTableSize] -> identifier,id,IDLENGTH);
+				symbolTable[currentSymbolTableSize] -> identifier[IDLENGTH-1] = '\0';
+				
+				return(currentSymbolTableSize++);
+			}
 		}
 	}
-}
+#endif
