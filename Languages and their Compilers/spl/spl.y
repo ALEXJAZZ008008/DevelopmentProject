@@ -8,22 +8,25 @@
 	#define INDENTOFFSET 2
 	
 	#ifndef TRUE
-	#define TRUE 1
+		#define TRUE 1
 	#endif
 	
 	#ifndef FALSE
-	#define FALSE 0
+		#define FALSE 0
 	#endif
 
 	#ifndef NULL
-	define NULL 0
+		#define NULL 0
 	#endif
 	
 	int yylex(void);
 	void yyerror(char * s);
 	
-	enum ParseTreeNodeType {PROGRAM, BLOCK, DECLARATION_LIST, DECLARATION, TYPE_Y, STATEMENT_LIST, STATEMENT, ASSIGNMENT_STATEMENT, IF_STATEMENT, DO_STATEMENT, WHILE_STATEMENT, FOR_STATEMENT, WRITE_STATEMENT,
+	enum parseTreeNodeType	{PROGRAM, BLOCK, DECLARATION_LIST, DECLARATION, TYPE_Y, STATEMENT_LIST, STATEMENT, ASSIGNMENT_STATEMENT, IF_STATEMENT, DO_STATEMENT, WHILE_STATEMENT, FOR_STATEMENT, WRITE_STATEMENT,
 							READ_STATEMENT, OUTPUT_LIST, CONDITIONAL_LIST, CONDITIONAL, COMPARATOR, EXPRESSION, TERM, VALUE, CONSTANT, NUMBER_CONSTANT, IDENTIFIER_LIST};
+	
+	char * nodeName[]	=	{"PROGRAM", "BLOCK", "DECLARATION_LIST", "DECLARATION", "TYPE_Y", "STATEMENT_LIST", "STATEMENT", "ASSIGNMENT_STATEMENT", "IF_STATEMENT", "DO_STATEMENT", "WHILE_STATEMENT", "FOR_STATEMENT",
+							"WRITE_STATEMENT", "READ_STATEMENT", "OUTPUT_LIST", "CONDITIONAL_LIST", "CONDITIONAL", "COMPARATOR", "EXPRESSION", "TERM", "VALUE", "CONSTANT", "NUMBER_CONSTANT", "IDENTIFIER_LIST"};
 	
 	struct treeNode
 	{
@@ -34,23 +37,23 @@
 		struct treeNode * third;
 	};
 	
-	struct symTabNode
+	struct symbolTableNode
 	{
 		char identifier[IDLENGTH];
 	};
 	
-	typedef struct treeNode TREE_NODE;
-	typedef TREE_NODE * TERNARY_TREE;
+	typedef struct treeNode treeNode;
+	typedef treeNode * ternaryTree;
 	
-	typedef struct symTabNode SYMTABNODE;
-	typedef SYMTABNODE * SYMTABNODEPTR;
+	typedef struct symbolTableNode symbolTableNode;
+	typedef symbolTableNode * symbolTableNodePointer;
 	
-	int currentSymTabSize = 0;
+	int currentSymbolTableSize = 0;
 	
-	SYMTABNODEPTR symTab[SYMTABSIZE]; 
-	TERNARY_TREE create_node(int, int, TERNARY_TREE, TERNARY_TREE, TERNARY_TREE);
-	void printTree(TERNARY_TREE);
-	void generateCode(TERNARY_TREE);
+	symbolTableNodePointer symbolTable[SYMTABSIZE]; 
+	ternaryTree create_node(int, int, ternaryTree, ternaryTree, ternaryTree);
+	void printTree(ternaryTree, int);
+	void generateCode(ternaryTree);
 %}
 
 %start  program
@@ -58,7 +61,7 @@
 %union
 {
     int iVal;
-    TERNARY_TREE tVal;
+    ternaryTree tVal;
 }
 
 %token<iVal> IDENTIFIER CHARACTER_CONSTANT NUMBER
@@ -73,13 +76,13 @@
 
 program :	IDENTIFIER COLON block ENDP IDENTIFIER FULL_STOP
 			{
-				TERNARY_TREE ParseTree = create_node($1, PROGRAM, $3, NULL, NULL);
+				ternaryTree ParseTree = create_node($1, PROGRAM, $3, NULL, NULL);
 				
 				#ifdef DEBUG
-					printTree(ParseTree);
+					printTree(ParseTree, 0);
+				#else
+					generateCode(ParseTree);
 				#endif
-				
-				generateCode(ParseTree);
 			}
 			;
 
@@ -354,79 +357,128 @@ identifier_list	:	IDENTIFIER
 
 %%
 
-TERNARY_TREE create_node(int ival, int case_identifier, TERNARY_TREE p1, TERNARY_TREE  p2, TERNARY_TREE  p3)
+ternaryTree create_node(int ival, int case_identifier, ternaryTree p1, ternaryTree  p2, ternaryTree  p3)
 {
-    TERNARY_TREE t;
-    t = (TERNARY_TREE)malloc(sizeof(TREE_NODE));
+    ternaryTree t;
+	
+    t = (ternaryTree)malloc(sizeof(treeNode));
+	
     t -> item = ival;
     t -> nodeIdentifier = case_identifier;
     t -> first = p1;
     t -> second = p2;
     t -> third = p3;
+	
     return (t);
 }
 
-void printTree(TERNARY_TREE t)
+void printTree(ternaryTree t, int i)
 {
-	if (t == NULL)
+	if (t != NULL)
 	{
-		return;
+		if (t -> item != NOTHING)
+		{
+			switch(t -> nodeIdentifier)
+			{
+				case IDENTIFIER:
+					if (t -> item < 0 || t -> item > SYMTABSIZE)
+					{
+						printf("Unknown Identufier: %d ", t -> item);
+					}
+					else
+					{
+						printf("Identufier: %s ", symbolTable[t -> item] -> identifier);
+					}
+					
+					break;
+				
+				case CHARACTER_CONSTANT:
+					printf("Character: %c ", t -> item);
+					
+					break;
+				
+				case NUMBER:
+					printf("Number: %d ", t -> item);
+					
+					break;
+				
+				default:
+					printf("Item: %d ", t -> item);
+					
+					break;
+			}
+		}
+		
+		if (t -> nodeIdentifier < 0 || t -> nodeIdentifier > sizeof(nodeName))
+		{
+			printf("Unknown nodeIdentifier: %d\n", nodeName[t -> nodeIdentifier]);
+		}
+		else
+		{
+			printf("nodeIdentifier: %d\n", nodeName[t -> nodeIdentifier]);
+		}
+		
+		int j = 0;
+		
+		while(j < i)
+		{
+			printf("\t");
+			
+			j++;
+		}
+		
+		i++;
+		
+		printTree(t -> first, i);
+		printTree(t -> second, i);
+		printTree(t -> third, i);
 	}
-	
-	printf("Item: %d", t -> item);
-	printf(" nodeIdentifier: %d\n", t -> nodeIdentifier);
-	
-	printTree(t -> first);
-	printTree(t -> second);
-	printTree(t -> third);
 }
 
-void generateCode(TERNARY_TREE t)
+void generateCode(ternaryTree t)
 {
-	if (t == NULL)
-	{
-		return;
-	}
-	
-	switch(t -> nodeIdentifier)
-	{
-		case PROGRAM:
-			printf("#include <stdio.h>\n");
-			printf("int main(void)\n{\n");
-			generateCode(t -> first);
-			printf("}\n");
-			
-			break;
-			
-		case WRITE_STATEMENT:
-			printf("printf(");
-			
-			if(t -> first)
-			{
-				printf("\"");
+	if (t != NULL)
+	{	
+		switch(t -> nodeIdentifier)
+		{
+			case PROGRAM:
+				printf("#include <stdio.h>\n");
+				printf("int main(void)\n{\n");
 				generateCode(t -> first);
-				printf("\"");
-			}
-			else
-			{
-				printf("\"\\n\"");
-			}
+				printf("}\n");
+				
+				break;
+				
+			case WRITE_STATEMENT:
+				printf("printf(");
+				
+				if(t -> first)
+				{
+					printf("\"");
+					generateCode(t -> first);
+					printf("\"");
+				}
+				else
+				{
+					printf("\"\\n\"");
+				}
+				
+				printf(");\n");
+				
+				break;
 			
-			printf(");\n");
+			case CONSTANT:
+				printf("%c", t -> item);
+				
+				break;
 			
-			break;
-		
-		case CONSTANT:
-			printf("%c", t -> item);
-			
-			break;
-		
-		default:
-			generateCode(t -> first);
-			generateCode(t -> second);
-			generateCode(t -> third);
-			
-			break;
+			default:
+				generateCode(t -> first);
+				generateCode(t -> second);
+				generateCode(t -> third);
+				
+				break;
+		}
 	}
 }
 
