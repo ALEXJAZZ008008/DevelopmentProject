@@ -23,10 +23,11 @@
 	void yyerror(char * s);
 	
 	enum parseTreeNodeType	{PROGRAM, BLOCK, DECLARATION_LIST, DECLARATION, TYPE_Y, STATEMENT_LIST, STATEMENT, ASSIGNMENT_STATEMENT, IF_STATEMENT, DO_STATEMENT, WHILE_STATEMENT, FOR_STATEMENT, WRITE_STATEMENT,
-							READ_STATEMENT, OUTPUT_LIST, CONDITIONAL_LIST, CONDITIONAL, COMPARATOR, EXPRESSION, TERM, VALUE, CONSTANT, NUMBER_CONSTANT, IDENTIFIER_LIST};
+							READ_STATEMENT, OUTPUT_LIST, CONDITIONAL_LIST, CONDITIONAL, COMPARATOR, EXPRESSION, TERM, VALUE, CONSTANT, NUMBER_CONSTANT, NEGATIVE_NUMBER_CONSTANT, IDENTIFIER_LIST};
 	
 	char * nodeName[]	=	{"PROGRAM", "BLOCK", "DECLARATION_LIST", "DECLARATION", "TYPE_Y", "STATEMENT_LIST", "STATEMENT", "ASSIGNMENT_STATEMENT", "IF_STATEMENT", "DO_STATEMENT", "WHILE_STATEMENT", "FOR_STATEMENT",
-							"WRITE_STATEMENT", "READ_STATEMENT", "OUTPUT_LIST", "CONDITIONAL_LIST", "CONDITIONAL", "COMPARATOR", "EXPRESSION", "TERM", "VALUE", "CONSTANT", "NUMBER_CONSTANT", "IDENTIFIER_LIST"};
+							"WRITE_STATEMENT", "READ_STATEMENT", "OUTPUT_LIST", "CONDITIONAL_LIST", "CONDITIONAL", "COMPARATOR", "EXPRESSION", "TERM", "VALUE", "CONSTANT", "NUMBER_CONSTANT", "NEGATIVE_NUMBER_CONSTANT",
+							"IDENTIFIER_LIST"};
 	
 	struct treeNode
 	{
@@ -52,8 +53,13 @@
 	
 	symbolTableNodePointer symbolTable[SYMTABSIZE]; 
 	ternaryTree create_node(int, int, ternaryTree, ternaryTree, ternaryTree);
-	void printTree(ternaryTree, int);
-	void generateCode(ternaryTree);
+	
+	#ifdef DEBUG
+		void printIdentifier(ternaryTree);
+		void printTree(ternaryTree, int);
+	#endif
+	
+	void printCode(ternaryTree);
 %}
 
 %start  program
@@ -64,7 +70,7 @@
     ternaryTree tVal;
 }
 
-%token<iVal> IDENTIFIER CHARACTER_CONSTANT NUMBER
+%token<iVal> CHARACTER_CONSTANT NUMBER IDENTIFIER
 
 %token	COLON FULL_STOP COMMA SEMICOLON HYPHEN_GREATER_THAN OPEN_BRACKET CLOSE_BRACKET EQUAL LESS_THAN GREATER_THAN LESS_THAN_EQUAL GREATER_THAN_EQUAL LESS_THAN_GREATER_THAN PLUS HYPHEN ASTERIX
 		FORWARD_SLASH ENDP CODE DECLARATIONS OF TYPE_L REAL INTEGER CHARACTER IF THEN ENDIF ELSE DO WHILE ENDDO ENDWHILE FOR IS BY TO ENDFOR WRITE NEWLINE READ NOT OR AND 
@@ -76,13 +82,15 @@
 
 program :	IDENTIFIER COLON block ENDP IDENTIFIER FULL_STOP
 			{
-				ternaryTree ParseTree = create_node($1, PROGRAM, $3, NULL, NULL);
+				ternaryTree ParseTree = create_node(NOTHING, PROGRAM, $3, NULL, NULL);
 				
 				#ifdef DEBUG
 					printTree(ParseTree, 0);
-				#else
-					generateCode(ParseTree);
+					
+					printf("\n");
 				#endif
+				
+				printCode(ParseTree);
 			}
 			;
 
@@ -136,33 +144,33 @@ statement_list	:	statement
 					}
 					;
 
-statement	:	do_statement
+statement	:	assignment_statement
 				{
-					$$ = create_node(DO_STATEMENT, STATEMENT, $1, NULL, NULL);
+					$$ = create_node(ASSIGNMENT_STATEMENT, STATEMENT, $1, NULL, NULL);
 				}
 				| if_statement
 				{
 					$$ = create_node(IF_STATEMENT, STATEMENT, $1, NULL, NULL);
 				}
-				| for_statement
+				| do_statement
 				{
-					$$ = create_node(FOR_STATEMENT, STATEMENT, $1, NULL, NULL);
-				}
-				| read_statement
-				{
-					$$ = create_node(READ_STATEMENT, STATEMENT, $1, NULL, NULL);
+					$$ = create_node(DO_STATEMENT, STATEMENT, $1, NULL, NULL);
 				}
 				| while_statement
 				{
 					$$ = create_node(WHILE_STATEMENT, STATEMENT, $1, NULL, NULL);
 				}
+				| for_statement
+				{
+					$$ = create_node(FOR_STATEMENT, STATEMENT, $1, NULL, NULL);
+				}
 				| write_statement
 				{
 					$$ = create_node(WRITE_STATEMENT, STATEMENT, $1, NULL, NULL);
 				}
-				| assignment_statement
+				| read_statement
 				{
-					$$ = create_node(ASSIGNMENT_STATEMENT, STATEMENT, $1, NULL, NULL);
+					$$ = create_node(READ_STATEMENT, STATEMENT, $1, NULL, NULL);
 				}
 				;
 
@@ -242,7 +250,7 @@ conditional_list	:	conditional
 
 conditional	:	NOT conditional
 				{
-					$$ = create_node(NOT, CONDITIONAL, $2, NULL, NULL);
+					$$ = create_node(NOTHING, CONDITIONAL, $2, NULL, NULL);
 				}
 				| expression comparator expression
 				{
@@ -333,7 +341,7 @@ number_constant	:	NUMBER
 					}
 					| HYPHEN NUMBER
 					{
-						$$ = create_node($2, NUMBER_CONSTANT, NULL, NULL, NULL);
+						$$ = create_node($2, NEGATIVE_NUMBER_CONSTANT, NULL, NULL, NULL);
 					}
 					| NUMBER FULL_STOP NUMBER
 					{
@@ -341,7 +349,7 @@ number_constant	:	NUMBER
 					}
 					| HYPHEN NUMBER FULL_STOP NUMBER
 					{
-						$$ = create_node($2, NUMBER_CONSTANT, create_node($4, NUMBER_CONSTANT, NULL, NULL, NULL), NULL, NULL);
+						$$ = create_node($2, NEGATIVE_NUMBER_CONSTANT, create_node($4, NEGATIVE_NUMBER_CONSTANT, NULL, NULL, NULL), NULL, NULL);
 					}
 					;
 
@@ -351,7 +359,7 @@ identifier_list	:	IDENTIFIER
 					}
 					| identifier_list COMMA IDENTIFIER
 					{
-						$$ = create_node(IDENTIFIER, IDENTIFIER_LIST, $1, NULL, NULL);
+						$$ = create_node($3, IDENTIFIER_LIST, $1, NULL, NULL);
 					}
 					;
 
@@ -369,94 +377,346 @@ ternaryTree create_node(int ival, int case_identifier, ternaryTree p1, ternaryTr
     t -> second = p2;
     t -> third = p3;
 	
-    return (t);
+    return(t);
 }
 
-void printTree(ternaryTree t, int i)
-{
-	if (t != NULL)
+#ifdef DEBUG
+	void printIdentifier(ternaryTree t)
 	{
-		if (t -> item != NOTHING)
+		if (t -> item < 0 || t -> item > SYMTABSIZE)
 		{
-			switch(t -> nodeIdentifier)
-			{
-				case IDENTIFIER:
-					if (t -> item < 0 || t -> item > SYMTABSIZE)
-					{
-						printf("Unknown Identufier: %d ", t -> item);
-					}
-					else
-					{
-						printf("Identufier: %s ", symbolTable[t -> item] -> identifier);
-					}
-					
-					break;
-				
-				case CHARACTER_CONSTANT:
-					printf("Character: %c ", t -> item);
-					
-					break;
-				
-				case NUMBER:
-					printf("Number: %d ", t -> item);
-					
-					break;
-				
-				default:
-					printf("Item: %d ", t -> item);
-					
-					break;
-			}
-		}
-		
-		if (t -> nodeIdentifier < 0 || t -> nodeIdentifier > sizeof(nodeName))
-		{
-			printf("Unknown nodeIdentifier: %d\n", nodeName[t -> nodeIdentifier]);
+			printf(" Unknown Identifier: %d\n", t -> item);
 		}
 		else
 		{
-			printf("nodeIdentifier: %d\n", nodeName[t -> nodeIdentifier]);
+			printf(" Identifier: %s\n", symbolTable[t -> item] -> identifier);
 		}
-		
-		int j = 0;
-		
-		while(j < i)
-		{
-			printf("\t");
-			
-			j++;
-		}
-		
-		i++;
-		
-		printTree(t -> first, i);
-		printTree(t -> second, i);
-		printTree(t -> third, i);
 	}
-}
+	
+	void printTree(ternaryTree t, int i)
+	{
+		if(t != NULL)
+		{
+			int j = 0;
+			
+			while(j < i)
+			{
+				printf(" ");
+				
+				j++;
+			}
+			
+			if(t -> nodeIdentifier < 0 || t -> nodeIdentifier > sizeof(nodeName))
+			{
+				printf("Unknown nodeIdentifier: %d", t -> nodeIdentifier);
+			}
+			else
+			{
+				printf("%s", nodeName[t -> nodeIdentifier]);
+			}
+			
+			if(t -> item != NOTHING)
+			{
+				switch(t -> nodeIdentifier)
+				{				
+					case TYPE_Y:
+						printf("\n");
+						
+						break;
+					
+					case STATEMENT:
+						printf("\n");
+						
+						break;
+					
+					case ASSIGNMENT_STATEMENT:
+						printIdentifier(t);
+						
+						break;
+					
+					case FOR_STATEMENT:
+						printIdentifier(t);
+						
+						break;
+					
+					case READ_STATEMENT:
+						printIdentifier(t);
+						
+						break;
+					
+					case CONDITIONAL_LIST:
+						printf("\n");
+						
+						break;
+					
+					case COMPARATOR:
+						printf("\n");
+						
+						break;
+					
+					case EXPRESSION:
+						printf("\n");
+						
+						break;
+					
+					case TERM:
+						printf("\n");
+						
+						break;
+					
+					case VALUE:
+						printIdentifier(t);
+						
+						break;
+					
+					case CONSTANT:
+						printf(" Character: %c\n", t -> item);
+						
+						break;
+						
+					case NUMBER_CONSTANT:
+						printf(" Number: %d\n", t -> item);
+						
+						break;
+					
+					case NEGATIVE_NUMBER_CONSTANT:
+						printf(" Number: %d\n", t -> item);
+						
+						break;
+					
+					case IDENTIFIER_LIST:
+						printIdentifier(t);
+						
+						break;
+					
+					default:
+						printf(" %d\n", t -> item);
+						
+						break;
+				}
+			}
+			else
+			{
+				printf("\n");
+			}
+			
+			i++;
+			
+			printTree(t -> first, i);
+			printTree(t -> second, i);
+			printTree(t -> third, i);
+		}
+	}
+#endif
 
-void generateCode(ternaryTree t)
+void printCode(ternaryTree t)
 {
-	if (t != NULL)
+	if(t != NULL)
 	{	
 		switch(t -> nodeIdentifier)
 		{
 			case PROGRAM:
-				printf("#include <stdio.h>\n");
-				printf("int main(void)\n{\n");
-				generateCode(t -> first);
+				printf("#include <stdio.h>\nvoid main(void)\n{\n");
+				
+				printCode(t -> first);
+				
+				printf("}");
+				
+				break;
+			
+			case BLOCK:
+				printCode(t -> first);
+				printCode(t -> second);
+				
+				break;
+			
+			case DECLARATION_LIST:
+				printCode(t -> first);
+				
+				printf("\n");
+				
+				printCode(t -> second);
+				
+				break;
+			
+			case DECLARATION:
+				printCode(t -> second);
+				
+				printf(" ");
+				
+				printCode(t -> first);
+				
+				printf(";");
+				
+				break;
+			
+			case TYPE_Y:
+				switch(t -> item)
+				{
+					case REAL:
+						printf("float ");
+						
+						break;
+					
+					case INTEGER:
+						printf("int ");
+						
+						break;
+					
+					case CHARACTER:
+						printf("char ");
+						
+						break;
+				}
+				
+				break;
+			
+			case STATEMENT_LIST:
+				printCode(t -> first);				
+				printCode(t -> second);
+				
+				break;
+			
+			case STATEMENT:
+				printCode(t -> first);
+				
+				break;
+			
+			case ASSIGNMENT_STATEMENT:
+				if (t -> item < 0 || t -> item > SYMTABSIZE)
+				{
+					printf("Unknown Identifier: %d\n", t -> item);
+					return;
+				}
+				else
+				{
+					printf("%s = ", symbolTable[t -> item] -> identifier);
+				}
+				
+				printCode(t -> first);
+				
+				printf(";\n");
+				
+				break;
+			
+			case IF_STATEMENT:
+				printf("if(");
+				
+				printCode(t -> first);
+				
+				printf(")\n{\n");
+				
+				printCode(t -> second);
+				
+				printf("}\n");
+				
+				if(t -> third != NULL)
+				{
+					printf("else\n{\n");
+					
+					printCode(t -> third);
+					
+					printf("}\n");
+				}
+				
+				break;
+			
+			case DO_STATEMENT:
+				printf("do\n{\n");
+				
+				printCode(t -> first);
+				
+				printf("} while(");
+				
+				printCode(t -> second);
+				
+				printf(");\n");
+				
+				break;
+			
+			case WHILE_STATEMENT:
+				printf("while(");
+				
+				printCode(t -> first);
+				
+				printf(")\n{\n");
+				
+				printCode(t -> second);
+				
 				printf("}\n");
 				
 				break;
+			
+			case FOR_STATEMENT:
+				if (t -> item < 0 || t -> item > SYMTABSIZE)
+				{
+					printf("Unknown Identifier: %d\n", t -> item);
+					return;
+				}
+				else
+				{
+					printf("for(int %s = ", symbolTable[t -> item] -> identifier);
+				}
 				
+				printCode(t -> first -> first);
+				
+				if (t -> item < 0 || t -> item > SYMTABSIZE)
+				{
+					printf("Unknown Identifier: %d\n", t -> item);
+					return;
+				}
+				else
+				{
+					printf("; %s ", symbolTable[t -> item] -> identifier);
+				}
+				
+				if(t -> first -> second -> first -> first -> first -> first -> nodeIdentifier == NUMBER_CONSTANT)
+				{
+					printf("< ");
+				}
+				else
+				{
+					if(t -> first -> second -> first -> first -> first -> first -> nodeIdentifier == NEGATIVE_NUMBER_CONSTANT)
+					{
+						printf("> ");
+					}
+					else
+					{
+						printf("Unknown nodeIdentifier: %d", t -> nodeIdentifier);
+						return;
+					}
+				}
+				
+				printCode(t -> first -> third);
+				
+				printf("; %s += ");
+				
+				printCode(t -> first -> second);
+				
+				printf(";)\n{\n");
+				
+				printCode(t -> second);
+				
+				printf("}\n");
+				
+				break;
+			
 			case WRITE_STATEMENT:
 				printf("printf(");
 				
-				if(t -> first)
+				if(t -> first != NULL)
 				{
-					printf("\"");
-					generateCode(t -> first);
-					printf("\"");
+					if(t -> first -> first -> first != NULL)
+					{
+						printf("\"");
+					}
+					
+					printCode(t -> first);
+					
+					if(t -> first -> first -> first != NULL)
+					{
+						printf("\"");
+					}
 				}
 				else
 				{
@@ -467,15 +727,209 @@ void generateCode(ternaryTree t)
 				
 				break;
 			
-			case CONSTANT:
-				printf("%c", t -> item);
+			case READ_STATEMENT:
+				printf("gets(");
+				
+				if (t -> item < 0 || t -> item > SYMTABSIZE)
+				{
+					printf("Unknown Identifier: %d\n", t -> item);
+					return;
+				}
+				else
+				{
+					printf("%s", symbolTable[t -> item] -> identifier);
+				}
+				
+				printf(");\n");
 				
 				break;
 			
-			default:
-				generateCode(t -> first);
-				generateCode(t -> second);
-				generateCode(t -> third);
+			case OUTPUT_LIST:
+				printCode(t -> first);
+				printCode(t -> second);
+				
+				break;
+			
+			case CONDITIONAL_LIST:
+				printCode(t -> first);
+				
+				if(t -> item == OR)
+				{
+					printf(" || ");
+					
+					printCode(t -> second);
+				}
+				else
+				{
+					if(t -> item == AND)
+					{
+						printf(" && ");
+					
+						printCode(t -> second);
+					}
+				}
+				break;
+			
+			case CONDITIONAL:
+				if(t -> second == NULL)
+				{
+					printf("!(");
+					
+					printCode(t -> first);
+					
+					printf(")");
+				}
+				else
+				{
+					printCode(t -> first);
+					printCode(t -> second);
+					printCode(t -> third);
+				}
+				
+				break;
+			
+			case COMPARATOR:
+				switch(t -> item)
+				{
+					case EQUAL:
+						printf(" = ");
+						
+						break;
+					
+					case LESS_THAN:
+						printf(" < ");
+						
+						break;
+					
+					case GREATER_THAN:
+						printf(" > ");
+						
+						break;
+					
+					case LESS_THAN_EQUAL:
+						printf(" <= ");
+						
+						break;
+					
+					case GREATER_THAN_EQUAL:
+						printf(" >= ");
+						
+						break;
+					
+					case LESS_THAN_GREATER_THAN:
+						printf(" <> ");
+						
+						break;
+				}
+				
+				break;
+			
+			case EXPRESSION:
+				printCode(t -> first);
+				
+				if(t -> second != NULL)
+				{
+					if(t -> item == PLUS)
+					{
+						printf(" + ");
+						
+						printCode(t -> second);
+					}
+					else
+					{
+						printf(" - ");
+						
+						printCode(t -> second);
+					}
+				}
+				
+				break;
+			
+			case TERM:
+				printCode(t -> first);
+				
+				if(t -> second != NULL)
+				{
+					if(t -> item == ASTERIX)
+					{
+						printf(" * ");
+						
+						printCode(t -> second);
+					}
+					else
+					{
+						printf(" / ");
+						
+						printCode(t -> second);
+					}
+				}
+				
+				break;
+			
+			case VALUE:
+				if(t -> first == NULL)
+				{
+					if (t -> item < 0 || t -> item > SYMTABSIZE)
+					{
+						printf("Unknown Identifier: %d\n", t -> item);
+						return;
+					}
+					else
+					{
+						printf("%s", symbolTable[t -> item] -> identifier);
+					}
+				}
+				else
+				{
+					printCode(t -> first);
+				}
+				
+				break;
+			
+			case CONSTANT:
+				if(t -> first == NULL)
+				{
+					printf("%c", t -> item);
+				}
+				else
+				{
+					printCode(t -> first);
+				}
+				
+				break;
+			
+			case NUMBER_CONSTANT:
+				if(t -> nodeIdentifier == NEGATIVE_NUMBER_CONSTANT)
+				{
+					printf("-");
+				}
+				
+				printf("%d", t -> item);
+				
+				if(t -> first != NULL)
+				{
+					printf(".%d", t -> first -> item);
+				}
+				
+				break;
+			
+			case IDENTIFIER_LIST:
+				if (t -> item < 0 || t -> item > SYMTABSIZE)
+				{
+					printf("Unknown Identifier: %d\n", t -> item);
+					return;
+				}
+				else
+				{
+					printf("%s", symbolTable[t -> item] -> identifier);
+				}
+				
+				if(t -> first != NULL)
+				{
+					printf(", ");
+					
+					printCode(t -> first);
+				}
 				
 				break;
 		}

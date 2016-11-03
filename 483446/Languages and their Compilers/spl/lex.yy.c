@@ -286,7 +286,7 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 #define YY_END_OF_BUFFER 52
 static yyconst short int yy_accept[128] =
     {   0,
-        1,    1,   52,   50,    1,   49,   50,    9,   10,   19,
+        0,    0,   52,   50,    1,   49,   50,    9,   10,   19,
        17,    6,   18,    5,   20,    3,    4,    7,   12,   11,
        13,   48,   48,   48,   48,   48,   48,   48,   48,   48,
        48,   48,   48,   48,    1,    0,    8,    3,   14,   16,
@@ -1842,7 +1842,7 @@ int main()
 #ifndef PRINT
 	symbolTableNodePointer newsymbolTableNode()
 	{
-		return ((symbolTableNodePointer)malloc(sizeof(symbolTableNode)));
+		return((symbolTableNodePointer)malloc(sizeof(symbolTableNode)));
 	}
 
 	int lookup(char * s)
@@ -1867,13 +1867,13 @@ int main()
 		extern int currentSymbolTableSize;
 		int index = lookup(id);
 		
-		if (index >= 0)
+		if(index >= 0)
 		{
 			return (index);
 		}
 		else
 		{
-			if (currentSymbolTableSize >= SYMTABSIZE) 
+			if(currentSymbolTableSize >= SYMTABSIZE) 
 			{
 				return (NOTHING) ;
 			}

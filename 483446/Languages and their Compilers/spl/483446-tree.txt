@@ -1,6 +1,6 @@
 --01/11/2016----------------------------------------------------- 
 Lexical Tokens for a.spl 
---15:49:14.68----------------------------------------------------- 
+--16:11:16.94----------------------------------------------------- 
 Identifier: IDENTIFIER ProgA
 Separator: COLON
 Keyword: CODE
@@ -23,7 +23,7 @@ Identifier: IDENTIFIER ProgA
 Separator: FULL_STOP
 --01/11/2016----------------------------------------------------- 
 Lexical Tokens for b.spl 
---15:49:20.72----------------------------------------------------- 
+--16:11:21.58----------------------------------------------------- 
 Identifier: IDENTIFIER ProgB
 Separator: COLON
 Keyword: DECLARATIONS
@@ -111,7 +111,7 @@ Identifier: IDENTIFIER ProgB
 Separator: FULL_STOP
 --01/11/2016----------------------------------------------------- 
 Lexical Tokens for c.spl 
---15:49:24.87----------------------------------------------------- 
+--16:11:24.58----------------------------------------------------- 
 Identifier: IDENTIFIER Prog3
 Separator: COLON
 Keyword: DECLARATIONS
@@ -206,7 +206,7 @@ Identifier: IDENTIFIER Prog3
 Separator: FULL_STOP
 --01/11/2016----------------------------------------------------- 
 Lexical Tokens for d.spl 
---15:49:28.43----------------------------------------------------- 
+--16:11:28.17----------------------------------------------------- 
 Identifier: IDENTIFIER Prog4D
 Separator: COLON
 Keyword: DECLARATIONS
@@ -273,7 +273,7 @@ Identifier: IDENTIFIER Prog4D
 Separator: FULL_STOP
 --01/11/2016----------------------------------------------------- 
 Lexical Tokens for e.spl 
---15:49:32.77----------------------------------------------------- 
+--16:11:30.75----------------------------------------------------- 
 Identifier: IDENTIFIER ProgV
 Separator: COLON
 Keyword: DECLARATIONS
@@ -388,7 +388,7 @@ Identifier: IDENTIFIER ProgV
 Separator: FULL_STOP
 --01/11/2016----------------------------------------------------- 
 Parse debug output for a.spl 
---15:49:39.18----------------------------------------------------- 
+--16:11:39.18----------------------------------------------------- 
 Starting parse
 Entering state 0
 Reading a token: Next token is token IDENTIFIER ()
@@ -601,7 +601,7 @@ Cleanup: popping token $end ()
 Cleanup: popping nterm program ()
 --01/11/2016----------------------------------------------------- 
 Parse debug output for b.spl 
---15:49:47.56----------------------------------------------------- 
+--16:11:51.82----------------------------------------------------- 
 Starting parse
 Entering state 0
 Reading a token: Next token is token IDENTIFIER ()
@@ -1382,7 +1382,7 @@ Cleanup: popping token $end ()
 Cleanup: popping nterm program ()
 --01/11/2016----------------------------------------------------- 
 Parse debug output for c.spl 
---15:50:00.46----------------------------------------------------- 
+--16:11:56.54----------------------------------------------------- 
 Starting parse
 Entering state 0
 Reading a token: Next token is token IDENTIFIER ()
@@ -2601,7 +2601,7 @@ Cleanup: popping token $end ()
 Cleanup: popping nterm program ()
 --01/11/2016----------------------------------------------------- 
 Parse debug output for d.spl 
---15:50:05.55----------------------------------------------------- 
+--16:11:59.11----------------------------------------------------- 
 Starting parse
 Entering state 0
 Reading a token: Next token is token IDENTIFIER ()
@@ -3208,7 +3208,7 @@ Cleanup: popping token $end ()
 Cleanup: popping nterm program ()
 --01/11/2016----------------------------------------------------- 
 Parse debug output for e.spl 
---15:50:19.08----------------------------------------------------- 
+--16:12:02.87----------------------------------------------------- 
 Starting parse
 Entering state 0
 Reading a token: Next token is token IDENTIFIER ()
@@ -4435,7 +4435,7 @@ Cleanup: popping token $end ()
 Cleanup: popping nterm program ()
 --01/11/2016----------------------------------------------------- 
 Parse Tree output for a.spl 
---15:50:28.05----------------------------------------------------- 
+--16:12:11.98----------------------------------------------------- 
 Item: 0 nodeIdentifier: 4247680
 nodeIdentifier: 4247688
 	nodeIdentifier: 4247730
@@ -4461,7 +4461,7 @@ nodeIdentifier: 4247688
 				nodeIdentifier: 4247832
 					--01/11/2016----------------------------------------------------- 
 Parse Tree output for b.spl 
---15:50:58.41----------------------------------------------------- 
+--16:36:25.72----------------------------------------------------- 
 Item: 0 nodeIdentifier: 4247680
 nodeIdentifier: 4247688
 	nodeIdentifier: 4247694
@@ -4546,7 +4546,7 @@ nodeIdentifier: 4247688
 													nodeIdentifier: 4247832
 														--01/11/2016----------------------------------------------------- 
 Parse Tree output for c.spl 
---15:51:11.37----------------------------------------------------- 
+--16:36:40.33----------------------------------------------------- 
 Item: 0 nodeIdentifier: 4247680
 nodeIdentifier: 4247688
 	nodeIdentifier: 4247694
@@ -4704,7 +4704,7 @@ nodeIdentifier: 4247688
 								nodeIdentifier: 4247832
 									--01/11/2016----------------------------------------------------- 
 Parse Tree output for d.spl 
---15:51:23.85----------------------------------------------------- 
+--16:37:00.52----------------------------------------------------- 
 Item: 0 nodeIdentifier: 4247680
 nodeIdentifier: 4247688
 	nodeIdentifier: 4247694
@@ -4774,7 +4774,7 @@ nodeIdentifier: 4247688
 											nodeIdentifier: 4247832
 												--01/11/2016----------------------------------------------------- 
 Parse Tree output for e.spl 
---15:51:32.63----------------------------------------------------- 
+--16:37:07.65----------------------------------------------------- 
 Item: 0 nodeIdentifier: 4247680
 nodeIdentifier: 4247688
 	nodeIdentifier: 4247694
