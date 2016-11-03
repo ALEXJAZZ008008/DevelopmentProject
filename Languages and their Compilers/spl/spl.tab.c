@@ -94,10 +94,11 @@
 	void yyerror(char * s);
 	
 	enum parseTreeNodeType	{PROGRAM, BLOCK, DECLARATION_LIST, DECLARATION, TYPE_Y, STATEMENT_LIST, STATEMENT, ASSIGNMENT_STATEMENT, IF_STATEMENT, DO_STATEMENT, WHILE_STATEMENT, FOR_STATEMENT, WRITE_STATEMENT,
-							READ_STATEMENT, OUTPUT_LIST, CONDITIONAL_LIST, CONDITIONAL, COMPARATOR, EXPRESSION, TERM, VALUE, CONSTANT, NUMBER_CONSTANT, IDENTIFIER_LIST};
+							READ_STATEMENT, OUTPUT_LIST, CONDITIONAL_LIST, CONDITIONAL, COMPARATOR, EXPRESSION, TERM, VALUE, CONSTANT, NUMBER_CONSTANT, NEGATIVE_NUMBER_CONSTANT, IDENTIFIER_LIST};
 	
 	char * nodeName[]	=	{"PROGRAM", "BLOCK", "DECLARATION_LIST", "DECLARATION", "TYPE_Y", "STATEMENT_LIST", "STATEMENT", "ASSIGNMENT_STATEMENT", "IF_STATEMENT", "DO_STATEMENT", "WHILE_STATEMENT", "FOR_STATEMENT",
-							"WRITE_STATEMENT", "READ_STATEMENT", "OUTPUT_LIST", "CONDITIONAL_LIST", "CONDITIONAL", "COMPARATOR", "EXPRESSION", "TERM", "VALUE", "CONSTANT", "NUMBER_CONSTANT", "IDENTIFIER_LIST"};
+							"WRITE_STATEMENT", "READ_STATEMENT", "OUTPUT_LIST", "CONDITIONAL_LIST", "CONDITIONAL", "COMPARATOR", "EXPRESSION", "TERM", "VALUE", "CONSTANT", "NUMBER_CONSTANT", "NEGATIVE_NUMBER_CONSTANT",
+							"IDENTIFIER_LIST"};
 	
 	struct treeNode
 	{
@@ -123,12 +124,17 @@
 	
 	symbolTableNodePointer symbolTable[SYMTABSIZE]; 
 	ternaryTree create_node(int, int, ternaryTree, ternaryTree, ternaryTree);
-	void printTree(ternaryTree, int);
-	void generateCode(ternaryTree);
+	
+	#ifdef DEBUG
+		void printIdentifier(ternaryTree);
+		void printTree(ternaryTree, int);
+	#endif
+	
+	void printCode(ternaryTree);
 
 
 /* Line 189 of yacc.c  */
-#line 132 "spl.tab.c"
+#line 138 "spl.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -155,9 +161,9 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     IDENTIFIER = 258,
-     CHARACTER_CONSTANT = 259,
-     NUMBER = 260,
+     CHARACTER_CONSTANT = 258,
+     NUMBER = 259,
+     IDENTIFIER = 260,
      COLON = 261,
      FULL_STOP = 262,
      COMMA = 263,
@@ -212,7 +218,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 62 "spl.y"
+#line 68 "spl.y"
 
     int iVal;
     ternaryTree tVal;
@@ -220,7 +226,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 224 "spl.tab.c"
+#line 230 "spl.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -232,7 +238,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 236 "spl.tab.c"
+#line 242 "spl.tab.c"
 
 #ifdef short
 # undef short
@@ -517,37 +523,37 @@ static const yytype_uint8 yyprhs[] =
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      51,     0,    -1,     3,     6,    52,    23,     3,     7,    -1,
+      51,     0,    -1,     5,     6,    52,    23,     5,     7,    -1,
       24,    56,    -1,    25,    53,    24,    56,    -1,    54,    -1,
       54,    53,    -1,    74,    26,    27,    55,     9,    -1,    28,
       -1,    29,    -1,    30,    -1,    57,    -1,    57,     9,    56,
-      -1,    60,    -1,    59,    -1,    62,    -1,    64,    -1,    61,
-      -1,    63,    -1,    58,    -1,    69,    10,     3,    -1,    31,
+      -1,    58,    -1,    59,    -1,    60,    -1,    61,    -1,    62,
+      -1,    63,    -1,    64,    -1,    69,    10,     5,    -1,    31,
       66,    32,    56,    33,    -1,    31,    66,    32,    56,    34,
       56,    33,    -1,    35,    56,    36,    66,    37,    -1,    36,
-      66,    35,    56,    38,    -1,    39,     3,    40,    69,    41,
+      66,    35,    56,    38,    -1,    39,     5,    40,    69,    41,
       69,    42,    69,    35,    56,    43,    -1,    45,    -1,    44,
-      11,    65,    12,    -1,    46,    11,     3,    12,    -1,    71,
+      11,    65,    12,    -1,    46,    11,     5,    12,    -1,    71,
       -1,    71,     8,    65,    -1,    67,    -1,    67,    48,    67,
       -1,    67,    49,    67,    -1,    47,    67,    -1,    69,    68,
       69,    -1,    13,    -1,    14,    -1,    15,    -1,    16,    -1,
       17,    -1,    18,    -1,    70,    -1,    70,    19,    69,    -1,
       70,    20,    69,    -1,    71,    -1,    71,    21,    70,    -1,
-      71,    22,    70,    -1,    72,    -1,     3,    -1,    11,    69,
-      12,    -1,    73,    -1,     4,    -1,     5,    -1,    20,     5,
-      -1,     5,     7,     5,    -1,    20,     5,     7,     5,    -1,
-       3,    -1,    74,     8,     3,    -1
+      71,    22,    70,    -1,    72,    -1,     5,    -1,    11,    69,
+      12,    -1,    73,    -1,     3,    -1,     4,    -1,    20,     4,
+      -1,     4,     7,     4,    -1,    20,     4,     7,     4,    -1,
+       5,    -1,    74,     8,     5,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    77,    77,    89,    93,    99,   103,   109,   115,   119,
-     123,   129,   133,   139,   143,   147,   151,   155,   159,   163,
-     169,   175,   179,   185,   191,   197,   203,   207,   213,   219,
-     223,   229,   233,   237,   243,   247,   252,   256,   260,   264,
-     268,   272,   278,   282,   286,   292,   296,   300,   306,   310,
-     314,   320,   324,   330,   334,   338,   342,   348,   352
+       0,    83,    83,    97,   101,   107,   111,   117,   123,   127,
+     131,   137,   141,   147,   151,   155,   159,   163,   167,   171,
+     177,   183,   187,   193,   199,   205,   211,   215,   221,   227,
+     231,   237,   241,   245,   251,   255,   260,   264,   268,   272,
+     276,   280,   286,   290,   294,   300,   304,   308,   314,   318,
+     322,   328,   332,   338,   342,   346,   350,   356,   360
 };
 #endif
 
@@ -556,8 +562,8 @@ static const yytype_uint16 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "IDENTIFIER", "CHARACTER_CONSTANT",
-  "NUMBER", "COLON", "FULL_STOP", "COMMA", "SEMICOLON",
+  "$end", "error", "$undefined", "CHARACTER_CONSTANT", "NUMBER",
+  "IDENTIFIER", "COLON", "FULL_STOP", "COMMA", "SEMICOLON",
   "HYPHEN_GREATER_THAN", "OPEN_BRACKET", "CLOSE_BRACKET", "EQUAL",
   "LESS_THAN", "GREATER_THAN", "LESS_THAN_EQUAL", "GREATER_THAN_EQUAL",
   "LESS_THAN_GREATER_THAN", "PLUS", "HYPHEN", "ASTERIX", "FORWARD_SLASH",
@@ -614,9 +620,9 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     0,     1,     0,     0,     0,    49,    52,
-      53,     0,     0,     0,     0,     0,     0,     0,    26,     0,
-       3,    11,    19,    14,    13,    17,    15,    18,    16,     0,
+       0,     0,     0,     0,     1,     0,     0,     0,    52,    53,
+      49,     0,     0,     0,     0,     0,     0,     0,    26,     0,
+       3,    11,    13,    14,    15,    16,    17,    18,    19,     0,
       42,    45,    48,    51,    57,     0,     5,     0,     0,     0,
        0,    54,     0,     0,    31,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     6,     0,
@@ -642,26 +648,26 @@ static const yytype_int8 yydefgoto[] =
 #define YYPACT_NINF -47
 static const yytype_int8 yypact[] =
 {
-       3,    18,    15,    -6,   -47,    43,    14,     7,   -47,   -47,
-      38,     9,    44,     5,    43,     5,    48,    42,   -47,    47,
+      10,     0,    17,    -6,   -47,    43,    19,     7,   -47,    38,
+     -47,     9,    45,     5,    43,     5,    46,    42,   -47,    47,
      -47,    51,   -47,   -47,   -47,   -47,   -47,   -47,   -47,    56,
-       2,    11,   -47,   -47,   -47,    37,    14,    -3,    65,    64,
-      59,    66,     5,    40,   -10,    77,    39,    41,    45,     9,
-      74,    43,    78,     9,     9,     9,     9,    43,   -47,    80,
-      53,    79,   -47,   -47,    91,   -47,    43,     5,     5,   -47,
-     -47,   -47,   -47,   -47,   -47,     9,     5,    43,     9,    72,
+       2,    11,   -47,   -47,   -47,    37,    19,    -3,    63,    65,
+      59,    66,     5,    40,   -10,    77,    39,    41,    44,     9,
+      72,    43,    75,     9,     9,     9,     9,    43,   -47,    76,
+      58,    79,   -47,   -47,    92,   -47,    43,     5,     5,   -47,
+     -47,   -47,   -47,   -47,   -47,     9,     5,    43,     9,    71,
       89,    86,   -47,   -47,   -47,   -47,   -47,   -47,   -47,   -47,
-      -2,   -47,   -47,     1,   -47,   -47,   -47,    62,    67,    61,
+      -2,   -47,   -47,     1,   -47,   -47,   -47,    62,    64,    67,
      -47,     9,   -47,   -47,   -47,   -47,    94,   -47,    43,   -47,
-     -47,     9,   -47,   -47,    71,    68,   -47,     9,    73,    43,
+     -47,     9,   -47,   -47,    74,    68,   -47,     9,    69,    43,
       70,   -47
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -47,   -47,   -47,    75,   -47,   -47,    -7,   -47,   -47,   -47,
-     -47,   -47,   -47,   -47,   -47,     6,   -14,   -31,   -47,   -11,
+     -47,   -47,   -47,    73,   -47,   -47,    -7,   -47,   -47,   -47,
+     -47,   -47,   -47,   -47,   -47,     4,   -14,   -31,   -47,   -11,
      -15,   -46,   -47,   -47,   -47
 };
 
@@ -672,50 +678,50 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-      40,    47,    45,    80,    45,    59,     1,    46,     8,     9,
-      10,    65,     8,     9,    10,     4,    11,    34,     5,     6,
-      11,    53,    54,    60,     3,    12,   103,   104,   105,    12,
+      40,    47,    45,    80,    45,    59,     3,    46,     8,     9,
+      10,    65,     8,     9,    10,     1,    11,     4,     5,     6,
+      11,    53,    54,    60,    34,    12,   103,   104,   105,    12,
       38,    45,    55,    56,   107,   108,    94,    95,    67,    68,
       86,    87,    84,    85,    82,    39,     8,     9,    10,    41,
       88,    48,    42,    49,    11,    80,    45,    45,    50,    93,
       51,    57,    97,    12,    96,    45,    52,    99,    61,    62,
       98,    63,    66,    64,    13,    76,    77,    81,    14,    15,
-      90,    83,    16,    89,   100,    78,    91,    17,    18,    19,
+      83,    89,    16,   100,    78,    90,    91,    17,    18,    19,
       69,    70,    71,    72,    73,    74,    92,   101,   102,   109,
-     115,   114,   111,   113,   116,   110,   118,   112,   119,     0,
-     117,    58,   120,   121
+     115,   114,   110,   113,   119,   112,   118,   116,   111,    58,
+     117,     0,   120,   121
 };
 
 static const yytype_int8 yycheck[] =
 {
-      11,    15,    13,    49,    15,     8,     3,    14,     3,     4,
-       5,    42,     3,     4,     5,     0,    11,     3,    24,    25,
-      11,    19,    20,    26,     6,    20,    28,    29,    30,    20,
+      11,    15,    13,    49,    15,     8,     6,    14,     3,     4,
+       5,    42,     3,     4,     5,     5,    11,     0,    24,    25,
+      11,    19,    20,    26,     5,    20,    28,    29,    30,    20,
       23,    42,    21,    22,    33,    34,    67,    68,    48,    49,
-      55,    56,    53,    54,    51,     7,     3,     4,     5,     5,
-      57,     3,    47,    11,    11,   101,    67,    68,    11,    66,
-       9,    24,    76,    20,    75,    76,    10,    78,     3,     5,
-      77,    12,    32,     7,    31,    36,    35,     3,    35,    36,
-      27,     3,    39,     3,    12,    40,     7,    44,    45,    46,
-      13,    14,    15,    16,    17,    18,     5,     8,    12,    37,
-     111,   108,    41,     9,    33,    38,   117,   101,    35,    -1,
-      42,    36,   119,    43
+      55,    56,    53,    54,    51,     7,     3,     4,     5,     4,
+      57,     5,    47,    11,    11,   101,    67,    68,    11,    66,
+       9,    24,    76,    20,    75,    76,    10,    78,     5,     4,
+      77,    12,    32,     7,    31,    36,    35,     5,    35,    36,
+       5,     5,    39,    12,    40,    27,     7,    44,    45,    46,
+      13,    14,    15,    16,    17,    18,     4,     8,    12,    37,
+     111,   108,    38,     9,    35,   101,   117,    33,    41,    36,
+      42,    -1,   119,    43
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,    51,     6,     0,    24,    25,    52,     3,     4,
+       0,     5,    51,     6,     0,    24,    25,    52,     3,     4,
        5,    11,    20,    31,    35,    36,    39,    44,    45,    46,
       56,    57,    58,    59,    60,    61,    62,    63,    64,    69,
-      70,    71,    72,    73,     3,    53,    54,    74,    23,     7,
-      69,     5,    47,    66,    67,    69,    56,    66,     3,    11,
+      70,    71,    72,    73,     5,    53,    54,    74,    23,     7,
+      69,     4,    47,    66,    67,    69,    56,    66,     5,    11,
       11,     9,    10,    19,    20,    21,    22,    24,    53,     8,
-      26,     3,     5,    12,     7,    67,    32,    48,    49,    13,
+      26,     5,     4,    12,     7,    67,    32,    48,    49,    13,
       14,    15,    16,    17,    18,    68,    36,    35,    40,    65,
-      71,     3,    56,     3,    69,    69,    70,    70,    56,     3,
-      27,     7,     5,    56,    67,    67,    69,    66,    56,    69,
+      71,     5,    56,     5,    69,    69,    70,    70,    56,     5,
+      27,     7,     4,    56,    67,    67,    69,    66,    56,    69,
       12,     8,    12,    28,    29,    30,    55,    33,    34,    37,
       38,    41,    65,     9,    56,    69,    33,    42,    69,    35,
       56,    43
@@ -1532,22 +1538,24 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 78 "spl.y"
+#line 84 "spl.y"
     {
-				ternaryTree ParseTree = create_node((yyvsp[(1) - (6)].iVal), PROGRAM, (yyvsp[(3) - (6)].tVal), NULL, NULL);
+				ternaryTree ParseTree = create_node(NOTHING, PROGRAM, (yyvsp[(3) - (6)].tVal), NULL, NULL);
 				
 				#ifdef DEBUG
 					printTree(ParseTree, 0);
-				#else
-					generateCode(ParseTree);
+					
+					printf("\n");
 				#endif
+				
+				printCode(ParseTree);
 			;}
     break;
 
   case 3:
 
 /* Line 1455 of yacc.c  */
-#line 90 "spl.y"
+#line 98 "spl.y"
     {
 				(yyval.tVal) = create_node(NOTHING, BLOCK, (yyvsp[(2) - (2)].tVal), NULL, NULL);
 			;}
@@ -1556,7 +1564,7 @@ yyreduce:
   case 4:
 
 /* Line 1455 of yacc.c  */
-#line 94 "spl.y"
+#line 102 "spl.y"
     {
 				(yyval.tVal) = create_node(NOTHING, BLOCK, (yyvsp[(2) - (4)].tVal), (yyvsp[(4) - (4)].tVal), NULL);
 			;}
@@ -1565,7 +1573,7 @@ yyreduce:
   case 5:
 
 /* Line 1455 of yacc.c  */
-#line 100 "spl.y"
+#line 108 "spl.y"
     {
 							(yyval.tVal) = create_node(NOTHING, DECLARATION_LIST, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 						;}
@@ -1574,7 +1582,7 @@ yyreduce:
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 104 "spl.y"
+#line 112 "spl.y"
     {
 							(yyval.tVal) = create_node(NOTHING, DECLARATION_LIST, (yyvsp[(1) - (2)].tVal), (yyvsp[(2) - (2)].tVal), NULL);
 						;}
@@ -1583,7 +1591,7 @@ yyreduce:
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 110 "spl.y"
+#line 118 "spl.y"
     {
 					(yyval.tVal) = create_node(NOTHING, DECLARATION, (yyvsp[(1) - (5)].tVal), (yyvsp[(4) - (5)].tVal), NULL);
 				;}
@@ -1592,7 +1600,7 @@ yyreduce:
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 116 "spl.y"
+#line 124 "spl.y"
     {
 				(yyval.tVal) = create_node(REAL, TYPE_Y, NULL, NULL, NULL);
 			;}
@@ -1601,7 +1609,7 @@ yyreduce:
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 120 "spl.y"
+#line 128 "spl.y"
     {
 				(yyval.tVal) = create_node(INTEGER, TYPE_Y, NULL, NULL, NULL);
 			;}
@@ -1610,7 +1618,7 @@ yyreduce:
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 124 "spl.y"
+#line 132 "spl.y"
     {
 				(yyval.tVal) = create_node(CHARACTER, TYPE_Y, NULL, NULL, NULL);
 			;}
@@ -1619,7 +1627,7 @@ yyreduce:
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 130 "spl.y"
+#line 138 "spl.y"
     {
 						(yyval.tVal) = create_node(NOTHING, STATEMENT_LIST, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 					;}
@@ -1628,7 +1636,7 @@ yyreduce:
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 134 "spl.y"
+#line 142 "spl.y"
     {
 						(yyval.tVal) = create_node(NOTHING, STATEMENT_LIST, (yyvsp[(1) - (3)].tVal), (yyvsp[(3) - (3)].tVal), NULL);
 					;}
@@ -1637,16 +1645,16 @@ yyreduce:
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 140 "spl.y"
+#line 148 "spl.y"
     {
-					(yyval.tVal) = create_node(DO_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
+					(yyval.tVal) = create_node(ASSIGNMENT_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 				;}
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 144 "spl.y"
+#line 152 "spl.y"
     {
 					(yyval.tVal) = create_node(IF_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 				;}
@@ -1655,34 +1663,34 @@ yyreduce:
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 148 "spl.y"
+#line 156 "spl.y"
     {
-					(yyval.tVal) = create_node(FOR_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
+					(yyval.tVal) = create_node(DO_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 				;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 152 "spl.y"
+#line 160 "spl.y"
     {
-					(yyval.tVal) = create_node(READ_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
+					(yyval.tVal) = create_node(WHILE_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 				;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 156 "spl.y"
+#line 164 "spl.y"
     {
-					(yyval.tVal) = create_node(WHILE_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
+					(yyval.tVal) = create_node(FOR_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 				;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 160 "spl.y"
+#line 168 "spl.y"
     {
 					(yyval.tVal) = create_node(WRITE_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 				;}
@@ -1691,16 +1699,16 @@ yyreduce:
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 164 "spl.y"
+#line 172 "spl.y"
     {
-					(yyval.tVal) = create_node(ASSIGNMENT_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
+					(yyval.tVal) = create_node(READ_STATEMENT, STATEMENT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 				;}
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 170 "spl.y"
+#line 178 "spl.y"
     {
 								(yyval.tVal) = create_node((yyvsp[(3) - (3)].iVal), ASSIGNMENT_STATEMENT, (yyvsp[(1) - (3)].tVal), NULL, NULL);
 							;}
@@ -1709,7 +1717,7 @@ yyreduce:
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 176 "spl.y"
+#line 184 "spl.y"
     {
 						(yyval.tVal) = create_node(NOTHING, IF_STATEMENT, (yyvsp[(2) - (5)].tVal), (yyvsp[(4) - (5)].tVal), NULL);
 					;}
@@ -1718,7 +1726,7 @@ yyreduce:
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 180 "spl.y"
+#line 188 "spl.y"
     {
 						(yyval.tVal) = create_node(NOTHING, IF_STATEMENT, (yyvsp[(2) - (7)].tVal), (yyvsp[(4) - (7)].tVal), (yyvsp[(6) - (7)].tVal));
 					;}
@@ -1727,7 +1735,7 @@ yyreduce:
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 186 "spl.y"
+#line 194 "spl.y"
     {
 						(yyval.tVal) = create_node(NOTHING, DO_STATEMENT, (yyvsp[(2) - (5)].tVal), (yyvsp[(4) - (5)].tVal), NULL);
 					;}
@@ -1736,7 +1744,7 @@ yyreduce:
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 192 "spl.y"
+#line 200 "spl.y"
     {
 						(yyval.tVal) = create_node(NOTHING, WHILE_STATEMENT, (yyvsp[(2) - (5)].tVal), (yyvsp[(4) - (5)].tVal), NULL);
 					;}
@@ -1745,7 +1753,7 @@ yyreduce:
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 198 "spl.y"
+#line 206 "spl.y"
     {
 						(yyval.tVal) = create_node((yyvsp[(2) - (11)].iVal), FOR_STATEMENT, create_node(NOTHING, FOR_STATEMENT, (yyvsp[(4) - (11)].tVal), (yyvsp[(6) - (11)].tVal), (yyvsp[(8) - (11)].tVal)), (yyvsp[(10) - (11)].tVal), NULL);
 					;}
@@ -1754,7 +1762,7 @@ yyreduce:
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 204 "spl.y"
+#line 212 "spl.y"
     {
 						(yyval.tVal) = create_node(NOTHING, WRITE_STATEMENT, NULL, NULL, NULL);
 					;}
@@ -1763,7 +1771,7 @@ yyreduce:
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 208 "spl.y"
+#line 216 "spl.y"
     {
 						(yyval.tVal) = create_node(NOTHING, WRITE_STATEMENT, (yyvsp[(3) - (4)].tVal), NULL, NULL);
 					;}
@@ -1772,7 +1780,7 @@ yyreduce:
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 214 "spl.y"
+#line 222 "spl.y"
     {
 						(yyval.tVal) = create_node((yyvsp[(3) - (4)].iVal), READ_STATEMENT, NULL, NULL, NULL);
 					;}
@@ -1781,7 +1789,7 @@ yyreduce:
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 220 "spl.y"
+#line 228 "spl.y"
     {
 					(yyval.tVal) = create_node(NOTHING, OUTPUT_LIST, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 				;}
@@ -1790,7 +1798,7 @@ yyreduce:
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 224 "spl.y"
+#line 232 "spl.y"
     {
 					(yyval.tVal) = create_node(NOTHING, OUTPUT_LIST, (yyvsp[(1) - (3)].tVal), (yyvsp[(3) - (3)].tVal), NULL);
 				;}
@@ -1799,7 +1807,7 @@ yyreduce:
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 230 "spl.y"
+#line 238 "spl.y"
     {
 							(yyval.tVal) = create_node(NOTHING, CONDITIONAL_LIST, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 						;}
@@ -1808,7 +1816,7 @@ yyreduce:
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 234 "spl.y"
+#line 242 "spl.y"
     {
 							(yyval.tVal) = create_node(OR, CONDITIONAL_LIST, (yyvsp[(1) - (3)].tVal), (yyvsp[(3) - (3)].tVal), NULL);
 						;}
@@ -1817,7 +1825,7 @@ yyreduce:
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 238 "spl.y"
+#line 246 "spl.y"
     {
 							(yyval.tVal) = create_node(AND, CONDITIONAL_LIST, (yyvsp[(1) - (3)].tVal), (yyvsp[(3) - (3)].tVal), NULL);
 						;}
@@ -1826,16 +1834,16 @@ yyreduce:
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 244 "spl.y"
+#line 252 "spl.y"
     {
-					(yyval.tVal) = create_node(NOT, CONDITIONAL, (yyvsp[(2) - (2)].tVal), NULL, NULL);
+					(yyval.tVal) = create_node(NOTHING, CONDITIONAL, (yyvsp[(2) - (2)].tVal), NULL, NULL);
 				;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 248 "spl.y"
+#line 256 "spl.y"
     {
 					(yyval.tVal) = create_node(NOTHING, CONDITIONAL, (yyvsp[(1) - (3)].tVal), (yyvsp[(2) - (3)].tVal), (yyvsp[(3) - (3)].tVal));
 				;}
@@ -1844,7 +1852,7 @@ yyreduce:
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 253 "spl.y"
+#line 261 "spl.y"
     {
 					(yyval.tVal) = create_node(EQUAL, COMPARATOR, NULL, NULL, NULL);
 				;}
@@ -1853,7 +1861,7 @@ yyreduce:
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 257 "spl.y"
+#line 265 "spl.y"
     {
 					(yyval.tVal) = create_node(LESS_THAN, COMPARATOR, NULL, NULL, NULL);
 				;}
@@ -1862,7 +1870,7 @@ yyreduce:
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 261 "spl.y"
+#line 269 "spl.y"
     {
 					(yyval.tVal) = create_node(GREATER_THAN, COMPARATOR, NULL, NULL, NULL);
 				;}
@@ -1871,7 +1879,7 @@ yyreduce:
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 265 "spl.y"
+#line 273 "spl.y"
     {
 					(yyval.tVal) = create_node(LESS_THAN_EQUAL, COMPARATOR, NULL, NULL, NULL);
 				;}
@@ -1880,7 +1888,7 @@ yyreduce:
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 269 "spl.y"
+#line 277 "spl.y"
     {
 					(yyval.tVal) = create_node(GREATER_THAN_EQUAL, COMPARATOR, NULL, NULL, NULL);
 				;}
@@ -1889,7 +1897,7 @@ yyreduce:
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 273 "spl.y"
+#line 281 "spl.y"
     {
 					(yyval.tVal) = create_node(LESS_THAN_GREATER_THAN, COMPARATOR, NULL, NULL, NULL);
 				;}
@@ -1898,7 +1906,7 @@ yyreduce:
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 279 "spl.y"
+#line 287 "spl.y"
     {
 					(yyval.tVal) = create_node(NOTHING, EXPRESSION, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 				;}
@@ -1907,7 +1915,7 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 283 "spl.y"
+#line 291 "spl.y"
     {
 					(yyval.tVal) = create_node(PLUS, EXPRESSION, (yyvsp[(1) - (3)].tVal), (yyvsp[(3) - (3)].tVal), NULL);
 				;}
@@ -1916,7 +1924,7 @@ yyreduce:
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 287 "spl.y"
+#line 295 "spl.y"
     {
 					(yyval.tVal) = create_node(HYPHEN, EXPRESSION, (yyvsp[(1) - (3)].tVal), (yyvsp[(3) - (3)].tVal), NULL);
 				;}
@@ -1925,7 +1933,7 @@ yyreduce:
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 293 "spl.y"
+#line 301 "spl.y"
     {
 				(yyval.tVal) = create_node(NOTHING, TERM, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 			;}
@@ -1934,7 +1942,7 @@ yyreduce:
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 297 "spl.y"
+#line 305 "spl.y"
     {
 				(yyval.tVal) = create_node(ASTERIX, TERM, (yyvsp[(1) - (3)].tVal), (yyvsp[(3) - (3)].tVal), NULL);
 			;}
@@ -1943,7 +1951,7 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 301 "spl.y"
+#line 309 "spl.y"
     {
 				(yyval.tVal) = create_node(FORWARD_SLASH, TERM, (yyvsp[(1) - (3)].tVal), (yyvsp[(3) - (3)].tVal), NULL);
 			;}
@@ -1952,7 +1960,7 @@ yyreduce:
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 307 "spl.y"
+#line 315 "spl.y"
     {
 				(yyval.tVal) = create_node(NOTHING, VALUE, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 			;}
@@ -1961,7 +1969,7 @@ yyreduce:
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 311 "spl.y"
+#line 319 "spl.y"
     {
 				(yyval.tVal) = create_node((yyvsp[(1) - (1)].iVal), VALUE, NULL, NULL, NULL);
 			;}
@@ -1970,7 +1978,7 @@ yyreduce:
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 315 "spl.y"
+#line 323 "spl.y"
     {
 				(yyval.tVal) = create_node(NOTHING, VALUE, (yyvsp[(2) - (3)].tVal), NULL, NULL);
 			;}
@@ -1979,7 +1987,7 @@ yyreduce:
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 321 "spl.y"
+#line 329 "spl.y"
     {
 					(yyval.tVal) = create_node(NOTHING, CONSTANT, (yyvsp[(1) - (1)].tVal), NULL, NULL);
 				;}
@@ -1988,7 +1996,7 @@ yyreduce:
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 325 "spl.y"
+#line 333 "spl.y"
     {
 					(yyval.tVal) = create_node((yyvsp[(1) - (1)].iVal), CONSTANT, NULL, NULL, NULL);
 				;}
@@ -1997,7 +2005,7 @@ yyreduce:
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 331 "spl.y"
+#line 339 "spl.y"
     {
 						(yyval.tVal) = create_node((yyvsp[(1) - (1)].iVal), NUMBER_CONSTANT, NULL, NULL, NULL);
 					;}
@@ -2006,16 +2014,16 @@ yyreduce:
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 335 "spl.y"
+#line 343 "spl.y"
     {
-						(yyval.tVal) = create_node((yyvsp[(2) - (2)].iVal), NUMBER_CONSTANT, NULL, NULL, NULL);
+						(yyval.tVal) = create_node((yyvsp[(2) - (2)].iVal), NEGATIVE_NUMBER_CONSTANT, NULL, NULL, NULL);
 					;}
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 339 "spl.y"
+#line 347 "spl.y"
     {
 						(yyval.tVal) = create_node((yyvsp[(1) - (3)].iVal), NUMBER_CONSTANT, create_node((yyvsp[(3) - (3)].iVal), NUMBER_CONSTANT, NULL, NULL, NULL), NULL, NULL);
 					;}
@@ -2024,16 +2032,16 @@ yyreduce:
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 343 "spl.y"
+#line 351 "spl.y"
     {
-						(yyval.tVal) = create_node((yyvsp[(2) - (4)].iVal), NUMBER_CONSTANT, create_node((yyvsp[(4) - (4)].iVal), NUMBER_CONSTANT, NULL, NULL, NULL), NULL, NULL);
+						(yyval.tVal) = create_node((yyvsp[(2) - (4)].iVal), NEGATIVE_NUMBER_CONSTANT, create_node((yyvsp[(4) - (4)].iVal), NEGATIVE_NUMBER_CONSTANT, NULL, NULL, NULL), NULL, NULL);
 					;}
     break;
 
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 349 "spl.y"
+#line 357 "spl.y"
     {
 						(yyval.tVal) = create_node((yyvsp[(1) - (1)].iVal), IDENTIFIER_LIST, NULL, NULL, NULL);
 					;}
@@ -2042,16 +2050,16 @@ yyreduce:
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 353 "spl.y"
+#line 361 "spl.y"
     {
-						(yyval.tVal) = create_node(IDENTIFIER, IDENTIFIER_LIST, (yyvsp[(1) - (3)].tVal), NULL, NULL);
+						(yyval.tVal) = create_node((yyvsp[(3) - (3)].iVal), IDENTIFIER_LIST, (yyvsp[(1) - (3)].tVal), NULL, NULL);
 					;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 2055 "spl.tab.c"
+#line 2063 "spl.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2263,7 +2271,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 358 "spl.y"
+#line 366 "spl.y"
 
 
 ternaryTree create_node(int ival, int case_identifier, ternaryTree p1, ternaryTree  p2, ternaryTree  p3)
@@ -2278,94 +2286,346 @@ ternaryTree create_node(int ival, int case_identifier, ternaryTree p1, ternaryTr
     t -> second = p2;
     t -> third = p3;
 	
-    return (t);
+    return(t);
 }
 
-void printTree(ternaryTree t, int i)
-{
-	if (t != NULL)
+#ifdef DEBUG
+	void printIdentifier(ternaryTree t)
 	{
-		if (t -> item != NOTHING)
+		if (t -> item < 0 || t -> item > SYMTABSIZE)
 		{
-			switch(t -> nodeIdentifier)
-			{
-				case IDENTIFIER:
-					if (t -> item < 0 || t -> item > SYMTABSIZE)
-					{
-						printf("Unknown Identufier: %d ", t -> item);
-					}
-					else
-					{
-						printf("Identufier: %s ", symbolTable[t -> item] -> identifier);
-					}
-					
-					break;
-				
-				case CHARACTER_CONSTANT:
-					printf("Character: %c ", t -> item);
-					
-					break;
-				
-				case NUMBER:
-					printf("Number: %d ", t -> item);
-					
-					break;
-				
-				default:
-					printf("Item: %d ", t -> item);
-					
-					break;
-			}
-		}
-		
-		if (t -> nodeIdentifier < 0 || t -> nodeIdentifier > sizeof(nodeName))
-		{
-			printf("Unknown nodeIdentifier: %d\n", nodeName[t -> nodeIdentifier]);
+			printf(" Unknown Identifier: %d\n", t -> item);
 		}
 		else
 		{
-			printf("nodeIdentifier: %d\n", nodeName[t -> nodeIdentifier]);
+			printf(" Identifier: %s\n", symbolTable[t -> item] -> identifier);
 		}
-		
-		int j = 0;
-		
-		while(j < i)
-		{
-			printf("\t");
-			
-			j++;
-		}
-		
-		i++;
-		
-		printTree(t -> first, i);
-		printTree(t -> second, i);
-		printTree(t -> third, i);
 	}
-}
+	
+	void printTree(ternaryTree t, int i)
+	{
+		if(t != NULL)
+		{
+			int j = 0;
+			
+			while(j < i)
+			{
+				printf(" ");
+				
+				j++;
+			}
+			
+			if(t -> nodeIdentifier < 0 || t -> nodeIdentifier > sizeof(nodeName))
+			{
+				printf("Unknown nodeIdentifier: %d", t -> nodeIdentifier);
+			}
+			else
+			{
+				printf("%s", nodeName[t -> nodeIdentifier]);
+			}
+			
+			if(t -> item != NOTHING)
+			{
+				switch(t -> nodeIdentifier)
+				{				
+					case TYPE_Y:
+						printf("\n");
+						
+						break;
+					
+					case STATEMENT:
+						printf("\n");
+						
+						break;
+					
+					case ASSIGNMENT_STATEMENT:
+						printIdentifier(t);
+						
+						break;
+					
+					case FOR_STATEMENT:
+						printIdentifier(t);
+						
+						break;
+					
+					case READ_STATEMENT:
+						printIdentifier(t);
+						
+						break;
+					
+					case CONDITIONAL_LIST:
+						printf("\n");
+						
+						break;
+					
+					case COMPARATOR:
+						printf("\n");
+						
+						break;
+					
+					case EXPRESSION:
+						printf("\n");
+						
+						break;
+					
+					case TERM:
+						printf("\n");
+						
+						break;
+					
+					case VALUE:
+						printIdentifier(t);
+						
+						break;
+					
+					case CONSTANT:
+						printf(" Character: %c\n", t -> item);
+						
+						break;
+						
+					case NUMBER_CONSTANT:
+						printf(" Number: %d\n", t -> item);
+						
+						break;
+					
+					case NEGATIVE_NUMBER_CONSTANT:
+						printf(" Number: %d\n", t -> item);
+						
+						break;
+					
+					case IDENTIFIER_LIST:
+						printIdentifier(t);
+						
+						break;
+					
+					default:
+						printf(" %d\n", t -> item);
+						
+						break;
+				}
+			}
+			else
+			{
+				printf("\n");
+			}
+			
+			i++;
+			
+			printTree(t -> first, i);
+			printTree(t -> second, i);
+			printTree(t -> third, i);
+		}
+	}
+#endif
 
-void generateCode(ternaryTree t)
+void printCode(ternaryTree t)
 {
-	if (t != NULL)
+	if(t != NULL)
 	{	
 		switch(t -> nodeIdentifier)
 		{
 			case PROGRAM:
-				printf("#include <stdio.h>\n");
-				printf("int main(void)\n{\n");
-				generateCode(t -> first);
+				printf("#include <stdio.h>\nvoid main(void)\n{\n");
+				
+				printCode(t -> first);
+				
+				printf("}");
+				
+				break;
+			
+			case BLOCK:
+				printCode(t -> first);
+				printCode(t -> second);
+				
+				break;
+			
+			case DECLARATION_LIST:
+				printCode(t -> first);
+				
+				printf("\n");
+				
+				printCode(t -> second);
+				
+				break;
+			
+			case DECLARATION:
+				printCode(t -> second);
+				
+				printf(" ");
+				
+				printCode(t -> first);
+				
+				printf(";");
+				
+				break;
+			
+			case TYPE_Y:
+				switch(t -> item)
+				{
+					case REAL:
+						printf("float ");
+						
+						break;
+					
+					case INTEGER:
+						printf("int ");
+						
+						break;
+					
+					case CHARACTER:
+						printf("char ");
+						
+						break;
+				}
+				
+				break;
+			
+			case STATEMENT_LIST:
+				printCode(t -> first);				
+				printCode(t -> second);
+				
+				break;
+			
+			case STATEMENT:
+				printCode(t -> first);
+				
+				break;
+			
+			case ASSIGNMENT_STATEMENT:
+				if (t -> item < 0 || t -> item > SYMTABSIZE)
+				{
+					printf("Unknown Identifier: %d\n", t -> item);
+					return;
+				}
+				else
+				{
+					printf("%s = ", symbolTable[t -> item] -> identifier);
+				}
+				
+				printCode(t -> first);
+				
+				printf(";\n");
+				
+				break;
+			
+			case IF_STATEMENT:
+				printf("if(");
+				
+				printCode(t -> first);
+				
+				printf(")\n{\n");
+				
+				printCode(t -> second);
+				
+				printf("}\n");
+				
+				if(t -> third != NULL)
+				{
+					printf("else\n{\n");
+					
+					printCode(t -> third);
+					
+					printf("}\n");
+				}
+				
+				break;
+			
+			case DO_STATEMENT:
+				printf("do\n{\n");
+				
+				printCode(t -> first);
+				
+				printf("} while(");
+				
+				printCode(t -> second);
+				
+				printf(");\n");
+				
+				break;
+			
+			case WHILE_STATEMENT:
+				printf("while(");
+				
+				printCode(t -> first);
+				
+				printf(")\n{\n");
+				
+				printCode(t -> second);
+				
 				printf("}\n");
 				
 				break;
+			
+			case FOR_STATEMENT:
+				if (t -> item < 0 || t -> item > SYMTABSIZE)
+				{
+					printf("Unknown Identifier: %d\n", t -> item);
+					return;
+				}
+				else
+				{
+					printf("for(int %s = ", symbolTable[t -> item] -> identifier);
+				}
 				
+				printCode(t -> first -> first);
+				
+				if (t -> item < 0 || t -> item > SYMTABSIZE)
+				{
+					printf("Unknown Identifier: %d\n", t -> item);
+					return;
+				}
+				else
+				{
+					printf("; %s ", symbolTable[t -> item] -> identifier);
+				}
+				
+				if(t -> first -> second -> first -> first -> first -> first -> nodeIdentifier == NUMBER_CONSTANT)
+				{
+					printf("< ");
+				}
+				else
+				{
+					if(t -> first -> second -> first -> first -> first -> first -> nodeIdentifier == NEGATIVE_NUMBER_CONSTANT)
+					{
+						printf("> ");
+					}
+					else
+					{
+						printf("Unknown nodeIdentifier: %d", t -> nodeIdentifier);
+						return;
+					}
+				}
+				
+				printCode(t -> first -> third);
+				
+				printf("; %s += ");
+				
+				printCode(t -> first -> second);
+				
+				printf(";)\n{\n");
+				
+				printCode(t -> second);
+				
+				printf("}\n");
+				
+				break;
+			
 			case WRITE_STATEMENT:
 				printf("printf(");
 				
-				if(t -> first)
+				if(t -> first != NULL)
 				{
-					printf("\"");
-					generateCode(t -> first);
-					printf("\"");
+					if(t -> first -> first -> first != NULL)
+					{
+						printf("\"");
+					}
+					
+					printCode(t -> first);
+					
+					if(t -> first -> first -> first != NULL)
+					{
+						printf("\"");
+					}
 				}
 				else
 				{
@@ -2376,15 +2636,209 @@ void generateCode(ternaryTree t)
 				
 				break;
 			
-			case CONSTANT:
-				printf("%c", t -> item);
+			case READ_STATEMENT:
+				printf("gets(");
+				
+				if (t -> item < 0 || t -> item > SYMTABSIZE)
+				{
+					printf("Unknown Identifier: %d\n", t -> item);
+					return;
+				}
+				else
+				{
+					printf("%s", symbolTable[t -> item] -> identifier);
+				}
+				
+				printf(");\n");
 				
 				break;
 			
-			default:
-				generateCode(t -> first);
-				generateCode(t -> second);
-				generateCode(t -> third);
+			case OUTPUT_LIST:
+				printCode(t -> first);
+				printCode(t -> second);
+				
+				break;
+			
+			case CONDITIONAL_LIST:
+				printCode(t -> first);
+				
+				if(t -> item == OR)
+				{
+					printf(" || ");
+					
+					printCode(t -> second);
+				}
+				else
+				{
+					if(t -> item == AND)
+					{
+						printf(" && ");
+					
+						printCode(t -> second);
+					}
+				}
+				break;
+			
+			case CONDITIONAL:
+				if(t -> second == NULL)
+				{
+					printf("!(");
+					
+					printCode(t -> first);
+					
+					printf(")");
+				}
+				else
+				{
+					printCode(t -> first);
+					printCode(t -> second);
+					printCode(t -> third);
+				}
+				
+				break;
+			
+			case COMPARATOR:
+				switch(t -> item)
+				{
+					case EQUAL:
+						printf(" = ");
+						
+						break;
+					
+					case LESS_THAN:
+						printf(" < ");
+						
+						break;
+					
+					case GREATER_THAN:
+						printf(" > ");
+						
+						break;
+					
+					case LESS_THAN_EQUAL:
+						printf(" <= ");
+						
+						break;
+					
+					case GREATER_THAN_EQUAL:
+						printf(" >= ");
+						
+						break;
+					
+					case LESS_THAN_GREATER_THAN:
+						printf(" <> ");
+						
+						break;
+				}
+				
+				break;
+			
+			case EXPRESSION:
+				printCode(t -> first);
+				
+				if(t -> second != NULL)
+				{
+					if(t -> item == PLUS)
+					{
+						printf(" + ");
+						
+						printCode(t -> second);
+					}
+					else
+					{
+						printf(" - ");
+						
+						printCode(t -> second);
+					}
+				}
+				
+				break;
+			
+			case TERM:
+				printCode(t -> first);
+				
+				if(t -> second != NULL)
+				{
+					if(t -> item == ASTERIX)
+					{
+						printf(" * ");
+						
+						printCode(t -> second);
+					}
+					else
+					{
+						printf(" / ");
+						
+						printCode(t -> second);
+					}
+				}
+				
+				break;
+			
+			case VALUE:
+				if(t -> first == NULL)
+				{
+					if (t -> item < 0 || t -> item > SYMTABSIZE)
+					{
+						printf("Unknown Identifier: %d\n", t -> item);
+						return;
+					}
+					else
+					{
+						printf("%s", symbolTable[t -> item] -> identifier);
+					}
+				}
+				else
+				{
+					printCode(t -> first);
+				}
+				
+				break;
+			
+			case CONSTANT:
+				if(t -> first == NULL)
+				{
+					printf("%c", t -> item);
+				}
+				else
+				{
+					printCode(t -> first);
+				}
+				
+				break;
+			
+			case NUMBER_CONSTANT:
+				if(t -> nodeIdentifier == NEGATIVE_NUMBER_CONSTANT)
+				{
+					printf("-");
+				}
+				
+				printf("%d", t -> item);
+				
+				if(t -> first != NULL)
+				{
+					printf(".%d", t -> first -> item);
+				}
+				
+				break;
+			
+			case IDENTIFIER_LIST:
+				if (t -> item < 0 || t -> item > SYMTABSIZE)
+				{
+					printf("Unknown Identifier: %d\n", t -> item);
+					return;
+				}
+				else
+				{
+					printf("%s", symbolTable[t -> item] -> identifier);
+				}
+				
+				if(t -> first != NULL)
+				{
+					printf(", ");
+					
+					printCode(t -> first);
+				}
 				
 				break;
 		}

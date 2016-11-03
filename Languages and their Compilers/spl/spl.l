@@ -20,7 +20,7 @@
 %}
 
 delimiter	[ \r\t]
-white_space	{delimiter}*
+white_space	{delimiter}+
 character	[a-zA-Z]
 character_constant	"'"{character}"'"
 digit	[0-9]
@@ -102,7 +102,7 @@ AND	TOKEN(Keyword, AND)
 #ifndef PRINT
 	symbolTableNodePointer newsymbolTableNode()
 	{
-		return ((symbolTableNodePointer)malloc(sizeof(symbolTableNode)));
+		return((symbolTableNodePointer)malloc(sizeof(symbolTableNode)));
 	}
 
 	int lookup(char * s)
@@ -127,13 +127,13 @@ AND	TOKEN(Keyword, AND)
 		extern int currentSymbolTableSize;
 		int index = lookup(id);
 		
-		if (index >= 0)
+		if(index >= 0)
 		{
 			return (index);
 		}
 		else
 		{
-			if (currentSymbolTableSize >= SYMTABSIZE) 
+			if(currentSymbolTableSize >= SYMTABSIZE) 
 			{
 				return (NOTHING) ;
 			}
