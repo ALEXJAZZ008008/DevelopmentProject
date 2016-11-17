@@ -1,6 +1,6 @@
---01/11/2016----------------------------------------------------- 
+--10/11/2016----------------------------------------------------- 
 Lexical Tokens for a.spl 
---16:11:16.94----------------------------------------------------- 
+--16:19:34.44----------------------------------------------------- 
 Identifier: IDENTIFIER ProgA
 Separator: COLON
 Keyword: CODE
@@ -21,9 +21,9 @@ Keyword: NEWLINE
 Keyword: ENDP
 Identifier: IDENTIFIER ProgA
 Separator: FULL_STOP
---01/11/2016----------------------------------------------------- 
+--10/11/2016----------------------------------------------------- 
 Lexical Tokens for b.spl 
---16:11:21.58----------------------------------------------------- 
+--16:19:57.18----------------------------------------------------- 
 Identifier: IDENTIFIER ProgB
 Separator: COLON
 Keyword: DECLARATIONS
@@ -109,9 +109,9 @@ Keyword: NEWLINE
 Keyword: ENDP
 Identifier: IDENTIFIER ProgB
 Separator: FULL_STOP
---01/11/2016----------------------------------------------------- 
+--10/11/2016----------------------------------------------------- 
 Lexical Tokens for c.spl 
---16:11:24.58----------------------------------------------------- 
+--16:19:59.83----------------------------------------------------- 
 Identifier: IDENTIFIER Prog3
 Separator: COLON
 Keyword: DECLARATIONS
@@ -204,9 +204,9 @@ Keyword: NEWLINE
 Keyword: ENDP
 Identifier: IDENTIFIER Prog3
 Separator: FULL_STOP
---01/11/2016----------------------------------------------------- 
+--10/11/2016----------------------------------------------------- 
 Lexical Tokens for d.spl 
---16:11:28.17----------------------------------------------------- 
+--16:20:02.00----------------------------------------------------- 
 Identifier: IDENTIFIER Prog4D
 Separator: COLON
 Keyword: DECLARATIONS
@@ -271,9 +271,9 @@ Keyword: NEWLINE
 Keyword: ENDP
 Identifier: IDENTIFIER Prog4D
 Separator: FULL_STOP
---01/11/2016----------------------------------------------------- 
+--10/11/2016----------------------------------------------------- 
 Lexical Tokens for e.spl 
---16:11:30.75----------------------------------------------------- 
+--16:20:04.26----------------------------------------------------- 
 Identifier: IDENTIFIER ProgV
 Separator: COLON
 Keyword: DECLARATIONS

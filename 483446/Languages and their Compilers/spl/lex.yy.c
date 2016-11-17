@@ -1880,7 +1880,7 @@ int main()
 			else
 			{
 				symbolTable[currentSymbolTableSize] = newsymbolTableNode();
-				strncpy(symbolTable[currentSymbolTableSize] -> identifier,id,IDLENGTH);
+				strncpy(symbolTable[currentSymbolTableSize] -> identifier, id, IDLENGTH);
 				symbolTable[currentSymbolTableSize] -> identifier[IDLENGTH-1] = '\0';
 				
 				return(currentSymbolTableSize++);

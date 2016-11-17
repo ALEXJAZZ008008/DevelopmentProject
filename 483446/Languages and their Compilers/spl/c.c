@@ -1,10 +1,31 @@
 #include <stdio.h>
-int main(void)
+void main(void)
 {
-ÿÿÿÿprintf("");
+register int _by;
+int  _a;
+for(_a = 1; _by = 1, (_a - 13) * ((_by > 0) - (_by < 0)) <= 0; _a += _by)
+{
+if(!(_a == 7))
+{
+printf("%d", _a);
 printf("\n");
-ÿÿÿÿprintf("");
+}
+}
+_a = 0;
+do
+{
+_a = (_a + 1);
+if(!(_a == 6) && _a != 8)
+{
+printf("%d", _a);
 printf("\n");
-ÿÿÿprintf("");
-ÿprintf("\n");
+}
+} while(_a < 14);
+_a = 0;
+while(_a < 12)
+{
+printf("%d", _a);
+_a = (_a + 1);
+}
+printf("\n");
 }

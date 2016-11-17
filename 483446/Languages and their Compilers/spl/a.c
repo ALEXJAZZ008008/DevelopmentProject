@@ -1,6 +1,11 @@
 #include <stdio.h>
-int main(void)
+void main(void)
 {
-printf("hello");
+register int _by;
+printf("h");
+printf("e");
+printf("l");
+printf("l");
+printf("o");
 printf("\n");
 }
