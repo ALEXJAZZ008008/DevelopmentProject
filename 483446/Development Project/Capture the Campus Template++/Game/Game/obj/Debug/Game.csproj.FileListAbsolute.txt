@@ -51,6 +51,19 @@ Z:\Dissertation\Game2\Game\Game\bin\Debug\Game.exe
 Z:\Dissertation\Game2\Game\Game\bin\Debug\Game.pdb
 Z:\Dissertation\Game2\Game\Game\bin\Debug\OpenTK.dll
 Z:\Dissertation\Game2\Game\Game\obj\Debug\Game.csprojResolveAssemblyReference.cache
-Z:\Development Project\Capture the Campus Template\Game\Game\bin\Debug\Game.exe.config
-Z:\Development Project\Capture the Campus Template\Game\Game\obj\Debug\Game.exe
-Z:\Development Project\Capture the Campus Template\Game\Game\obj\Debug\Game.pdb
+Z:\Development Project\Capture the Campus\Game\Game\bin\Debug\Shaders\fs.glsl
+Z:\Development Project\Capture the Campus\Game\Game\bin\Debug\Shaders\vs.glsl
+Z:\Development Project\Capture the Campus\Game\Game\bin\Debug\Game.exe.config
+Z:\Development Project\Capture the Campus\Game\Game\bin\Debug\Game.exe
+Z:\Development Project\Capture the Campus\Game\Game\bin\Debug\Game.pdb
+Z:\Development Project\Capture the Campus\Game\Game\bin\Debug\OpenTK.dll
+Z:\Development Project\Capture the Campus\Game\Game\obj\Debug\Game.exe
+Z:\Development Project\Capture the Campus\Game\Game\obj\Debug\Game.pdb
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Debug\Shaders\fs.glsl
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Debug\Shaders\vs.glsl
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Debug\Game.exe.config
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Debug\Game.exe
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Debug\Game.pdb
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Debug\OpenTK.dll
+Z:\Development Project\Capture the Campus Template++\Game\Game\obj\Debug\Game.exe
+Z:\Development Project\Capture the Campus Template++\Game\Game\obj\Debug\Game.pdb
