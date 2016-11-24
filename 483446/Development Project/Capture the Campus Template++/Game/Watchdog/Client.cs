@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Text;
+using System.Net;
 using System.Net.Sockets;
 
 namespace Watchdog
@@ -10,15 +11,6 @@ namespace Watchdog
         //This pair of variables holds the IP address of the server and the port of the server globally for easy access
         private static string ipAddress = "localhost";
         private static int port = 43;
-
-        //This is an enum used to differentiate protocols
-        private enum Protocol
-        {
-            whoIs
-        }
-
-        //This holds the above enum
-        private static Protocol protocol;
 
         //These are used to store the variables that will bypassed from the client to the server
         private static string username;
@@ -30,14 +22,22 @@ namespace Watchdog
             //These are used to store variables used to verify the arguments given to the client
             int noOfArgs = 0;
             bool argBool = false;
+            char serverType = 'N';
 
             //This calls the method used to verify the arguments given
-            FromUser(args, ref noOfArgs, ref argBool);
+            FromUser(args, ref noOfArgs, ref argBool, ref serverType);
 
             //If the arguments given are valid this calls the method which updates the server
-            if (argBool)
+            if (argBool && serverType != 'N')
             {
-                return ToServer(args, ref noOfArgs);
+                if (serverType == 'u')
+                {
+                    return ToUDPServer();
+                }
+                else
+                {
+                    return ToTCPServer(args, ref noOfArgs);
+                }
             }
             else
             {
@@ -45,7 +45,7 @@ namespace Watchdog
             }
         }
 
-        private static void FromUser(string[] args, ref int noOfArgs, ref bool argBool)
+        private static void FromUser(string[] args, ref int noOfArgs, ref bool argBool, ref char serverType)
         {
             //If there are no arguments the program doesn't bother to execute any further code
             if (args.Length != 0)
@@ -63,6 +63,40 @@ namespace Watchdog
                 {
                     switch (args[i])
                     {
+                        #region U
+
+                        //This is triggered when the port is to be changed
+                        case "-u":
+                            serverType = 'u';
+
+                            //This tracks the number of arguments
+                            noOfArgs++;
+
+                            //This is used to break out of the enclosing while loop
+                            i++;
+
+                            //This breaks out of the case
+                            break;
+
+                        #endregion
+
+                        #region T
+
+                        //This is triggered when the port is to be changed
+                        case "-t":
+                            serverType = 't';
+
+                            //This tracks the number of arguments
+                            noOfArgs++;
+
+                            //This is used to break out of the enclosing while loop
+                            i++;
+
+                            //This breaks out of the case
+                            break;
+
+                        #endregion
+
                         #region H
 
                         //This is triggured when the IP address is to be changed
@@ -81,7 +115,9 @@ namespace Watchdog
                                 }
                                 catch (Exception ex)
                                 {
+#if DEBUG
                                     Console.WriteLine("ERROR: " + ex.ToString());
+#endif
 
                                     //This tracks the number of arguments
                                     noOfArgs++;
@@ -100,7 +136,7 @@ namespace Watchdog
                             break;
 
                         #endregion
-                        
+
                         #region P
 
                         //This is triggered when the port is to be changed
@@ -119,7 +155,9 @@ namespace Watchdog
                                 }
                                 catch (Exception ex)
                                 {
+#if DEBUG
                                     Console.WriteLine("ERROR: " + ex.ToString());
+#endif
 
                                     //This tracks the number of arguments
                                     noOfArgs++;
@@ -138,26 +176,7 @@ namespace Watchdog
                             break;
 
                         #endregion
-                        
-                        #region WhoIs
 
-                        //This detects the type of protocol to be used
-                        case "-whoIs":
-
-                            //This sets the protocol to be used
-                            protocol = Protocol.whoIs;
-
-                            //This tracks the number of arguments
-                            noOfArgs++;
-
-                            //This is used to break out of the enclosing while loop
-                            i++;
-
-                            //This breaks out of the case
-                            break;
-
-                        #endregion
-                        
                         #region Default
 
                         //This is the default case to be called whenever the argument doesn't match one of the other cases
@@ -180,7 +199,9 @@ namespace Watchdog
                                     {
                                         argBool = false;
 
+#if DEBUG
                                         Console.WriteLine("ERROR: Invalid arguments.");
+#endif
 
                                         //This breaks out of the case
                                         break;
@@ -192,7 +213,9 @@ namespace Watchdog
                                 {
                                     argBool = false;
 
+#if DEBUG
                                     Console.WriteLine("ERROR: Invalid arguments.");
+#endif
 
                                     //This breaks out of the case
                                     break;
@@ -218,7 +241,7 @@ namespace Watchdog
                             //This breaks out of the case
                             break;
 
-                        #endregion
+                            #endregion
                     }
 
                     //This breaks out of the while loop if the arguments given are invalid
@@ -230,203 +253,163 @@ namespace Watchdog
             }
             else
             {
+#if DEBUG
                 //This prints to the screen an error message
                 Console.WriteLine("ERROR: No arguments given.");
+#endif
             }
         }
 
-        private static string ToServer(string[] args, ref int noOfArgs)
+        private static string ToUDPServer()
+        {
+            const int listnerPort = 11000;
+            string toOutput = "ERROR: incorrect key";
+            string received = string.Empty;
+
+            try
+            {
+                UdpClient listener = new UdpClient(listnerPort);
+                IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listnerPort);
+
+#if DEBUG
+                Console.Write("Waiting for broadcast... ");
+#endif
+
+                listener.Client.ReceiveTimeout = 3000;
+                byte[] bytes = listener.Receive(ref groupEP);
+                received = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
+
+#if DEBUG
+                Console.Write("Received broadcast from " + groupEP.ToString().Split(':')[0] + ": " + received);
+#endif
+
+                if (received == "Capture the Campus!")
+                {
+                    toOutput = groupEP.ToString().Split(':')[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                //This prints to the screen an error message
+                toOutput = "ERROR: " + ex.ToString();
+            }
+
+            Console.WriteLine("\r\n" + "\r\n");
+
+            return toOutput;
+        }
+
+        private static string ToTCPServer(string[] args, ref int noOfArgs)
         {
             //These variables are used to store messages to be sent to the server and screen
-            string toServerInput = string.Empty;
-            string toScreenOutput = string.Empty;
+            string toInput = string.Empty;
+            string toOutput = string.Empty;
 
             //This variable dictates if the output from the server needs to be read or not
             bool serverOutput = false;
 
-            //This ensures that a correct set of arguments has been received
-            if ((args.Length - noOfArgs == 1) || (args.Length - noOfArgs == 2))
+            //If the number of arguments unaccounted for is one then there must only be arguments for a user name
+            if (args.Length - noOfArgs == 1)
             {
-                //If the number of arguments unaccounted for is one then there must only be arguments for a user name
-                if (args.Length - noOfArgs == 1)
+                //This indicates that the server will return something of value
+                serverOutput = true;
+
+                //This addes things to be outputted to the screen
+                toOutput = username + " is ";
+
+                //This sets the string to query the server
+                toInput = username;
+            }
+
+            //If the number of arguments unaccounted for is one then there must be arguments for a user name and a location
+            else
+            {
+                if (args.Length - noOfArgs == 2)
                 {
-                    #region One Arg
-
-                    //This indicates that the server will return something of value
-                    serverOutput = true;
-
                     //This addes things to be outputted to the screen
-                    toScreenOutput = username + " is ";
+                    toOutput = username + " location changed to be " + location + "\r\n" + "\r\n";
 
-                    switch (protocol)
-                    {
-                        #region WhoIs
-
-                        //This deals with whois server requests
-                        case Protocol.whoIs:
-
-                            //This sets the string to query the server
-                            toServerInput = username;
-
-                            //This breaks out of the case
-                            break;
-
-                        #endregion
-                    }
-
-                    #endregion
+                    //This sets the string to query the server
+                    toInput = username + " " + location;
                 }
-
-                //If the number of arguments unaccounted for is one then there must be arguments for a user name and a location
                 else
                 {
-                    #region Two Arg
-
-                    //This addes things to be outputted to the screen
-                    toScreenOutput = username + " location changed to be " + location + "\r\n";
-
-                    switch (protocol)
-                    {
-                        #region WhoIs
-
-                        //This deals with whois server requests
-                        case Protocol.whoIs:
-
-                            //This sets the string to query the server
-                            toServerInput = username + " " + location;
-
-                            //This breaks out of the case
-                            break;
-
-                        #endregion
-                    }
-
-                    #endregion
+                    toOutput = "ERROR: arguments invalid" + "\r\n" + "\r\n";
                 }
             }
 
             try
             {
-                #region Client
-
-                //This initializes a new Tcp client to handle the requests to the server
-                TcpClient client = new TcpClient();
-
-                client.Connect(ipAddress, port);
-
-                //These are the variables used to pass data too and from the server
-                StreamWriter streamWriter = new StreamWriter(client.GetStream());
-                StreamReader streamReader = new StreamReader(client.GetStream());
-
-                //This ensures that if the server hangs for too long the client doesn't wait for a response
-                client.SendTimeout = 1000;
-
-                //This sends the queries to the database
-                streamWriter.WriteLine(toServerInput);
-                streamWriter.Flush();
-
-                //This ensures that if the server hangs for too long the client doesn't wait for a response
-                client.ReceiveTimeout = 1000;
-
-                #endregion
-
-                #region ToScreenOutput
-
-                //This will skip the response code if the response from the server is not needed
-                if (serverOutput)
+                if (toInput != string.Empty)
                 {
-                    //This continues while there are lines to read
-                    while ((client.Connected) && (!streamReader.EndOfStream) && (streamReader.Peek() != -1))
+                    #region Client
+
+                    //This initializes a new Tcp client to handle the requests to the server
+                    TcpClient client = new TcpClient();
+
+                    client.Connect(ipAddress, port);
+
+                    //These are the variables used to pass data too and from the server
+                    StreamWriter streamWriter = new StreamWriter(client.GetStream());
+                    StreamReader streamReader = new StreamReader(client.GetStream());
+
+                    //This ensures that if the server hangs for too long the client doesn't wait for a response
+                    client.SendTimeout = 3000;
+
+                    //This sends the queries to the database
+                    streamWriter.WriteLine(toInput);
+                    streamWriter.Flush();
+
+                    //This ensures that if the server hangs for too long the client doesn't wait for a response
+                    client.ReceiveTimeout = 3000;
+
+                    #endregion
+
+                    #region ToScreenOutput
+
+                    //This will skip the response code if the response from the server is not needed
+                    if (serverOutput)
                     {
-                        //This reads the next line from the server
-                        string nextLine = streamReader.ReadLine();
-
-                        //This adds it to the variable to be printed to the screen
-                        toScreenOutput = toScreenOutput + nextLine + "\r\n";
-
-                        //This is used to ensure a stack overflow is not caused and to help with HTTP 1.1 requests
-                        if (nextLine == null || nextLine == "</html>")
+                        //This continues while there are lines to read
+                        while ((client.Connected) && (!streamReader.EndOfStream) && (streamReader.Peek() != -1))
                         {
-                            break;
+                            //This reads the next line from the server
+                            string nextLine = streamReader.ReadLine();
+
+                            //This adds it to the variable to be printed to the screen
+                            toOutput = toOutput + nextLine + "\r\n";
+
+                            //This is used to ensure a stack overflow is not caused
+                            if (nextLine == null)
+                            {
+                                break;
+                            }
                         }
                     }
-
-                    #region Split
-
-                    //This is used to remove OK from the end of whois returns
-                    string[] toScreenOutputSectionsWhoIs = Regex.Split(toScreenOutput, "\r\nOK");
-
-                    if ((toScreenOutputSectionsWhoIs.Length == 2))
+                    else
                     {
-                        toScreenOutput = toScreenOutputSectionsWhoIs[0] + "\r\n";
-                    }
-
-                    //This is used to remove none essential lines from HTTP responses
-                    string[] toScreenOutputSectionsHTML = Regex.Split(toScreenOutput, "<!DOCTYPE HTML");
-
-                    if ((toScreenOutputSectionsHTML.Length == 2))
-                    {
-                        toScreenOutput = username + " is <!DOCTYPE HTML" + toScreenOutputSectionsHTML[1];
-                    }
-
-                    //This is used to remove none essential lines from HTTP responses
-                    string[] toScreenOutputSectionsLocation1 = Regex.Split(toScreenOutput, "text/plain\r\n");
-
-                    if ((toScreenOutputSectionsLocation1.Length == 2))
-                    {
-                        toScreenOutput = username + toScreenOutputSectionsLocation1[1];
-                    }
-
-                    //This is used to remove none essential lines
-                    if (username != string.Empty)
-                    {
-                        string[] toScreenOutputSectionsUsername = Regex.Split(toScreenOutput, username + "\r\n");
-
-                        if ((toScreenOutputSectionsUsername.Length == 2))
+                        //This ensures the client doesn't crash when the server is trying to force a response that is unneeded
+                        while ((client.Connected) && (!streamReader.EndOfStream) && (streamReader.Peek() != -1))
                         {
-                            toScreenOutput = username + " is " + toScreenOutputSectionsUsername[1];
+                            streamReader.ReadLine();
                         }
-                    }
-
-                    //This is used to remove none essential lines
-                    string[] toScreenOutputSectionsLocation2 = Regex.Split(toScreenOutput, " is \r\n");
-
-                    if ((toScreenOutputSectionsLocation2.Length == 2))
-                    {
-                        toScreenOutput = toScreenOutputSectionsLocation2[0] + " is " + toScreenOutputSectionsLocation2[1];
-                    }
-
-                    //This is used to remove none essential lines
-                    string[] toScreenOutputSectionsRN = Regex.Split(toScreenOutput, "\r\n");
-
-                    if ((toScreenOutputSectionsRN.Length == 1))
-                    {
-                        toScreenOutput = toScreenOutput + "\r\n";
                     }
 
                     #endregion
                 }
-                else
-                {
-                    //This ensures the client doesn't crash when the server is trying to force a response that is unneeded
-                    while ((client.Connected) && (!streamReader.EndOfStream) && (streamReader.Peek() != -1))
-                    {
-                        streamReader.ReadLine();
-                    }
-                }
-
-                #endregion
             }
             catch (Exception ex)
             {
                 //This prints to the screen an error message
-                toScreenOutput = "ERROR: " + ex.ToString();
+                toOutput = "ERROR: " + ex.ToString();
             }
 
+#if DEBUG
             //This prints the server response to the screen
-            Console.WriteLine(toScreenOutput);
+            Console.WriteLine(toOutput);
+#endif
 
-            return toScreenOutput;
+            return toOutput;
         }
     }
 }

@@ -53,9 +53,9 @@ namespace Watchdog
                 }
             }
 
-            client.Input(new string[] { "-h", "localhost", "dateTime", (DateTime.Now + TimeSpan.FromMilliseconds(10000)).ToString() });
+            client.Input(new string[] { "-t", "-h", "localhost", "dateTime", (DateTime.Now + TimeSpan.FromMilliseconds(10000)).ToString() });
 
-            DateTime serverDateTime = DateTime.Parse(Regex.Split(client.Input(new string[] { "-h", "localhost", "dateTime" }), " is ")[1]);
+            DateTime serverDateTime = DateTime.Parse(Regex.Split(client.Input(new string[] { "-t", "-h", "localhost", "dateTime" }), " is ")[1]);
 
             while (serverDateTime >= DateTime.Now)
             {
@@ -63,7 +63,7 @@ namespace Watchdog
 
                 try
                 {
-                    serverDateTime = DateTime.Parse(Regex.Split(client.Input(new string[] { "-h", "localhost", "dateTime" }), " is ")[1]);
+                    serverDateTime = DateTime.Parse(Regex.Split(client.Input(new string[] { "-t", "-h", "localhost", "dateTime" }), " is ")[1]);
                 }
                 catch
                 {

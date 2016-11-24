@@ -47,8 +47,10 @@ namespace TCPServer
             }
             catch (Exception ex)
             {
+#if DEBUG
                 //This prints to the screen an error message
                 Console.WriteLine("ERROR: " + ex.ToString());
+#endif
 
                 try
                 {
@@ -192,8 +194,10 @@ namespace TCPServer
             }
             catch (Exception ex)
             {
+#if DEBUG
                 //This prints to the screen an error message
                 Console.WriteLine("ERROR: " + ex.ToString());
+#endif
             }
             finally
             {
@@ -343,8 +347,10 @@ namespace TCPServer
             streamWriter.Write(TCPServer.logMessage);
             streamWriter.Close();
 
+#if DEBUG
             //This outputs the log message to the screen
             Console.Write(TCPServer.logMessage);
+#endif
 
             TCPServer.logMessage = string.Empty;
         }

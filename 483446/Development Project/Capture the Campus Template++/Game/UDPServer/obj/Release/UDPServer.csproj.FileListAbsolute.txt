@@ -1,0 +1,5 @@
+Z:\Development Project\Capture the Campus Template++\Game\UDPServer\bin\Release\UDPServer.exe.config
+Z:\Development Project\Capture the Campus Template++\Game\UDPServer\bin\Release\UDPServer.exe
+Z:\Development Project\Capture the Campus Template++\Game\UDPServer\bin\Release\UDPServer.pdb
+Z:\Development Project\Capture the Campus Template++\Game\UDPServer\obj\Release\UDPServer.exe
+Z:\Development Project\Capture the Campus Template++\Game\UDPServer\obj\Release\UDPServer.pdb

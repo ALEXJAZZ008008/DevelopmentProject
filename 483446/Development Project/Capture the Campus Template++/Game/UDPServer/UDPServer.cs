@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using System.Threading;
 
 namespace UDPServer
 {
@@ -9,30 +10,36 @@ namespace UDPServer
     {
         public static void Main()
         {
-            const int listenPort = 11000;
+            const int broadcastPort = 11000;
 
-            UdpClient listener = new UdpClient(listenPort);
-            IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listenPort);
+            UdpClient broadcaster = new UdpClient();
+            IPEndPoint groupEP = new IPEndPoint(IPAddress.Broadcast, broadcastPort);
 
             try
             {
                 while (true)
                 {
-                    Console.WriteLine("Waiting for broadcast");
+                    byte[] bytes = Encoding.ASCII.GetBytes("Capture the Campus!");
 
-                    byte[] bytes = listener.Receive(ref groupEP);
+#if DEBUG
+                    Console.WriteLine("Sending broadcast to " + groupEP.ToString() + ": " + Encoding.ASCII.GetString(bytes, 0, bytes.Length));
+#endif
 
-                    Console.WriteLine("Received broadcast from " + groupEP.ToString() + ": " + Encoding.ASCII.GetString(bytes, 0, bytes.Length) + "\r\n");
+                    broadcaster.Send(bytes, bytes.Length, groupEP);
+
+                    Thread.Sleep(1000);
                 }
 
             }
             catch (Exception e)
             {
+#if DEBUG
                 Console.WriteLine("ERROR: " + e.ToString());
+#endif
             }
             finally
             {
-                listener.Close();
+                broadcaster.Close();
             }
         }
     }

@@ -1,1 +1,10 @@
 Z:\Development Project\Capture the Campus\Game\Game\bin\Release\Game.exe.config
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Release\Shaders\fs.glsl
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Release\Shaders\vs.glsl
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Release\Game.exe.config
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Release\Game.exe
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Release\Game.pdb
+Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Release\OpenTK.dll
+Z:\Development Project\Capture the Campus Template++\Game\Game\obj\Release\Game.csprojResolveAssemblyReference.cache
+Z:\Development Project\Capture the Campus Template++\Game\Game\obj\Release\Game.exe
+Z:\Development Project\Capture the Campus Template++\Game\Game\obj\Release\Game.pdb
