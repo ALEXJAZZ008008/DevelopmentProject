@@ -1,0 +1,6 @@
+Z:\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Release\TCPServer.exe.config
+Z:\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Release\TCPServer.exe
+Z:\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Release\TCPServer.pdb
+Z:\Development Project\Capture the Campus Template++\Game\TCPServer\obj\Release\TCPServer.csprojResolveAssemblyReference.cache
+Z:\Development Project\Capture the Campus Template++\Game\TCPServer\obj\Release\TCPServer.exe
+Z:\Development Project\Capture the Campus Template++\Game\TCPServer\obj\Release\TCPServer.pdb
