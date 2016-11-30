@@ -1,17 +1,58 @@
 %{
 	#include <string.h>
+	#include <limits.h>
 	
 	#ifdef PRINT
-		#define TOKEN(k, t) printf(#k ": " #t "\n");
-		#define VALUE_C(k, t) printf(#k ": " #t " %c\n", yytext[1]);
-		#define VALUE_N(k, t) printf(#k ": " #t " %s\n", yytext);
-		#define VALUE_I(k, t) printf(#k ": " #t " %s\n", yytext);
+		#define TOKEN(k, t)\
+					printf(#k ": " #t "\n");
+					
+		#define VALUE_C(k, t)\
+					printf(#k ": " #t " %c\n", yytext[1]);
+					
+		#define VALUE_D(k, t)\
+					if(strtoul(yytext, &ptr, 10) > (unsigned long)(INT_MAX))\
+					{\
+						printf("Error invalid number: Exiting\n");\
+						exit(0);\
+					}\
+					else\
+					{\
+						printf(#k ": " #t " %s\n", yytext);\
+					}
+					
+		#define VALUE_F(k, t)\
+					printf(#k ": " #t " %s\n", yytext);
+					
+		#define VALUE_I(k, t)\
+					printf(#k ": " #t " %s\n", yytext);
 	#else
-		#define TOKEN(k, t) return(t);
-		#define VALUE_C(k, t) yylval.iVal = yytext[1]; return(t);
-		#define VALUE_N(k, t) yylval.iVal = atoi(yytext); return(t);
-		#define VALUE_I(k, t) yylval.iVal = installId(yytext); return(t);
-		
+		#define TOKEN(k, t)\
+					return(t);
+					
+		#define VALUE_C(k, t)\
+					yylval.iVal = yytext[1];\
+					return(t);
+					
+		#define VALUE_D(k, t)\
+					if(strtoul(yytext, &ptr, 10) > (unsigned long)(INT_MAX))\
+					{\
+						printf("Error invalid number: Exiting\n");\
+						exit(0);\
+					}\
+					else\
+					{\
+						yylval.iVal = atoi(yytext);\
+						return(t);\
+					}
+					
+		#define VALUE_F(k, t)\
+					yylval.iVal = installId(yytext);\
+					return(t);
+					
+		#define VALUE_I(k, t)\
+					yylval.iVal = installId(yytext);\
+					return(t);
+					
 		extern symbolTableNodePointer symbolTable[SYMTABSIZE];
 		extern int currentSymbolTableSize;
 		
@@ -25,15 +66,18 @@ character	[a-zA-Z]
 character_constant	"'"{character}"'"
 digit	[0-9]
 number	{digit}+
+real_number {digit}+"."{digit}+
 identifier	{character}({character}|{digit})*
 
 %%
 
 	int l = 1;
+	char * ptr;
 
 {white_space}	;
 {character_constant}	VALUE_C(Constant, CHARACTER_CONSTANT)
-{number}	VALUE_N(Constant, NUMBER)
+{number}	VALUE_D(Constant, NUMBER)
+{real_number}	VALUE_F(Constant, REAL_NUMBER)
 
 ":"	TOKEN(Separator, COLON)
 "."	TOKEN(Separator, FULL_STOP)

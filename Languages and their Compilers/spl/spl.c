@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int yyparse(void);
 
@@ -12,7 +13,8 @@ int main(void)
 	return(yyparse());
 }
 
-void yyerror(char *s)
+void yyerror(char * error)
 {
-	fprintf(stderr, "Error : Exiting %s\n", s);
+	fprintf(stderr, "Error %s: Exiting\n", error);
+	exit(0);
 }
