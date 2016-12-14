@@ -9,7 +9,7 @@ Introduction
 
 The files in this directory are supplied as deliverables for the 08348 (Languages and their Compilers) Assessed
 Coursework.
-This includes a compiler written to compile SPL into C and tests which can be performed upon the compiler.
+This includes a compiler written to compile SPL into ANSI C and tests which can be performed upon the compiler.
 
 
 Inventory
@@ -72,6 +72,22 @@ runOptimisedTests2.bat		-- This builds the full compiler with optimisations and 
 runFoldingTest.bat		-- This builds the full compiler with optimisations and attempts to execute 
 				-- foldingTest.spl with it
 
+a-output.txt		--This is the output from the compiler when it is run against test a
+b-output.txt		--This is the output from the compiler when it is run against test b
+c-output.txt		--This is the output from the compiler when it is run against test c
+d-output.txt		--This is the output from the compiler when it is run against test d
+e-output.txt		--This is the output from the compiler when it is run against test e
+
+483446-tokens.txt		--This contains the tokens output from the lexer when acting upon tests a through
+				-- e
+483446-parse.txt		--This contains the results from all previous output files plus the output from the
+				-- parser when acting upon tests a through e
+483446-tree.txt			--This contains the results from all previous output files plus the output from the
+				-- parser when acting upon tests a through e while in debug mode
+483446-code.txt			--This contains the results from all previous output files plus the output from the
+				-- compiler when acting upon tests a through e
+483446-results.txt		--These are the results of tests conducted upon the compiler
+
 
 Options
 -------
@@ -103,4 +119,11 @@ compiler with its optimisation included.
 The optimisation which has been included is constant folding which should assimilate large expressions into smaller
 expressions or constants at compile time.
 This should speed real time execution up dramatically and reduce memory usage.
+
+
+Test Results
+------------
+
+All other text files contained within this directory are test results which can be used to evaluate the
+effectiveness of the compiler
 
