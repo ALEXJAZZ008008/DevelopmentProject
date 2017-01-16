@@ -2,5 +2,6 @@ C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServe
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.exe.config
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.exe
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.pdb
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.csprojResolveAssemblyReference.cache
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.exe
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.pdb

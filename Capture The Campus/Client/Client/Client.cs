@@ -15,7 +15,6 @@ namespace Client
         //These are used to store the variables that will bypassed from the client to the server
         private static string username;
         private static string location;
-        private static string optionalHeaderLines = string.Empty;
 
         public string Input(string[] args)
         {
