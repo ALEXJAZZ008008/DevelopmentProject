@@ -10,3 +10,9 @@ Z:\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Debug\TC
 Z:\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Debug\TCPServer.pdb
 Z:\Development Project\Capture the Campus Template++\Game\TCPServer\obj\Debug\TCPServer.exe
 Z:\Development Project\Capture the Campus Template++\Game\TCPServer\obj\Debug\TCPServer.pdb
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Debug\TCPServer.exe.config
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Debug\TCPServer.exe
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Debug\TCPServer.pdb
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\TCPServer\obj\Debug\TCPServer.exe
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\TCPServer\obj\Debug\TCPServer.pdb
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Debug\TCPServer.cs

@@ -15,3 +15,9 @@ Z:\Development Project\Capture the Campus Template++\Game\UDPServer\bin\Debug\UD
 Z:\Development Project\Capture the Campus Template++\Game\UDPServer\bin\Debug\UDPServer.pdb
 Z:\Development Project\Capture the Campus Template++\Game\UDPServer\obj\Debug\UDPServer.exe
 Z:\Development Project\Capture the Campus Template++\Game\UDPServer\obj\Debug\UDPServer.pdb
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\UDPServer\bin\Debug\UDPServer.exe.config
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\UDPServer\bin\Debug\UDPServer.exe
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\UDPServer\bin\Debug\UDPServer.pdb
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\UDPServer\obj\Debug\UDPServer.exe
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\UDPServer\obj\Debug\UDPServer.pdb
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\UDPServer\bin\Debug\UDPServer.cs
