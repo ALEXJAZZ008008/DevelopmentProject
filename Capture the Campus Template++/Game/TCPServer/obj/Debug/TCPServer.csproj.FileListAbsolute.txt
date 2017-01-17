@@ -16,3 +16,5 @@ C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\TCPServer\obj\Debug\TCPServer.exe
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\TCPServer\obj\Debug\TCPServer.pdb
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Debug\TCPServer.cs
+Z:\Development Project\Capture the Campus Template++\Game\TCPServer\bin\Debug\TCPServer.cs
+Z:\Development Project\Capture the Campus Template++\Game\TCPServer\obj\Debug\TCPServer.csprojResolveAssemblyReference.cache
