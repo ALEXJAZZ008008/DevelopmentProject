@@ -5,3 +5,10 @@ C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServe
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.csprojResolveAssemblyReference.cache
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.exe
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.pdb
+Z:\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.cs
+Z:\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.exe.config
+Z:\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.exe
+Z:\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.pdb
+Z:\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.csprojResolveAssemblyReference.cache
+Z:\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.exe
+Z:\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.pdb
