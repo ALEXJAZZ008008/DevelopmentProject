@@ -71,3 +71,5 @@ C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\Watchdog\obj\Debug\Watchdog.pdb
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\Watchdog\bin\Debug\Client.cs
 C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture the Campus Template++\Game\Watchdog\bin\Debug\Watchdog.cs
+Z:\Development Project\Capture the Campus Template++\Game\Watchdog\bin\Debug\Client.cs
+Z:\Development Project\Capture the Campus Template++\Game\Watchdog\bin\Debug\Watchdog.cs

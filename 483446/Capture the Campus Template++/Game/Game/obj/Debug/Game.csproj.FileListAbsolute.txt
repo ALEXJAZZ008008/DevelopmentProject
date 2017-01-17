@@ -67,3 +67,4 @@ Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Debug\Game.pd
 Z:\Development Project\Capture the Campus Template++\Game\Game\bin\Debug\OpenTK.dll
 Z:\Development Project\Capture the Campus Template++\Game\Game\obj\Debug\Game.exe
 Z:\Development Project\Capture the Campus Template++\Game\Game\obj\Debug\Game.pdb
+Z:\Development Project\Capture the Campus Template++\Game\Game\obj\Debug\Game.csprojResolveAssemblyReference.cache
