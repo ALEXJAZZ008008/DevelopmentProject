@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace UDPServer
 {
-    public class UDPServer
+    class UDPServer
     {
         public static void Main()
         {
