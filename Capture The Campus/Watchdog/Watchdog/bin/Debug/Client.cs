@@ -21,22 +21,14 @@ namespace Watchdog
             //These are used to store variables used to verify the arguments given to the client
             int noOfArgs = 0;
             bool argBool = false;
-            char serverType = 'N';
 
             //This calls the method used to verify the arguments given
-            FromUser(args, ref noOfArgs, ref argBool, ref serverType);
+            FromUser(args, ref noOfArgs, ref argBool);
 
             //If the arguments given are valid this calls the method which updates the server
-            if (argBool && serverType != 'N')
+            if (argBool)
             {
-                if (serverType == 'u')
-                {
-                    return ToUDPServer();
-                }
-                else
-                {
-                    return ToTCPServer(args, ref noOfArgs);
-                }
+                return ToTCPServer(args, ref noOfArgs);
             }
             else
             {
@@ -44,7 +36,7 @@ namespace Watchdog
             }
         }
 
-        private static void FromUser(string[] args, ref int noOfArgs, ref bool argBool, ref char serverType)
+        private static void FromUser(string[] args, ref int noOfArgs, ref bool argBool)
         {
             //If there are no arguments the program doesn't bother to execute any further code
             if (args.Length != 0)
@@ -62,40 +54,6 @@ namespace Watchdog
                 {
                     switch (args[i])
                     {
-                        #region U
-
-                        //This is triggered when the port is to be changed
-                        case "-u":
-                            serverType = 'u';
-
-                            //This tracks the number of arguments
-                            noOfArgs++;
-
-                            //This is used to break out of the enclosing while loop
-                            i++;
-
-                            //This breaks out of the case
-                            break;
-
-                        #endregion
-
-                        #region T
-
-                        //This is triggered when the port is to be changed
-                        case "-t":
-                            serverType = 't';
-
-                            //This tracks the number of arguments
-                            noOfArgs++;
-
-                            //This is used to break out of the enclosing while loop
-                            i++;
-
-                            //This breaks out of the case
-                            break;
-
-                        #endregion
-
                         #region H
 
                         //This is triggured when the IP address is to be changed
@@ -257,45 +215,6 @@ namespace Watchdog
                 Console.WriteLine("ERROR: No arguments given.");
 #endif
             }
-        }
-
-        private static string ToUDPServer()
-        {
-            const int listnerPort = 11000;
-            string toOutput = "ERROR: incorrect key";
-            string received = string.Empty;
-
-            try
-            {
-                UdpClient listener = new UdpClient(listnerPort);
-                IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listnerPort);
-
-#if DEBUG
-                Console.Write("Waiting for broadcast... ");
-#endif
-
-                listener.Client.ReceiveTimeout = 3000;
-                byte[] bytes = listener.Receive(ref groupEP);
-                received = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
-
-#if DEBUG
-                Console.Write("Received broadcast from " + groupEP.ToString().Split(':')[0] + ": " + received);
-#endif
-
-                if (received == "Capture the Campus!")
-                {
-                    toOutput = groupEP.ToString().Split(':')[0];
-                }
-            }
-            catch (Exception ex)
-            {
-                //This prints to the screen an error message
-                toOutput = "ERROR: " + ex.ToString();
-            }
-
-            Console.WriteLine("\r\n" + "\r\n");
-
-            return toOutput;
         }
 
         private static string ToTCPServer(string[] args, ref int noOfArgs)
