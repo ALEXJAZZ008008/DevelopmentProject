@@ -22,6 +22,14 @@ namespace Client
             {
                 string[] args = Console.ReadLine().Split(new char[] { ' ' });
                 Console.WriteLine(Input(args));
+
+                ipAddress = "localhost";
+                port = 43;
+
+                username = string.Empty;
+                location = string.Empty;
+
+                args = null;
             }
         }
 
@@ -49,7 +57,7 @@ namespace Client
             }
             else
             {
-                return null;
+                return "ERROR: Invalid Arguments.";
             }
         }
 
@@ -123,9 +131,7 @@ namespace Client
                                 }
                                 catch (Exception ex)
                                 {
-#if DEBUG
                                     Console.WriteLine("ERROR: " + ex.ToString());
-#endif
 
                                     //This tracks the number of arguments
                                     noOfArgs++;
@@ -163,9 +169,7 @@ namespace Client
                                 }
                                 catch (Exception ex)
                                 {
-#if DEBUG
                                     Console.WriteLine("ERROR: " + ex.ToString());
-#endif
 
                                     //This tracks the number of arguments
                                     noOfArgs++;
@@ -207,9 +211,7 @@ namespace Client
                                     {
                                         argBool = false;
 
-#if DEBUG
                                         Console.WriteLine("ERROR: Invalid arguments.");
-#endif
 
                                         //This breaks out of the case
                                         break;
@@ -221,9 +223,7 @@ namespace Client
                                 {
                                     argBool = false;
 
-#if DEBUG
                                     Console.WriteLine("ERROR: Invalid arguments.");
-#endif
 
                                     //This breaks out of the case
                                     break;
@@ -261,10 +261,8 @@ namespace Client
             }
             else
             {
-#if DEBUG
                 //This prints to the screen an error message
                 Console.WriteLine("ERROR: No arguments given.");
-#endif
             }
         }
 
@@ -279,30 +277,26 @@ namespace Client
                 UdpClient listener = new UdpClient(listnerPort);
                 IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listnerPort);
 
-#if DEBUG
                 Console.Write("Waiting for broadcast... ");
-#endif
 
                 listener.Client.ReceiveTimeout = 3000;
                 byte[] bytes = listener.Receive(ref groupEP);
                 received = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
 
-#if DEBUG
                 Console.Write("Received broadcast from " + groupEP.ToString().Split(':')[0] + ": " + received);
-#endif
 
                 if (received == "Capture the Campus!")
                 {
                     toOutput = groupEP.ToString().Split(':')[0];
                 }
+
+                listener.Close();
             }
             catch (Exception ex)
             {
                 //This prints to the screen an error message
                 toOutput = "ERROR: " + ex.ToString();
             }
-
-            Console.WriteLine("\r\n" + "\r\n");
 
             return toOutput;
         }
@@ -412,10 +406,8 @@ namespace Client
                 toOutput = "ERROR: " + ex.ToString();
             }
 
-#if DEBUG
             //This prints the server response to the screen
             Console.WriteLine(toOutput);
-#endif
 
             return toOutput;
         }
