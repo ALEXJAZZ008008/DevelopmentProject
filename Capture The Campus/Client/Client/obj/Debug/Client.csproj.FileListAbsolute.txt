@@ -2,6 +2,5 @@ Z:\Development Project\Capture The Campus\Client\Client\bin\Debug\Client.cs
 Z:\Development Project\Capture The Campus\Client\Client\bin\Debug\Client.exe.config
 Z:\Development Project\Capture The Campus\Client\Client\bin\Debug\Client.exe
 Z:\Development Project\Capture The Campus\Client\Client\bin\Debug\Client.pdb
-Z:\Development Project\Capture The Campus\Client\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
 Z:\Development Project\Capture The Campus\Client\Client\obj\Debug\Client.exe
 Z:\Development Project\Capture The Campus\Client\Client\obj\Debug\Client.pdb
