@@ -401,9 +401,6 @@ namespace Client
                 toOutput = "ERROR: " + ex.ToString();
             }
 
-            //This prints the server response to the screen
-            Console.WriteLine(toOutput);
-
             return toOutput;
         }
     }

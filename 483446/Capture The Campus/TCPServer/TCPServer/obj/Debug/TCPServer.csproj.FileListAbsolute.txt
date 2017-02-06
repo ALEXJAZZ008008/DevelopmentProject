@@ -4,3 +4,4 @@ Z:\Development Project\Capture The Campus\TCPServer\TCPServer\bin\Debug\TCPServe
 Z:\Development Project\Capture The Campus\TCPServer\TCPServer\bin\Debug\TCPServer.pdb
 Z:\Development Project\Capture The Campus\TCPServer\TCPServer\obj\Debug\TCPServer.exe
 Z:\Development Project\Capture The Campus\TCPServer\TCPServer\obj\Debug\TCPServer.pdb
+Z:\Development Project\Capture The Campus\TCPServer\TCPServer\obj\Debug\TCPServer.csprojResolveAssemblyReference.cache

@@ -5,3 +5,4 @@ Z:\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.e
 Z:\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.pdb
 Z:\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.exe
 Z:\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.pdb
+Z:\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.csprojResolveAssemblyReference.cache
