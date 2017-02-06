@@ -286,14 +286,14 @@ namespace CaptureTheCampus
                 {
                     toOutput = groupEP.ToString().Split(':')[0];
                 }
+
+                listener.Close();
             }
             catch (Exception ex)
             {
                 //This prints to the screen an error message
                 toOutput = "ERROR: " + ex.ToString();
             }
-
-            Console.WriteLine("\r\n" + "\r\n");
 
             return toOutput;
         }

@@ -1,11 +1,3 @@
-C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Client.cs
-C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.cs
-C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.exe.config
-C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.exe
-C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.pdb
-C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.csprojResolveAssemblyReference.cache
-C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.exe
-C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.pdb
 Z:\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Client.cs
 Z:\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.cs
 Z:\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.exe.config
