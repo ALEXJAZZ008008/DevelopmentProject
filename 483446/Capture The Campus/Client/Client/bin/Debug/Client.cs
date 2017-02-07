@@ -278,7 +278,7 @@ namespace Client
                 byte[] bytes = listener.Receive(ref groupEP);
                 received = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
 
-                Console.Write("Received broadcast from " + groupEP.ToString().Split(':')[0] + ": " + received);
+                Console.Write("Received broadcast from " + groupEP.ToString().Split(':')[0] + ": " + received + ": ");
 
                 if (received == "Capture the Campus!")
                 {
@@ -312,7 +312,7 @@ namespace Client
                 serverOutput = true;
 
                 //This addes things to be outputted to the screen
-                toOutput = username + " is ";
+                toOutput = username + ": ";
 
                 //This sets the string to query the server
                 toInput = username;
@@ -324,14 +324,14 @@ namespace Client
                 if (args.Length - noOfArgs == 2)
                 {
                     //This addes things to be outputted to the screen
-                    toOutput = username + " location changed to be " + location + "\r\n" + "\r\n";
+                    toOutput = username + ": " + location;
 
                     //This sets the string to query the server
                     toInput = username + " " + location;
                 }
                 else
                 {
-                    toOutput = "ERROR: arguments invalid" + "\r\n" + "\r\n";
+                    toOutput = "ERROR: arguments invalid";
                 }
             }
 
@@ -374,7 +374,7 @@ namespace Client
                             string nextLine = streamReader.ReadLine();
 
                             //This adds it to the variable to be printed to the screen
-                            toOutput = toOutput + nextLine + "\r\n";
+                            toOutput = toOutput + nextLine;
 
                             //This is used to ensure a stack overflow is not caused
                             if (nextLine == null)
