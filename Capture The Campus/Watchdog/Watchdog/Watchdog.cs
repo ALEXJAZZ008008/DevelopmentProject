@@ -29,7 +29,7 @@ namespace Watchdog
                 UDPServer.StartInfo.FileName = myDocumentsPathSplit[0] + @"UDPServer\\UDPServer\\bin\\Debug\\UDPServer.exe";
                 TCPServer.StartInfo.FileName = myDocumentsPathSplit[0] + @"TCPServer\\TCPServer\\bin\\Debug\\TCPServer.exe";
 #else
-                string[] myDocumentsPathSplit = Regex.Split(myDocumentsPath, @"Game\\bin\\Release");
+                string[] myDocumentsPathSplit = Regex.Split(myDocumentsPath, @"Watchdog\\Watchdog\\bin\\Release");
                 
                 UDPServer.StartInfo.FileName = myDocumentsPathSplit[0] + @"UDPServer\\UDPServer\\bin\\Release\\UDPServer.exe";
                 TCPServer.StartInfo.FileName = myDocumentsPathSplit[0] + @"TCPServer\\TCPServer\\bin\\Release\\TCPServer.exe";
@@ -53,9 +53,9 @@ namespace Watchdog
                 }
             }
 
-            client.Input(new string[] { "-h", "localhost", "dateTime", (DateTime.Now + TimeSpan.FromMilliseconds(10000)).ToString() });
+            client.Input(new string[] { "dateTime", (DateTime.Now + TimeSpan.FromMilliseconds(10000)).ToString() });
 
-            DateTime serverDateTime = DateTime.Parse(Regex.Split(client.Input(new string[] { "-h", "localhost", "dateTime" }), " is ")[1]);
+            DateTime serverDateTime = DateTime.Parse(Regex.Split(client.Input(new string[] { "dateTime" }), ": ")[1]);
 
             while (serverDateTime >= DateTime.Now)
             {
@@ -63,7 +63,7 @@ namespace Watchdog
 
                 try
                 {
-                    serverDateTime = DateTime.Parse(Regex.Split(client.Input(new string[] { "-h", "localhost", "dateTime" }), " is ")[1]);
+                    serverDateTime = DateTime.Parse(Regex.Split(client.Input(new string[] { "dateTime" }), ": ")[1]);
                 }
                 catch
                 {

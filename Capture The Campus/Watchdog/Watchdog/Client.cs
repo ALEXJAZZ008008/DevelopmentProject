@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
-using System.Net;
 using System.Net.Sockets;
 
 namespace Watchdog
@@ -52,154 +50,61 @@ namespace Watchdog
                 //This ensures the correct number of arguments are initialized
                 while (i < args.Length)
                 {
-                    switch (args[i])
+                    //This tests to see if a user name has already been set
+                    if (usernameBool == true)
                     {
-                        #region H
+                        //This sets the location
+                        location = args[i];
 
-                        //This is triggured when the IP address is to be changed
-                        case "-h":
+                        //This ensures the program does not crash by executing the following lines on a empty string
+                        if (location != string.Empty)
+                        {
+                            //This removes all black space from the beginning and end of the location before putting it into an array of its characters
+                            char[] locationCharArray = location.Trim().ToCharArray();
 
-                            //This ensures that there is an IP address to set
-                            if (i + 2 <= args.Length)
+                            //if the location begins with a / the location is made invalid so as not to interfere with future code
+                            if ((locationCharArray[0] == '/'))
                             {
-                                try
-                                {
-                                    //This sets the IP address
-                                    ipAddress = args[i + 1];
+                                argBool = false;
 
-                                    //This tracks the number of arguments
-                                    noOfArgs = noOfArgs + 2;
-                                }
-                                catch (Exception ex)
-                                {
 #if DEBUG
-                                    Console.WriteLine("ERROR: " + ex.ToString());
+                                Console.WriteLine("ERROR: Invalid arguments.");
 #endif
 
-                                    //This tracks the number of arguments
-                                    noOfArgs++;
-                                }
+                                //This breaks out of the case
+                                break;
                             }
-                            else
-                            {
-                                //This tracks the number of arguments
-                                noOfArgs++;
-                            }
+                        }
 
-                            //This is used to break out of the enclosing while loop
-                            i = i + 2;
+                        //If the location is already set that must mean that an invalid set of arguments has been entered as the last argument will always be the location thus this portion of code will exit the program under these circumstances
+                        if (locationBool == true)
+                        {
+                            argBool = false;
+
+#if DEBUG
+                            Console.WriteLine("ERROR: Invalid arguments.");
+#endif
 
                             //This breaks out of the case
                             break;
-
-                        #endregion
-
-                        #region P
-
-                        //This is triggered when the port is to be changed
-                        case "-p":
-
-                            //This ensures that there is an IP address to set
-                            if (i + 2 <= args.Length)
-                            {
-                                try
-                                {
-                                    //This sets the port
-                                    port = int.Parse(args[i + 1]);
-
-                                    //This tracks the number of arguments
-                                    noOfArgs = noOfArgs + 2;
-                                }
-                                catch (Exception ex)
-                                {
-#if DEBUG
-                                    Console.WriteLine("ERROR: " + ex.ToString());
-#endif
-
-                                    //This tracks the number of arguments
-                                    noOfArgs++;
-                                }
-                            }
-                            else
-                            {
-                                //This tracks the number of arguments
-                                noOfArgs++;
-                            }
-
-                            //This is used to break out of the enclosing while loop
-                            i = i + 2;
-
-                            //This breaks out of the case
-                            break;
-
-                        #endregion
-
-                        #region Default
-
-                        //This is the default case to be called whenever the argument doesn't match one of the other cases
-                        default:
-
-                            //This tests to see if a user name has already been set
-                            if (usernameBool == true)
-                            {
-                                //This sets the location
-                                location = args[i];
-
-                                //This ensures the program does not crash by executing the following lines on a empty string
-                                if (location != string.Empty)
-                                {
-                                    //This removes all black space from the beginning and end of the location before putting it into an array of its characters
-                                    char[] locationCharArray = location.Trim().ToCharArray();
-
-                                    //if the location begins with a / the location is made invalid so as not to interfere with future code
-                                    if ((locationCharArray[0] == '/'))
-                                    {
-                                        argBool = false;
-
-#if DEBUG
-                                        Console.WriteLine("ERROR: Invalid arguments.");
-#endif
-
-                                        //This breaks out of the case
-                                        break;
-                                    }
-                                }
-
-                                //If the location is already set that must mean that an invalid set of arguments has been entered as the last argument will always be the location thus this portion of code will exit the program under these circumstances
-                                if (locationBool == true)
-                                {
-                                    argBool = false;
-
-#if DEBUG
-                                    Console.WriteLine("ERROR: Invalid arguments.");
-#endif
-
-                                    //This breaks out of the case
-                                    break;
-                                }
-                                else
-                                {
-                                    //This is a boolean to track the status of the location
-                                    locationBool = true;
-                                }
-                            }
-                            else
-                            {
-                                //This sets the user name
-                                username = args[i];
-
-                                //This is a boolean to track the status of the user name
-                                usernameBool = true;
-                            }
-
-                            //This is used to break out of the enclosing while loop
-                            i++;
-
-                            //This breaks out of the case
-                            break;
-
-                            #endregion
+                        }
+                        else
+                        {
+                            //This is a boolean to track the status of the location
+                            locationBool = true;
+                        }
                     }
+                    else
+                    {
+                        //This sets the user name
+                        username = args[i];
+
+                        //This is a boolean to track the status of the user name
+                        usernameBool = true;
+                    }
+
+                    //This is used to break out of the enclosing while loop
+                    i++;
 
                     //This breaks out of the while loop if the arguments given are invalid
                     if (!argBool)
@@ -233,7 +138,7 @@ namespace Watchdog
                 serverOutput = true;
 
                 //This addes things to be outputted to the screen
-                toOutput = username + " is ";
+                toOutput = username + ": ";
 
                 //This sets the string to query the server
                 toInput = username;
@@ -245,14 +150,14 @@ namespace Watchdog
                 if (args.Length - noOfArgs == 2)
                 {
                     //This addes things to be outputted to the screen
-                    toOutput = username + " location changed to be " + location + "\r\n" + "\r\n";
+                    toOutput = username + " location changed to be " + location;
 
                     //This sets the string to query the server
                     toInput = username + " " + location;
                 }
                 else
                 {
-                    toOutput = "ERROR: arguments invalid" + "\r\n" + "\r\n";
+                    toOutput = "ERROR: arguments invalid";
                 }
             }
 
@@ -295,7 +200,7 @@ namespace Watchdog
                             string nextLine = streamReader.ReadLine();
 
                             //This adds it to the variable to be printed to the screen
-                            toOutput = toOutput + nextLine + "\r\n";
+                            toOutput = toOutput + nextLine;
 
                             //This is used to ensure a stack overflow is not caused
                             if (nextLine == null)
