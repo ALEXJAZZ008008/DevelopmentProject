@@ -4,3 +4,9 @@ Z:\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServe
 Z:\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.pdb
 Z:\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.exe
 Z:\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.pdb
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.cs
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.exe.config
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.exe
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\UDPServer\UDPServer\bin\Debug\UDPServer.pdb
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.exe
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\UDPServer\UDPServer\obj\Debug\UDPServer.pdb
