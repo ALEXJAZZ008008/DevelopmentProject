@@ -4,3 +4,9 @@ Z:\Development Project\Capture The Campus\Client\Client\bin\Debug\Client.exe
 Z:\Development Project\Capture The Campus\Client\Client\bin\Debug\Client.pdb
 Z:\Development Project\Capture The Campus\Client\Client\obj\Debug\Client.exe
 Z:\Development Project\Capture The Campus\Client\Client\obj\Debug\Client.pdb
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Client\Client\bin\Debug\Client.cs
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Client\Client\bin\Debug\Client.exe.config
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Client\Client\bin\Debug\Client.exe
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Client\Client\bin\Debug\Client.pdb
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Client\Client\obj\Debug\Client.exe
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Client\Client\obj\Debug\Client.pdb

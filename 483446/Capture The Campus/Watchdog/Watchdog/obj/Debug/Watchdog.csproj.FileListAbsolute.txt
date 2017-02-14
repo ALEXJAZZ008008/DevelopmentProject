@@ -6,3 +6,13 @@ Z:\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.p
 Z:\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.exe
 Z:\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.pdb
 Z:\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.csprojResolveAssemblyReference.cache
+C:\Users\483446\Documents\483446\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.exe.config
+C:\Users\483446\Documents\483446\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.exe
+C:\Users\483446\Documents\483446\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.pdb
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Client.cs
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.cs
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.exe.config
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.exe
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Watchdog\Watchdog\bin\Debug\Watchdog.pdb
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.exe
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\Watchdog\Watchdog\obj\Debug\Watchdog.pdb
