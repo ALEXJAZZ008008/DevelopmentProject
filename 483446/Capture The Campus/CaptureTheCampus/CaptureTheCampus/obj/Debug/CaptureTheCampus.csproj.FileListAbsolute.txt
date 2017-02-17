@@ -43,5 +43,8 @@ C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureT
 C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\assets\System.ServiceModel.Internals.dll.mdb
 C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\assets\System.Xml.dll.mdb
 C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\assets\System.Xml.Linq.dll.mdb
-C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureTheCampus\CaptureTheCampus\obj\Debug\CaptureTheCampus.dll.mdb
-C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureTheCampus\CaptureTheCampus\bin\Debug\CaptureTheCampus.dll.mdb
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.GooglePlayServices.Location.dll
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.Build.Download.dll
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureTheCampus\CaptureTheCampus\bin\Debug\Mono.Cecil.dll
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureTheCampus\CaptureTheCampus\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\483446\Documents\483446\Development Project\Capture The Campus\CaptureTheCampus\CaptureTheCampus\bin\Debug\Newtonsoft.Json.dll

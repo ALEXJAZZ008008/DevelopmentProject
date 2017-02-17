@@ -1,0 +1,13 @@
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\TCPServer\TCPServer\bin\Debug\TCPServer.cs
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\TCPServer\TCPServer\bin\Debug\TCPServer.exe.config
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\TCPServer\TCPServer\bin\Debug\TCPServer.exe
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\TCPServer\TCPServer\bin\Debug\TCPServer.pdb
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\TCPServer\TCPServer\obj\Debug\TCPServer.csprojResolveAssemblyReference.cache
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\TCPServer\TCPServer\obj\Debug\TCPServer.exe
+C:\Users\Alex\Desktop\Uni\Year 3\Development Project\Capture The Campus\TCPServer\TCPServer\obj\Debug\TCPServer.pdb
+Z:\Development Project\Capture The Campus\TCPServer\TCPServer\bin\Debug\TCPServer.cs
+Z:\Development Project\Capture The Campus\TCPServer\TCPServer\bin\Debug\TCPServer.exe.config
+Z:\Development Project\Capture The Campus\TCPServer\TCPServer\bin\Debug\TCPServer.exe
+Z:\Development Project\Capture The Campus\TCPServer\TCPServer\bin\Debug\TCPServer.pdb
+Z:\Development Project\Capture The Campus\TCPServer\TCPServer\obj\Debug\TCPServer.exe
+Z:\Development Project\Capture The Campus\TCPServer\TCPServer\obj\Debug\TCPServer.pdb
