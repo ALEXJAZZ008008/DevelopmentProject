@@ -1,0 +1,35 @@
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Capture The Campus!.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Capture The Campus!.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\CaptureTheCampus.CaptureTheCampus.apk
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\CaptureTheCampus.CaptureTheCampus-Signed.apk
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.Android.Support.Compat.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.Android.Support.Core.UI.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.Android.Support.Core.Utils.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.Android.Support.Fragment.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.Android.Support.Media.Compat.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.Android.Support.v4.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.GooglePlayServices.Base.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.GooglePlayServices.Basement.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.GooglePlayServices.Maps.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.GooglePlayServices.Tasks.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.Android.Support.Compat.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.Android.Support.Core.UI.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.Android.Support.Core.Utils.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.Android.Support.Media.Compat.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.Android.Support.Fragment.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.Android.Support.v4.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.GooglePlayServices.Basement.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.GooglePlayServices.Tasks.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.GooglePlayServices.Base.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.GooglePlayServices.Maps.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\Capture The Campus!.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\Capture The Campus!.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\bin\CaptureTheCampus.CaptureTheCampus.apk
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\res\layout\main.xml
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\res\values\strings.xml
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\res\drawable\icon.png
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\res\layout\map.xml
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\R.cs.flag
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\uploadflags.txt
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\Capture The Campus!.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Capture The Campus!.dll.mdb

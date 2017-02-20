@@ -1,0 +1,5 @@
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\UDPServer\bin\Debug\UDPServer.exe.config
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\UDPServer\bin\Debug\UDPServer.exe
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\UDPServer\bin\Debug\UDPServer.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\UDPServer\obj\Debug\UDPServer.exe
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\UDPServer\obj\Debug\UDPServer.pdb

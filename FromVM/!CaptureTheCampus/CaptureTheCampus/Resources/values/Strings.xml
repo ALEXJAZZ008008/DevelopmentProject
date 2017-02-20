@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="API_KEY">AIzaSyAX4PVdiRDzNyaefthnpnjxw-WX6oUKCaE</string>
+    <string name="MainActivityName">Capture The Campus!</string>
+    <string name="MapActivityName">Map</string>
+</resources>
