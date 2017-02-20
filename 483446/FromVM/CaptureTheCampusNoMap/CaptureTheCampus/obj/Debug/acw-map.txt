@@ -1,0 +1,8 @@
+CaptureTheCampus.MapActivity, CaptureTheCampus;md5372bcbfcb56d8e073f752db8da61fded.MapActivity
+CaptureTheCampus.MapActivity, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5372bcbfcb56d8e073f752db8da61fded.MapActivity
+CaptureTheCampus.MapActivity;md5372bcbfcb56d8e073f752db8da61fded.MapActivity
+capturethecampus.MapActivity;md5372bcbfcb56d8e073f752db8da61fded.MapActivity
+CaptureTheCampus.MainActivity, CaptureTheCampus;md5372bcbfcb56d8e073f752db8da61fded.MainActivity
+CaptureTheCampus.MainActivity, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5372bcbfcb56d8e073f752db8da61fded.MainActivity
+CaptureTheCampus.MainActivity;md5372bcbfcb56d8e073f752db8da61fded.MainActivity
+capturethecampus.MainActivity;md5372bcbfcb56d8e073f752db8da61fded.MainActivity
