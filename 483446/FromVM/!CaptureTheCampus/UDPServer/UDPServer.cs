@@ -2,7 +2,6 @@
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 
 namespace UDPServer
 {
@@ -31,8 +30,6 @@ namespace UDPServer
 #endif
 
                     broadcaster.Send(bytes, bytes.Length, groupEP);
-
-                    Thread.Sleep(1000);
                 }
 
             }

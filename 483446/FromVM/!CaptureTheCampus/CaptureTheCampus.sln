@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPServer", "UDPServer\UDPS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watchdog", "Watchdog\Watchdog.csproj", "{ED1FEE3B-2794-46A0-839A-78539D504AB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaptureTheCampus", "CaptureTheCampus\CaptureTheCampus.csproj", "{32D032AF-C718-4299-948C-8C90599AE722}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,30 +87,6 @@ Global
 		{ED1FEE3B-2794-46A0-839A-78539D504AB0}.Release|x64.Build.0 = Release|Any CPU
 		{ED1FEE3B-2794-46A0-839A-78539D504AB0}.Release|x86.ActiveCfg = Release|Any CPU
 		{ED1FEE3B-2794-46A0-839A-78539D504AB0}.Release|x86.Build.0 = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|ARM.Build.0 = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|ARM.Deploy.0 = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|x64.Build.0 = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|x64.Deploy.0 = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|x86.Build.0 = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Debug|x86.Deploy.0 = Debug|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|ARM.ActiveCfg = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|ARM.Build.0 = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|ARM.Deploy.0 = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|x64.ActiveCfg = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|x64.Build.0 = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|x64.Deploy.0 = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|x86.ActiveCfg = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|x86.Build.0 = Release|Any CPU
-		{32D032AF-C718-4299-948C-8C90599AE722}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

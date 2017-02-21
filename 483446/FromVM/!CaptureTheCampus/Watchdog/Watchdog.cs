@@ -1,9 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Diagnostics;
-using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Watchdog
 {
@@ -11,57 +9,18 @@ namespace Watchdog
     {
         public void Output(bool Standalone)
         {
-            Process TCPServer = new Process();
+            TCPServer.TCPServer tcpServer = new TCPServer.TCPServer();
 
-            int ERROR_FILE_NOT_FOUND = 2;
-            int ERROR_ACCESS_DENIED = 5;
+            var tokenSource = new CancellationTokenSource();
+            CancellationToken ct = tokenSource.Token;
 
-            try
-            {
-                // Get the path that stores user documents.
-                string myDocumentsPath = Directory.GetCurrentDirectory();
 
-                if (Standalone)
-                {
-#if DEBUG
-                    string[] myDocumentsPathSplit = Regex.Split(myDocumentsPath, @"Watchdog\\bin\\Debug");
-
-                    TCPServer.StartInfo.FileName = myDocumentsPathSplit[0] + @"TCPServer\\bin\\Debug\\TCPServer.exe";
-#else
-                    string[] myDocumentsPathSplit = Regex.Split(myDocumentsPath, @"Watchdog\\bin\\Release");
-                    
-                    TCPServer.StartInfo.FileName = myDocumentsPathSplit[0] + @"TCPServer\\bin\\Release\\TCPServer.exe";
-#endif
-                }
-                else
-                {
-                    
-                }
-
-                TCPServer.Start();
-            }
-            catch (Win32Exception e)
-            {
-                if (e.NativeErrorCode == ERROR_FILE_NOT_FOUND)
-                {
-#if DEBUG
-                    Console.WriteLine(e.Message + ". Check the path.");
-#endif
-                }
-                else
-                {
-                    if (e.NativeErrorCode == ERROR_ACCESS_DENIED)
-                    {
-#if DEBUF
-                        Console.WriteLine(e.Message + ". You do not have permission to access this file.");
-#endif
-                    }
-                }
-            }
+            Task tcpServerTask = new Task(() => tcpServer.Input(ct), tokenSource.Token);
+            tcpServerTask.Start();
 
             Input();
 
-            TCPServer.Kill();
+            tokenSource.Cancel();
         }
 
         private static void Input()
@@ -74,7 +33,7 @@ namespace Watchdog
 
             while (serverDateTime >= DateTime.Now)
             {
-                Thread.Sleep(3000);
+                Thread.Sleep(1000);
 
                 try
                 {

@@ -34,6 +34,7 @@ C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTh
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\R.cs.flag
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\uploadflags.txt
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\CaptureTheCampus.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\CaptureTheCampus.csprojResolveAssemblyReference.cache
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Java.Interop.dll.mdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Mono.Android.dll.mdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\mscorlib.dll.mdb

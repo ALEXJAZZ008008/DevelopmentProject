@@ -14,6 +14,7 @@ namespace Client
             while (true)
             {
                 Client client = new Client();
+
 #if DEBUG
                 string[] args = Console.ReadLine().Split(new char[] { ' ' });
                 Console.WriteLine(client.Input(args));
