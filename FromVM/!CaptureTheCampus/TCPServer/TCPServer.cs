@@ -5,34 +5,34 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace TCPServer
 {
-    class TCPServer
+    public class TCPServer
     {
         //This is the dictionary used to store the usernames and associated locations
-        public static Dictionary<string, string> dictionary = new Dictionary<string, string>();
+        public static ConcurrentDictionary<string, string> dictionary = new ConcurrentDictionary<string, string>();
 
         //This is the default file path to the server backup and log
         public static string logPath = "serverLog";
         public static string logPathDirectory = Directory.GetCurrentDirectory() + @"\" + logPath + @"Directory\";
 
-        public static DateTime dateTime;
         public static Mutex loggingMutex = new Mutex();
-        public static Mutex loggingMessageMutex = new Mutex();
         public static string logMessage = string.Empty;
 
-        private static void Main()
+        public void Input(CancellationToken ct)
         {
             //This initializes files for backups etc
             OnServerStartup();
 
-            Loop();
+            Loop(ct);
         }
 
         private static void OnServerStartup()
         {
-            dateTime = DateTime.MinValue;
+            DateTime dateTime = DateTime.MinValue;
 
             if (!Directory.Exists(logPathDirectory))
             {
@@ -113,7 +113,7 @@ namespace TCPServer
                     for (int i = 0; i < dictionaryItems.Count; i += 2)
                     {
                         //This addes all the necessary information to the dictionary
-                        dictionary.Add(dictionaryItems[i], dictionaryItems[i + 1]);
+                        dictionary.TryAdd(dictionaryItems[i], dictionaryItems[i + 1]);
                     }
                 }
             }
@@ -121,9 +121,13 @@ namespace TCPServer
             //This creates the dictionary backup file if it does not exist
             logPath = logPathDirectory + logPath + " " + DateTime.Now.Ticks.ToString() + ".txt";
             File.Create(logPath).Close();
+
+            Logging logging = new Logging();
+
+            Task.Run(() => logging.Log());
         }
 
-        private static void Loop()
+        private static void Loop(CancellationToken ct)
         {
             //This starts a listener
             TcpListener listener = new TcpListener(IPAddress.Any, 43);
@@ -136,6 +140,14 @@ namespace TCPServer
                 //This is the main loop of the program
                 while (true)
                 {
+                    // Poll on this property if you have to do
+                    // other cleanup before throwing.
+                    if (ct.IsCancellationRequested)
+                    {
+                        // Clean up here, then...
+                        ct.ThrowIfCancellationRequested();
+                    }
+
                     //This creates new sockets
                     Socket socket = listener.AcceptSocket();
 
@@ -153,7 +165,6 @@ namespace TCPServer
                 try
                 {
                     loggingMutex.ReleaseMutex();
-                    loggingMessageMutex.ReleaseMutex();
                 }
                 catch
                 {
@@ -169,11 +180,12 @@ namespace TCPServer
             //This initializes a new instance of the Update class
             Update update = new Update();
 
-            //This initializes a new thread with a max memory size of 250Kb and a loction to work of Initialisation in the Update class
-            Thread thread = new Thread(() => update.Initialisation(socket), 1);
+            Task.Run(() => update.Initialisation(socket));
+        }
 
-            //This starts a new thread
-            thread.Start();
+        internal void Input(object cancelationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -67,12 +67,12 @@ namespace TCPServer
             string loggingOutput = string.Empty;
 
             //This splits the input into a array containing the username and location
-            string[] nextLineSectionsWhoIs = nextLine.Split(new char[] { ' ' }, 2);
+            string[] nextLineSections = nextLine.Split(new char[] { ' ' }, 2);
 
             #region Request
 
             //This checks to see if the array contains both a username and location
-            if (nextLineSectionsWhoIs.Length == 1)
+            if (nextLineSections.Length == 1)
             {
                 //This checks to see if the dictionary already containes an instance of the given username
                 if (TCPServer.dictionary.ContainsKey(nextLine))
@@ -97,23 +97,23 @@ namespace TCPServer
             else
             {
                 //This checks to see if the array contains both a username and location
-                if (nextLineSectionsWhoIs.Length == 2)
+                if (nextLineSections.Length == 2)
                 {
                     //This checks to see if the dictionary already containes an instance of the given username
-                    if (TCPServer.dictionary.ContainsKey(nextLineSectionsWhoIs[0]))
+                    if (TCPServer.dictionary.ContainsKey(nextLineSections[0]))
                     {
                         //This adds the location to the dictionary
-                        TCPServer.dictionary[nextLineSectionsWhoIs[0]] = nextLineSectionsWhoIs[1];
+                        TCPServer.dictionary[nextLineSections[0]] = nextLineSections[1];
                     }
                     else
                     {
                         //This adds the username and location to the dictionary
-                        TCPServer.dictionary.Add(nextLineSectionsWhoIs[0], nextLineSectionsWhoIs[1]);
+                        TCPServer.dictionary.TryAdd(nextLineSections[0], nextLineSections[1]);
                     }
 
                     //This is an output to a string
                     output = "OK" + "\r\n";
-                    loggingOutput = nextLineSectionsWhoIs[0] + " " + nextLineSectionsWhoIs[1];
+                    loggingOutput = nextLineSections[0] + " " + nextLineSections[1];
                 }
                 else
                 {
@@ -130,10 +130,8 @@ namespace TCPServer
             streamWriter.Flush();
             streamWriter.Close();
 
-            //This creates a new instance of the Logging class
             Logging logging = new Logging();
 
-            //This runs the logging scripts
             logging.ToLog(loggingOutput, ipAddress);
         }
     }

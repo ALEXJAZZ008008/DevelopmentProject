@@ -55,6 +55,10 @@
       <Project>{b983c850-a008-4a17-8de4-1a96201f0438}</Project>
       <Name>Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TCPServer\TCPServer.csproj">
+      <Project>{07502d4f-382a-4723-97fc-0032e10d07aa}</Project>
+      <Name>TCPServer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
