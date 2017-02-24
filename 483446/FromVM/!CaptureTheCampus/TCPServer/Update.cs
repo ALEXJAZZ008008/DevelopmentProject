@@ -10,32 +10,32 @@ namespace TCPServer
         public void Initialisation(Socket socket)
         {
             //This opens a new network stream on the given socket
-            NetworkStream networkStream = new NetworkStream(socket);
-
-            //This acquires the IP address of the host
-            string ipAddress = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString();
-
-            #region ToUpdateDictionary
-
-            try
+            using (NetworkStream networkStream = new NetworkStream(socket))
             {
-                //This calls the update protocol method
-                ToUpdateDictionary(networkStream, ipAddress);
-            }
-            catch (Exception ex)
-            {
+                //This acquires the IP address of the host
+                string ipAddress = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString();
+
+                #region ToUpdateDictionary
+
+                try
+                {
+                    //This calls the update protocol method
+                    ToUpdateDictionary(networkStream, ipAddress);
+                }
+                catch (Exception ex)
+                {
 #if DEBUG
-                //This prints to the screen an error message
-                Console.WriteLine("ERROR: " + ex.ToString());
+                    //This prints to the screen an error message
+                    Console.WriteLine("ERROR: " + ex.ToString());
 #endif
-            }
-            finally
-            {
-                //This cleans up before exiting
-                networkStream.Flush();
-                networkStream.Close();
+                }
+                finally
+                {
+                    //This cleans up before exiting
+                    networkStream.Flush();
 
-                socket.Close();
+                    socket.Close();
+                }
             }
 
             #endregion
@@ -44,20 +44,23 @@ namespace TCPServer
         private void ToUpdateDictionary(NetworkStream networkStream, string ipAddress)
         {
             //These are the variables used to pass data too and from the server
-            StreamWriter streamWriter = new StreamWriter(networkStream);
-            StreamReader streamReader = new StreamReader(networkStream);
+            using (StreamWriter streamWriter = new StreamWriter(networkStream))
+            using (StreamReader streamReader = new StreamReader(networkStream))
+            {
+                //This ensures that if the client hangs for too long the server doens't wait for a responce
+                networkStream.ReadTimeout = 3000;
 
-            //This ensures that if the client hangs for too long the server doens't wait for a responce
-            networkStream.ReadTimeout = 3000;
+                //This reads the next line from the client
+                string nextLine = streamReader.ReadLine();
 
-            //This reads the next line from the client
-            string nextLine = streamReader.ReadLine();
+                //This ensures that if the client hangs for too long the server doens't wait for a responce
+                networkStream.WriteTimeout = 3000;
 
-            //This ensures that if the client hangs for too long the server doens't wait for a responce
-            networkStream.WriteTimeout = 3000;
+                //This calls the update dictionary class
+                UpdateDictionary(streamWriter, streamReader, nextLine, ipAddress);
 
-            //This calls the update dictionary class
-            UpdateDictionary(streamWriter, streamReader, nextLine, ipAddress);
+                streamWriter.Flush();
+            }
         }
 
         private void UpdateDictionary(StreamWriter streamWriter, StreamReader streamReader, string nextLine, string ipAddress)
@@ -75,10 +78,10 @@ namespace TCPServer
             if (nextLineSections.Length == 1)
             {
                 //This checks to see if the dictionary already containes an instance of the given username
-                if (TCPServer.dictionary.ContainsKey(nextLine))
+                if (TCPServer.serverDictionary.ContainsKey(nextLine))
                 {
                     //This adds the username to a string
-                    string username = TCPServer.dictionary[nextLine];
+                    string username = TCPServer.serverDictionary[nextLine];
 
                     //This adds the username to a string
                     output = username + "\r\n";
@@ -100,15 +103,15 @@ namespace TCPServer
                 if (nextLineSections.Length == 2)
                 {
                     //This checks to see if the dictionary already containes an instance of the given username
-                    if (TCPServer.dictionary.ContainsKey(nextLineSections[0]))
+                    if (TCPServer.serverDictionary.ContainsKey(nextLineSections[0]))
                     {
                         //This adds the location to the dictionary
-                        TCPServer.dictionary[nextLineSections[0]] = nextLineSections[1];
+                        TCPServer.serverDictionary[nextLineSections[0]] = nextLineSections[1];
                     }
                     else
                     {
                         //This adds the username and location to the dictionary
-                        TCPServer.dictionary.TryAdd(nextLineSections[0], nextLineSections[1]);
+                        TCPServer.serverDictionary.TryAdd(nextLineSections[0], nextLineSections[1]);
                     }
 
                     //This is an output to a string
@@ -127,8 +130,6 @@ namespace TCPServer
             #endregion
 
             streamWriter.WriteLine(output);
-            streamWriter.Flush();
-            streamWriter.Close();
 
             Logging logging = new Logging();
 

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace UDPServer
 {
@@ -30,13 +31,15 @@ namespace UDPServer
 #endif
 
                     broadcaster.Send(bytes, bytes.Length, groupEP);
+
+                    Thread.Sleep(1000);
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
 #if DEBUG
-                Console.WriteLine("ERROR: " + e.ToString());
+                Console.WriteLine("ERROR: " + ex.ToString());
 #endif
             }
             finally

@@ -8,7 +8,6 @@ using Android.Locations;
 using Android.OS;
 using Android.Util;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CaptureTheCampus
 {
@@ -37,8 +36,6 @@ namespace CaptureTheCampus
 
             // generate a location request that we will pass into a call for location updates
             locRequest = new LocationRequest();
-
-            Task.Run(() => CheckKeyentryInput());
         }
 
         protected override void OnResume()
@@ -47,25 +44,9 @@ namespace CaptureTheCampus
             Log.Debug("OnResume", "OnResume called, connecting to client...");
 
             apiClient.Connect();
-
-            if (apiClient.IsConnected)
-            {
-                Location location = LocationServices.FusedLocationApi.GetLastLocation(apiClient);
-
-                if (location != null)
-                {
-                    UpdateCurrentLocation(location);
-
-                    Log.Debug("LocationClient", "Last location printed");
-                }
-            }
-            else
-            {
-                Log.Info("LocationClient", "Please wait for client to connect");
-            }
         }
 
-        protected override void OnPause()
+        protected override async void OnPause()
         {
             base.OnPause();
             Log.Debug("OnPause", "OnPause called, stopping location updates");
@@ -73,7 +54,7 @@ namespace CaptureTheCampus
             if (apiClient.IsConnected)
             {
                 // stop location updates, passing in the LocationListener
-                LocationServices.FusedLocationApi.RemoveLocationUpdates(apiClient, this);
+                await LocationServices.FusedLocationApi.RemoveLocationUpdates(apiClient, this);
 
                 apiClient.Disconnect();
             }
@@ -183,6 +164,27 @@ namespace CaptureTheCampus
 
             // You must implement this to implement the IGooglePlayServicesClientConnectionCallbacks Interface
             Log.Info("LocationClient", "Now connected to client");
+
+            SetupLocRequest();
+        }
+
+        private async void SetupLocRequest()
+        {
+            // Setting location priority to PRIORITY_HIGH_ACCURACY (100)
+            locRequest.SetPriority(100);
+
+            // Setting interval between updates, in milliseconds
+            // NOTE: the default FastestInterval is 1 minute. If you want to receive location updates more than 
+            // once a minute, you _must_ also change the FastestInterval to be less than or equal to your Interval
+            locRequest.SetFastestInterval(500);
+            locRequest.SetInterval(1000);
+
+            Log.Debug("LocationRequest", "Request priority set to status code {0}, interval set to {1} ms", locRequest.Priority.ToString(), locRequest.Interval.ToString());
+
+            // pass in a location request and LocationListener
+            await LocationServices.FusedLocationApi.RequestLocationUpdates(apiClient, locRequest, this);
+            // In OnLocationChanged (below), we will make calls to update the UI
+            // with the new location data
         }
 
         public void OnDisconnected()
@@ -210,7 +212,7 @@ namespace CaptureTheCampus
         public void OnLocationChanged(Location location)
         {
             // This method returns changes in the user's location if they've been requested
-            
+
             // You must implement this to implement the Android.Gms.Locations.ILocationListener Interface
             Log.Debug("LocationClient", "going to UpdateLocation");
 
@@ -232,11 +234,6 @@ namespace CaptureTheCampus
 
             SetCamera(position);
             markers[0].Position = position;
-        }
-
-        private void CheckKeyentryInput()
-        {
-            
         }
     }
 }

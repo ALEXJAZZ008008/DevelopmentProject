@@ -15,27 +15,27 @@ namespace Client
 
             try
             {
-                UdpClient listener = new UdpClient(listnerPort);
-                IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listnerPort);
-
-#if DEBUG
-                Console.Write("Waiting for broadcast... ");
-#endif
-
-                listener.Client.ReceiveTimeout = 3000;
-                byte[] bytes = listener.Receive(ref groupEP);
-                received = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
-
-#if DEBUG
-                Console.Write("Received broadcast from " + groupEP.ToString().Split(':')[0] + ": " + received + ": ");
-#endif
-
-                if (received == "Capture the Campus!")
+                using (UdpClient listener = new UdpClient(listnerPort))
                 {
-                    toOutput = groupEP.ToString().Split(':')[0];
+                    IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listnerPort);
+
+#if DEBUG
+                    Console.Write("Waiting for broadcast... ");
+#endif
+
+                    listener.Client.ReceiveTimeout = 3000;
+                    byte[] bytes = listener.Receive(ref groupEP);
+                    received = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
+
+#if DEBUG
+                    Console.Write("Received broadcast from " + groupEP.ToString().Split(':')[0] + ": " + received + ": ");
+#endif
+
+                    if (received == "Capture the Campus!")
+                    {
+                        toOutput = groupEP.ToString().Split(':')[0];
+                    }
                 }
-                
-                listener.Close();
             }
             catch (Exception ex)
             {
