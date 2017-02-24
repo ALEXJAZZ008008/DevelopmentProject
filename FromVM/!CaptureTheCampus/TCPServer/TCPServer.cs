@@ -13,14 +13,13 @@ namespace TCPServer
     public class TCPServer
     {
         //This is the dictionary used to store the usernames and associated locations
-        public static ConcurrentDictionary<string, string> dictionary = new ConcurrentDictionary<string, string>();
+        public static ConcurrentDictionary<string, string> serverDictionary = new ConcurrentDictionary<string, string>();
+        private static Dictionary<string, Task> taskDictionary = new Dictionary<string, Task>();
 
         //This is the default file path to the server backup and log
-        public static string logPath = "serverLog";
-        public static string logPathDirectory = Directory.GetCurrentDirectory() + @"\" + logPath + @"Directory\";
-
-        public static Mutex loggingMutex = new Mutex();
-        public static string logMessage = string.Empty;
+        private static string logPath = "serverLog";
+        private static string logPathDirectory = Directory.GetCurrentDirectory() + @"\" + logPath + @"Directory\";
+        public static TextWriter textWriter = TextWriter.Synchronized(File.AppendText(TCPServer.logPath));
 
         public void Input(CancellationToken ct)
         {
@@ -58,62 +57,61 @@ namespace TCPServer
                     Array.Sort(currentDirectoryDateTime);
 
                     //This initializes a new reader for the dictionary backup file
-                    StreamReader streamReader = new StreamReader(logPathDirectory + logPath + " " + currentDirectoryDateTime[currentDirectoryDateTime.Length - 1] + ".txt");
-
-                    List<string> dictionaryItems = new List<string>();
-
-                    //This continues while there are lines to read
-                    while ((!streamReader.EndOfStream) && (streamReader.Peek() != -1))
+                    using (StreamReader streamReader = new StreamReader(logPathDirectory + logPath + " " + currentDirectoryDateTime[currentDirectoryDateTime.Length - 1] + ".txt"))
                     {
-                        //This reads the next line from the dictionary backup file
-                        string nextLine = streamReader.ReadLine();
 
-                        //This splits the username from the location
-                        nextLine = nextLine.Substring(nextLine.IndexOf('"') + 1);
+                        List<string> dictionaryItems = new List<string>();
 
-                        string[] toDictionary = Regex.Split(nextLine, "\"");
-                        toDictionary[1] = toDictionary[0].Substring(toDictionary[0].IndexOf(' ') + 1);
-                        toDictionary[0] = toDictionary[0].Split(' ')[0];
-
-                        if (toDictionary[0] == "ERROR:")
+                        //This continues while there are lines to read
+                        while ((!streamReader.EndOfStream) && (streamReader.Peek() != -1))
                         {
-                            continue;
-                        }
+                            //This reads the next line from the dictionary backup file
+                            string nextLine = streamReader.ReadLine();
 
-                        if (toDictionary[0] != toDictionary[1])
-                        {
-                            bool inDictionary = false;
+                            //This splits the username from the location
+                            nextLine = nextLine.Substring(nextLine.IndexOf('"') + 1);
 
-                            if (dictionaryItems.Count != 0)
+                            string[] toDictionary = Regex.Split(nextLine, "\"");
+                            toDictionary[1] = toDictionary[0].Substring(toDictionary[0].IndexOf(' ') + 1);
+                            toDictionary[0] = toDictionary[0].Split(' ')[0];
+
+                            if (toDictionary[0] == "ERROR:")
                             {
-                                for (int i = 0; i < dictionaryItems.Count; i += 2)
+                                continue;
+                            }
+
+                            if (toDictionary[0] != toDictionary[1])
+                            {
+                                bool inDictionary = false;
+
+                                if (dictionaryItems.Count != 0)
                                 {
-                                    if (dictionaryItems[i] == toDictionary[0])
+                                    for (int i = 0; i < dictionaryItems.Count; i += 2)
                                     {
-                                        inDictionary = true;
+                                        if (dictionaryItems[i] == toDictionary[0])
+                                        {
+                                            inDictionary = true;
 
-                                        dictionaryItems[i + 1] = toDictionary[1];
+                                            dictionaryItems[i + 1] = toDictionary[1];
 
-                                        break;
+                                            break;
+                                        }
                                     }
                                 }
-                            }
 
-                            if (!inDictionary)
-                            {
-                                dictionaryItems.Add(toDictionary[0]);
-                                dictionaryItems.Add(toDictionary[1]);
+                                if (!inDictionary)
+                                {
+                                    dictionaryItems.Add(toDictionary[0]);
+                                    dictionaryItems.Add(toDictionary[1]);
+                                }
                             }
                         }
-                    }
 
-                    //This closes the stream reader
-                    streamReader.Close();
-
-                    for (int i = 0; i < dictionaryItems.Count; i += 2)
-                    {
-                        //This addes all the necessary information to the dictionary
-                        dictionary.TryAdd(dictionaryItems[i], dictionaryItems[i + 1]);
+                        for (int i = 0; i < dictionaryItems.Count; i += 2)
+                        {
+                            //This addes all the necessary information to the dictionary
+                            serverDictionary.TryAdd(dictionaryItems[i], dictionaryItems[i + 1]);
+                        }
                     }
                 }
             }
@@ -121,10 +119,6 @@ namespace TCPServer
             //This creates the dictionary backup file if it does not exist
             logPath = logPathDirectory + logPath + " " + DateTime.Now.Ticks.ToString() + ".txt";
             File.Create(logPath).Close();
-
-            Logging logging = new Logging();
-
-            Task.Run(() => logging.Log());
         }
 
         private static void Loop(CancellationToken ct)
@@ -152,7 +146,7 @@ namespace TCPServer
                     Socket socket = listener.AcceptSocket();
 
                     //This calls the thread method
-                    Threads(socket);
+                    Tasks(socket);
                 }
             }
             catch (Exception ex)
@@ -161,31 +155,23 @@ namespace TCPServer
                 //This prints to the screen an error message
                 Console.WriteLine("ERROR: " + ex.ToString());
 #endif
-
-                try
-                {
-                    loggingMutex.ReleaseMutex();
-                }
-                catch
-                {
-
-                }
             }
 
             #endregion
         }
 
-        private static void Threads(Socket socket)
+        private static void Tasks(Socket socket)
         {
             //This initializes a new instance of the Update class
             Update update = new Update();
 
-            Task.Run(() => update.Initialisation(socket));
-        }
+            string taskName = "Task" + taskDictionary.Count;
 
-        internal void Input(object cancelationToken)
-        {
-            throw new NotImplementedException();
+            Task task = new Task(() => update.Initialisation(socket));
+
+            taskDictionary.Add(taskName, task);
+
+            task.Start();
         }
     }
 }

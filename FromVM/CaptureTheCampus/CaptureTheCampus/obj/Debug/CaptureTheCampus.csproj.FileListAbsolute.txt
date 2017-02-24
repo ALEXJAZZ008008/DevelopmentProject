@@ -58,5 +58,13 @@ C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTh
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\assets\System.ServiceModel.Internals.dll.mdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\assets\System.Xml.dll.mdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\assets\System.Xml.Linq.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Client.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\TCPServer.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\UDPServer.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Watchdog.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\assets\Client.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\assets\TCPServer.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\assets\UDPServer.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\android\assets\Watchdog.dll.mdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\CaptureTheCampus.dll.mdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\CaptureTheCampus.dll.mdb
