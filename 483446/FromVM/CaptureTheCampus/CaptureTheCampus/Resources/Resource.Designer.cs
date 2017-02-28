@@ -175,70 +175,76 @@ namespace CaptureTheCampus
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int common_full_open_on_phone = 2130837504;
+			public const int Button = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int common_google_signin_btn_icon_dark = 2130837505;
+			public const int common_full_open_on_phone = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int common_google_signin_btn_icon_dark_disabled = 2130837506;
+			public const int common_google_signin_btn_icon_dark = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int common_google_signin_btn_icon_dark_focused = 2130837507;
+			public const int common_google_signin_btn_icon_dark_disabled = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int common_google_signin_btn_icon_dark_normal = 2130837508;
+			public const int common_google_signin_btn_icon_dark_focused = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int common_google_signin_btn_icon_dark_pressed = 2130837509;
+			public const int common_google_signin_btn_icon_dark_normal = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int common_google_signin_btn_icon_light = 2130837510;
+			public const int common_google_signin_btn_icon_dark_pressed = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int common_google_signin_btn_icon_light_disabled = 2130837511;
+			public const int common_google_signin_btn_icon_light = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int common_google_signin_btn_icon_light_focused = 2130837512;
+			public const int common_google_signin_btn_icon_light_disabled = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int common_google_signin_btn_icon_light_normal = 2130837513;
+			public const int common_google_signin_btn_icon_light_focused = 2130837513;
 			
 			// aapt resource value: 0x7f02000a
-			public const int common_google_signin_btn_icon_light_pressed = 2130837514;
+			public const int common_google_signin_btn_icon_light_normal = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public const int common_google_signin_btn_text_dark = 2130837515;
+			public const int common_google_signin_btn_icon_light_pressed = 2130837515;
 			
 			// aapt resource value: 0x7f02000c
-			public const int common_google_signin_btn_text_dark_disabled = 2130837516;
+			public const int common_google_signin_btn_text_dark = 2130837516;
 			
 			// aapt resource value: 0x7f02000d
-			public const int common_google_signin_btn_text_dark_focused = 2130837517;
+			public const int common_google_signin_btn_text_dark_disabled = 2130837517;
 			
 			// aapt resource value: 0x7f02000e
-			public const int common_google_signin_btn_text_dark_normal = 2130837518;
+			public const int common_google_signin_btn_text_dark_focused = 2130837518;
 			
 			// aapt resource value: 0x7f02000f
-			public const int common_google_signin_btn_text_dark_pressed = 2130837519;
+			public const int common_google_signin_btn_text_dark_normal = 2130837519;
 			
 			// aapt resource value: 0x7f020010
-			public const int common_google_signin_btn_text_light = 2130837520;
+			public const int common_google_signin_btn_text_dark_pressed = 2130837520;
 			
 			// aapt resource value: 0x7f020011
-			public const int common_google_signin_btn_text_light_disabled = 2130837521;
+			public const int common_google_signin_btn_text_light = 2130837521;
 			
 			// aapt resource value: 0x7f020012
-			public const int common_google_signin_btn_text_light_focused = 2130837522;
+			public const int common_google_signin_btn_text_light_disabled = 2130837522;
 			
 			// aapt resource value: 0x7f020013
-			public const int common_google_signin_btn_text_light_normal = 2130837523;
+			public const int common_google_signin_btn_text_light_focused = 2130837523;
 			
 			// aapt resource value: 0x7f020014
-			public const int common_google_signin_btn_text_light_pressed = 2130837524;
+			public const int common_google_signin_btn_text_light_normal = 2130837524;
 			
 			// aapt resource value: 0x7f020015
-			public const int Icon = 2130837525;
+			public const int common_google_signin_btn_text_light_pressed = 2130837525;
+			
+			// aapt resource value: 0x7f020016
+			public const int Icon = 2130837526;
+			
+			// aapt resource value: 0x7f020017
+			public const int ProgressBar = 2130837527;
 			
 			static Drawable()
 			{
@@ -252,6 +258,33 @@ namespace CaptureTheCampus
 		
 		public partial class Id
 		{
+			
+			// aapt resource value: 0x7f070015
+			public const int CompletePlayAreaButton = 2131165205;
+			
+			// aapt resource value: 0x7f07000d
+			public const int GameMap = 2131165197;
+			
+			// aapt resource value: 0x7f070010
+			public const int HostMultiplayerButton = 2131165200;
+			
+			// aapt resource value: 0x7f070011
+			public const int JoinMultiplayerButton = 2131165201;
+			
+			// aapt resource value: 0x7f070012
+			public const int Map = 2131165202;
+			
+			// aapt resource value: 0x7f07000e
+			public const int ProgressBar = 2131165198;
+			
+			// aapt resource value: 0x7f070013
+			public const int SetFirstMarkerButton = 2131165203;
+			
+			// aapt resource value: 0x7f070014
+			public const int SetSecondMarkerButton = 2131165204;
+			
+			// aapt resource value: 0x7f07000f
+			public const int SinglePlayerButton = 2131165199;
 			
 			// aapt resource value: 0x7f070005
 			public const int adjust_height = 2131165189;
@@ -273,9 +306,6 @@ namespace CaptureTheCampus
 			
 			// aapt resource value: 0x7f07000c
 			public const int light = 2131165196;
-			
-			// aapt resource value: 0x7f07000d
-			public const int map = 2131165197;
 			
 			// aapt resource value: 0x7f070001
 			public const int none = 2131165185;
@@ -325,10 +355,19 @@ namespace CaptureTheCampus
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int Game = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int Map = 2130903041;
+			public const int Main = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int Menu = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int Search = 2130903043;
+			
+			// aapt resource value: 0x7f030004
+			public const int Set = 2130903044;
 			
 			static Layout()
 			{
@@ -343,14 +382,41 @@ namespace CaptureTheCampus
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f050012
-			public const int MainActivityLabel = 2131034130;
+			// aapt resource value: 0x7f05001c
+			public const int CompletePlayAreaButton = 2131034140;
 			
-			// aapt resource value: 0x7f050013
-			public const int MapActivityLabel = 2131034131;
+			// aapt resource value: 0x7f050015
+			public const int GameActivityLabel = 2131034133;
+			
+			// aapt resource value: 0x7f050018
+			public const int HostMultiplayerButtonLabel = 2131034136;
+			
+			// aapt resource value: 0x7f050019
+			public const int JoinMultiplayerButtonLabel = 2131034137;
 			
 			// aapt resource value: 0x7f050011
-			public const int Username = 2131034129;
+			public const int MainActivityLabel = 2131034129;
+			
+			// aapt resource value: 0x7f050016
+			public const int MainMenuTitle = 2131034134;
+			
+			// aapt resource value: 0x7f050012
+			public const int MenuActivityLabel = 2131034130;
+			
+			// aapt resource value: 0x7f050014
+			public const int SearchActivityLabel = 2131034132;
+			
+			// aapt resource value: 0x7f050013
+			public const int SetActivityLabel = 2131034131;
+			
+			// aapt resource value: 0x7f05001a
+			public const int SetFirstMarkerButton = 2131034138;
+			
+			// aapt resource value: 0x7f05001b
+			public const int SetSecondMarkerButton = 2131034139;
+			
+			// aapt resource value: 0x7f050017
+			public const int SinglePlayerButtonLabel = 2131034135;
 			
 			// aapt resource value: 0x7f050000
 			public const int common_google_play_services_enable_button = 2131034112;

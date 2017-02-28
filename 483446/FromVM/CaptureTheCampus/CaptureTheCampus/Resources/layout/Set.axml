@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@android:color/background_light"
+  android:weightSum="100"
+  >
+  <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="com.google.android.gms.maps.MapFragment"
+    android:id="@+id/Map"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_weight="90"
+    />
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="@android:color/background_light"
+    android:layout_weight="10"
+    android:gravity="center"
+    >
+    <Button
+      android:text="@string/SetFirstMarkerButton"
+      android:id="@+id/SetFirstMarkerButton"
+      android:background="@drawable/Button"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_marginLeft="20dp"
+      android:layout_marginRight="20dp"
+      android:textSize="10sp"
+      />
+
+    <Button
+      android:text="@string/SetSecondMarkerButton"
+      android:id="@+id/SetSecondMarkerButton"
+      android:background="@drawable/Button"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_marginLeft="20dp"
+      android:layout_marginRight="20dp"
+      android:textSize="10sp"
+      />
+
+    <Button
+      android:text="@string/CompletePlayAreaButton"
+      android:id="@+id/CompletePlayAreaButton"
+      android:background="@drawable/Button"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_marginLeft="20dp"
+      android:layout_marginRight="20dp"
+      android:textSize="10sp"
+      />
+  </LinearLayout>
+</LinearLayout>

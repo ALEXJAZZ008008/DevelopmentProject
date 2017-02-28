@@ -10,30 +10,29 @@ namespace CaptureTheCampus
     [Activity(Label = "@string/MainActivityLabel", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
-        private bool _isGooglePlayServicesInstalled;
+        private bool isGooglePlayServicesInstalled;
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             Log.Debug("OnCreate", "OnCreate called, initializing views...");
 
-            // Set our view from the "main" layout resource
+            // Set our view from the "Main" layout resource
             SetContentView (Resource.Layout.Main);
 
-            _isGooglePlayServicesInstalled = IsGooglePlayServicesInstalled();
+            isGooglePlayServicesInstalled = IsGooglePlayServicesInstalled();
 
-            if (_isGooglePlayServicesInstalled)
+            if (isGooglePlayServicesInstalled)
             {
-                GoToMapActivity();
-
+                GoToMenuActivity();
             }
             else
             {
                 Log.Error("OnCreate", "Google Play Services is not installed");
                 Toast.MakeText(this, "Google Play Services is not installed", ToastLength.Long).Show();
-
-                Finish();
             }
+
+            Finish();
         }
 
         private bool IsGooglePlayServicesInstalled()
@@ -52,17 +51,17 @@ namespace CaptureTheCampus
                 // Show error dialog to let user debug google play services
 
                 string errorString = GoogleApiAvailability.Instance.GetErrorString(queryResult);
-                Log.Error("ManActivity", "There is a problem with Google Play Services on this device: {0} - {1}", queryResult, errorString);
+                Log.Error("MainActivity", "There is a problem with Google Play Services on this device: {0} - {1}", queryResult, errorString);
             }
 
             return false;
         }
 
-        private void GoToMapActivity()
+        private void GoToMenuActivity()
         {
-            Log.Debug("GoToMapActivity", "GoToMapActivity called, going to MapActivity...");
+            Log.Debug("GoToMenuActivity", "GoToMenuActivity called, going to MenuActivity...");
 
-            Intent intent = new Intent(this, typeof(MapActivity));
+            Intent intent = new Intent(this, typeof(MenuActivity));
             StartActivity(intent);
         }
     }

@@ -2,7 +2,7 @@
 <xs:schema xmlns:android="http://schemas.android.com/apk/res/android" attributeFormDefault="qualified" elementFormDefault="unqualified" targetNamespace="http://schemas.android.com/apk/res/android" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>v23</xs:documentation>
-    <xs:documentation>21/02/2017 17:46:46</xs:documentation>
+    <xs:documentation>24/02/2017 22:24:15</xs:documentation>
   </xs:annotation>
   <xs:attribute name="accessibilityLiveRegion">
     <xs:annotation>
@@ -3857,6 +3857,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -3916,6 +3918,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -4584,6 +4588,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -5172,6 +5178,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -6339,6 +6347,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -6669,6 +6679,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -11736,6 +11748,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -11795,6 +11809,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -12422,6 +12438,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -12481,6 +12499,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -12540,6 +12560,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -18024,6 +18046,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -18530,6 +18554,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -19840,6 +19866,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -22454,6 +22482,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -22672,6 +22702,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -22948,6 +22980,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -23703,6 +23737,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -25791,6 +25827,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -27866,6 +27904,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -28949,6 +28989,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -32599,6 +32641,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -33965,6 +34009,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -35177,6 +35223,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -36987,6 +37035,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -37046,6 +37096,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -40435,6 +40487,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -40494,6 +40548,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -42737,6 +42793,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -42909,6 +42967,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
@@ -44115,6 +44175,8 @@
             <xs:enumeration value="@string/common_signin_button_text_long" />
             <xs:enumeration value="@string/MainActivityLabel" />
             <xs:enumeration value="@string/MapActivityLabel" />
+            <xs:enumeration value="@string/MenuActivityLabel" />
+            <xs:enumeration value="@string/SearchActivityLabel" />
             <xs:enumeration value="@string/Username" />
             <xs:enumeration value="@android:string/cancel" />
             <xs:enumeration value="@android:string/copy" />
