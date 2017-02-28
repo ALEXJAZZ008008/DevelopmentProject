@@ -274,30 +274,41 @@ containing a value of this type.
         public static final int common_google_signin_btn_text_light_pressed=0x7f040007;
     }
     public static final class drawable {
-        public static final int common_full_open_on_phone=0x7f020000;
-        public static final int common_google_signin_btn_icon_dark=0x7f020001;
-        public static final int common_google_signin_btn_icon_dark_disabled=0x7f020002;
-        public static final int common_google_signin_btn_icon_dark_focused=0x7f020003;
-        public static final int common_google_signin_btn_icon_dark_normal=0x7f020004;
-        public static final int common_google_signin_btn_icon_dark_pressed=0x7f020005;
-        public static final int common_google_signin_btn_icon_light=0x7f020006;
-        public static final int common_google_signin_btn_icon_light_disabled=0x7f020007;
-        public static final int common_google_signin_btn_icon_light_focused=0x7f020008;
-        public static final int common_google_signin_btn_icon_light_normal=0x7f020009;
-        public static final int common_google_signin_btn_icon_light_pressed=0x7f02000a;
-        public static final int common_google_signin_btn_text_dark=0x7f02000b;
-        public static final int common_google_signin_btn_text_dark_disabled=0x7f02000c;
-        public static final int common_google_signin_btn_text_dark_focused=0x7f02000d;
-        public static final int common_google_signin_btn_text_dark_normal=0x7f02000e;
-        public static final int common_google_signin_btn_text_dark_pressed=0x7f02000f;
-        public static final int common_google_signin_btn_text_light=0x7f020010;
-        public static final int common_google_signin_btn_text_light_disabled=0x7f020011;
-        public static final int common_google_signin_btn_text_light_focused=0x7f020012;
-        public static final int common_google_signin_btn_text_light_normal=0x7f020013;
-        public static final int common_google_signin_btn_text_light_pressed=0x7f020014;
-        public static final int icon=0x7f020015;
+        public static final int button=0x7f020000;
+        public static final int common_full_open_on_phone=0x7f020001;
+        public static final int common_google_signin_btn_icon_dark=0x7f020002;
+        public static final int common_google_signin_btn_icon_dark_disabled=0x7f020003;
+        public static final int common_google_signin_btn_icon_dark_focused=0x7f020004;
+        public static final int common_google_signin_btn_icon_dark_normal=0x7f020005;
+        public static final int common_google_signin_btn_icon_dark_pressed=0x7f020006;
+        public static final int common_google_signin_btn_icon_light=0x7f020007;
+        public static final int common_google_signin_btn_icon_light_disabled=0x7f020008;
+        public static final int common_google_signin_btn_icon_light_focused=0x7f020009;
+        public static final int common_google_signin_btn_icon_light_normal=0x7f02000a;
+        public static final int common_google_signin_btn_icon_light_pressed=0x7f02000b;
+        public static final int common_google_signin_btn_text_dark=0x7f02000c;
+        public static final int common_google_signin_btn_text_dark_disabled=0x7f02000d;
+        public static final int common_google_signin_btn_text_dark_focused=0x7f02000e;
+        public static final int common_google_signin_btn_text_dark_normal=0x7f02000f;
+        public static final int common_google_signin_btn_text_dark_pressed=0x7f020010;
+        public static final int common_google_signin_btn_text_light=0x7f020011;
+        public static final int common_google_signin_btn_text_light_disabled=0x7f020012;
+        public static final int common_google_signin_btn_text_light_focused=0x7f020013;
+        public static final int common_google_signin_btn_text_light_normal=0x7f020014;
+        public static final int common_google_signin_btn_text_light_pressed=0x7f020015;
+        public static final int icon=0x7f020016;
+        public static final int progressbar=0x7f020017;
     }
     public static final class id {
+        public static final int CompletePlayAreaButton=0x7f070015;
+        public static final int GameMap=0x7f07000d;
+        public static final int HostMultiplayerButton=0x7f070010;
+        public static final int JoinMultiplayerButton=0x7f070011;
+        public static final int Map=0x7f070012;
+        public static final int ProgressBar=0x7f07000e;
+        public static final int SetFirstMarkerButton=0x7f070013;
+        public static final int SetSecondMarkerButton=0x7f070014;
+        public static final int SinglePlayerButton=0x7f07000f;
         public static final int adjust_height=0x7f070005;
         public static final int adjust_width=0x7f070006;
         public static final int auto=0x7f07000a;
@@ -305,7 +316,6 @@ containing a value of this type.
         public static final int hybrid=0x7f070000;
         public static final int icon_only=0x7f070007;
         public static final int light=0x7f07000c;
-        public static final int map=0x7f07000d;
         public static final int none=0x7f070001;
         public static final int normal=0x7f070002;
         public static final int satellite=0x7f070003;
@@ -317,13 +327,25 @@ containing a value of this type.
         public static final int google_play_services_version=0x7f060000;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
-        public static final int map=0x7f030001;
+        public static final int game=0x7f030000;
+        public static final int main=0x7f030001;
+        public static final int menu=0x7f030002;
+        public static final int search=0x7f030003;
+        public static final int set=0x7f030004;
     }
     public static final class string {
-        public static final int MainActivityLabel=0x7f050012;
-        public static final int MapActivityLabel=0x7f050013;
-        public static final int Username=0x7f050011;
+        public static final int CompletePlayAreaButton=0x7f05001c;
+        public static final int GameActivityLabel=0x7f050015;
+        public static final int HostMultiplayerButtonLabel=0x7f050018;
+        public static final int JoinMultiplayerButtonLabel=0x7f050019;
+        public static final int MainActivityLabel=0x7f050011;
+        public static final int MainMenuTitle=0x7f050016;
+        public static final int MenuActivityLabel=0x7f050012;
+        public static final int SearchActivityLabel=0x7f050014;
+        public static final int SetActivityLabel=0x7f050013;
+        public static final int SetFirstMarkerButton=0x7f05001a;
+        public static final int SetSecondMarkerButton=0x7f05001b;
+        public static final int SinglePlayerButtonLabel=0x7f050017;
         public static final int common_google_play_services_enable_button=0x7f050000;
         public static final int common_google_play_services_enable_text=0x7f050001;
         public static final int common_google_play_services_enable_title=0x7f050002;

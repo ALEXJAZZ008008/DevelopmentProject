@@ -24,9 +24,9 @@ namespace Tests
                 Console.WriteLine();
                 Console.Write("Please enter an initial number of threads: ");
 
-                string testNumberString = Console.ReadLine();
+                string ifString = Console.ReadLine();
 
-                if (int.TryParse(testNumberString.Trim(), out threads))
+                if (int.TryParse(ifString.Trim(), out threads))
                 {
                     while (whileContinue)
                     {
@@ -36,33 +36,42 @@ namespace Tests
                         
                         Parallel.For(0, threads, index => client.Input(new string[] { "-t", "username", "location" }));
 
-                        Thread.Sleep(1000);
-
-                        Console.WriteLine();
-                        Console.Write("Would you like to continue Y/N: ");
-
                         bool notValidResponse2 = false;
 
                         do
                         {
-                            string yn = Console.ReadLine().ToUpper();
+                            Console.WriteLine();
+                            Console.Write("Would you like to continue Y/N or enter a number of threads: ");
 
-                            if (yn == "Y")
+                            ifString = Console.ReadLine().Trim();
+
+                            int tempThreads;
+
+                            if (int.TryParse(ifString, out tempThreads))
                             {
-                                threads++;
+                                threads = tempThreads;
                             }
                             else
                             {
-                                if (yn == "N")
+                                ifString = ifString.ToUpper();
+
+                                if (ifString == "Y")
                                 {
-                                    whileContinue = false;
+                                    threads++;
                                 }
                                 else
                                 {
-                                    Console.WriteLine();
-                                    Console.Write("Please enter a valid response");
+                                    if (ifString == "N")
+                                    {
+                                        whileContinue = false;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine();
+                                        Console.Write("Please enter a valid response");
 
-                                    notValidResponse2 = true;
+                                        notValidResponse2 = true;
+                                    }
                                 }
                             }
                         } while (notValidResponse2);
