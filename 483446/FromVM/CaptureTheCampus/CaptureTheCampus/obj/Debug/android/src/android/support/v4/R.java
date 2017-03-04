@@ -304,9 +304,9 @@ containing a value of this type.
         public static final int GameMap=0x7f07000d;
         public static final int HostMultiplayerButton=0x7f070010;
         public static final int JoinMultiplayerButton=0x7f070011;
-        public static final int Map=0x7f070012;
         public static final int ProgressBar=0x7f07000e;
         public static final int SetFirstMarkerButton=0x7f070013;
+        public static final int SetMap=0x7f070012;
         public static final int SetSecondMarkerButton=0x7f070014;
         public static final int SinglePlayerButton=0x7f07000f;
         public static final int adjust_height=0x7f070005;
