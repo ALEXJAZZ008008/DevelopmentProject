@@ -2,7 +2,7 @@
 <xs:schema xmlns:android="http://schemas.android.com/apk/res/android" attributeFormDefault="qualified" targetNamespace="http://schemas.android.com/apk/res/android" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>v25</xs:documentation>
-    <xs:documentation>03/03/2017 19:33:36</xs:documentation>
+    <xs:documentation>05/03/2017 03:09:28</xs:documentation>
   </xs:annotation>
   <xs:attribute name="accessibilityLiveRegion">
     <xs:annotation>
@@ -18592,6 +18592,7 @@
             <xs:enumeration value="@id/HostMultiplayerButton" />
             <xs:enumeration value="@id/JoinMultiplayerButton" />
             <xs:enumeration value="@id/ProgressBar" />
+            <xs:enumeration value="@id/Score" />
             <xs:enumeration value="@id/SetFirstMarkerButton" />
             <xs:enumeration value="@id/SetMap" />
             <xs:enumeration value="@id/SetSecondMarkerButton" />

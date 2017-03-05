@@ -8,9 +8,9 @@ using Android.Hardware;
 using Android.OS;
 using Android.Util;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
 using Android.Content;
+using Android.Widget;
+using System.Timers;
 
 namespace CaptureTheCampus
 {
@@ -20,7 +20,7 @@ namespace CaptureTheCampus
         public struct PlayArea
         {
             public List<LatLng> vertices;
-            public Polygon polygon;
+            public List<Polygon> polygon;
         }
 
         public struct Path
@@ -31,9 +31,9 @@ namespace CaptureTheCampus
         }
 
         private string gameType;
-
-        private Dictionary<string, Task> taskDictionary;
-        private Task task;
+        private TextView timeTextView, scoreTextView;
+        private Timer timer;
+        public int score;
 
         private GameMap mapClass;
         public GoogleMap map;
@@ -44,7 +44,6 @@ namespace CaptureTheCampus
         public GoogleApiClient apiClient;
         public LatLng position;
         public Path path;
-
 
         private Rotation rotationClass;
         public SensorManager sensorManager;
@@ -88,14 +87,22 @@ namespace CaptureTheCampus
         private void Initialise()
         {
             gameType = Intent.GetStringExtra("gameType");
-
-            taskDictionary = new Dictionary<string, Task>();
+            timeTextView = (TextView)FindViewById(Resource.Id.Time);
+            scoreTextView = (TextView)FindViewById(Resource.Id.Score);
+            timer = new Timer();
+            timer.Elapsed += (sender, e) => { };
+            timer.Interval = 600000;
+            timeTextView.Text = "Time: " + ((timer.Interval / 60) / 100).ToString();
+            score = 0;
+            scoreTextView.Text = "Score: " + score.ToString();
 
             mapClass = new GameMap(this);
             markers = new List<Marker>();
             playArea = new PlayArea();
 
             GetVertices();
+
+            playArea.polygon = new List<Polygon>();
 
             positionClass = new Position(this);
             position = new LatLng(0, 0);
@@ -119,19 +126,6 @@ namespace CaptureTheCampus
 
             playArea.vertices.Insert(1, new LatLng(playArea.vertices[0].Latitude, playArea.vertices[1].Longitude));
             playArea.vertices.Add(new LatLng(playArea.vertices[2].Latitude, playArea.vertices[0].Longitude));
-        }
-
-        private void StartTask(Action method)
-        {
-            Log.Debug("StartTask", "Starting task");
-
-            string taskName = "Task" + taskDictionary.Count;
-
-            task = new Task(() => method());
-
-            taskDictionary.Add(taskName, task);
-
-            task.Start();
         }
 
         private void StartMap()

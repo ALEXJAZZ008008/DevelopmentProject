@@ -133,6 +133,7 @@ namespace CaptureTheCampus
             }
             else
             {
+                Log.Error("OnCreate", "Map not ready");
                 Toast.MakeText(this, "Map not ready", ToastLength.Long).Show();
             }
         }

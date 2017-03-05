@@ -259,32 +259,38 @@ namespace CaptureTheCampus
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070015
-			public const int CompletePlayAreaButton = 2131165205;
-			
-			// aapt resource value: 0x7f07000d
-			public const int GameMap = 2131165197;
-			
-			// aapt resource value: 0x7f070010
-			public const int HostMultiplayerButton = 2131165200;
-			
-			// aapt resource value: 0x7f070011
-			public const int JoinMultiplayerButton = 2131165201;
-			
-			// aapt resource value: 0x7f07000e
-			public const int ProgressBar = 2131165198;
-			
-			// aapt resource value: 0x7f070013
-			public const int SetFirstMarkerButton = 2131165203;
-			
-			// aapt resource value: 0x7f070012
-			public const int SetMap = 2131165202;
-			
-			// aapt resource value: 0x7f070014
-			public const int SetSecondMarkerButton = 2131165204;
+			// aapt resource value: 0x7f070017
+			public const int CompletePlayAreaButton = 2131165207;
 			
 			// aapt resource value: 0x7f07000f
-			public const int SinglePlayerButton = 2131165199;
+			public const int GameMap = 2131165199;
+			
+			// aapt resource value: 0x7f070012
+			public const int HostMultiplayerButton = 2131165202;
+			
+			// aapt resource value: 0x7f070013
+			public const int JoinMultiplayerButton = 2131165203;
+			
+			// aapt resource value: 0x7f070010
+			public const int ProgressBar = 2131165200;
+			
+			// aapt resource value: 0x7f07000e
+			public const int Score = 2131165198;
+			
+			// aapt resource value: 0x7f070015
+			public const int SetFirstMarkerButton = 2131165205;
+			
+			// aapt resource value: 0x7f070014
+			public const int SetMap = 2131165204;
+			
+			// aapt resource value: 0x7f070016
+			public const int SetSecondMarkerButton = 2131165206;
+			
+			// aapt resource value: 0x7f070011
+			public const int SinglePlayerButton = 2131165201;
+			
+			// aapt resource value: 0x7f07000d
+			public const int Time = 2131165197;
 			
 			// aapt resource value: 0x7f070005
 			public const int adjust_height = 2131165189;
