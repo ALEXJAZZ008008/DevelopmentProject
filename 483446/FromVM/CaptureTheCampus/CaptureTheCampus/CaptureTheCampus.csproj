@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Maths.cs" />
     <Compile Include="SetActivity.cs" />
     <Compile Include="GameMap.cs" />
     <Compile Include="Host.cs" />

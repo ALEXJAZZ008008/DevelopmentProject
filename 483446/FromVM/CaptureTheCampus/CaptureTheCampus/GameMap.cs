@@ -37,7 +37,7 @@ namespace CaptureTheCampus
 
             utilities.BuildMap(googleMap, mapSettingsBools);
             utilities.SetMarker();
-            utilities.SetPolygon(gameActivity.playArea.vertices);
+            utilities.SetPolygon(0, gameActivity.playArea.vertices);
         }
     }
 }

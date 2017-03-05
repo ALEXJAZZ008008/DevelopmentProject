@@ -1,3 +1,7 @@
+CaptureTheCampus.Maths, CaptureTheCampus;md5372bcbfcb56d8e073f752db8da61fded.Maths
+CaptureTheCampus.Maths, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5372bcbfcb56d8e073f752db8da61fded.Maths
+CaptureTheCampus.Maths;md5372bcbfcb56d8e073f752db8da61fded.Maths
+capturethecampus.Maths;md5372bcbfcb56d8e073f752db8da61fded.Maths
 CaptureTheCampus.SetActivity, CaptureTheCampus;md5372bcbfcb56d8e073f752db8da61fded.SetActivity
 CaptureTheCampus.SetActivity, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5372bcbfcb56d8e073f752db8da61fded.SetActivity
 CaptureTheCampus.SetActivity;md5372bcbfcb56d8e073f752db8da61fded.SetActivity

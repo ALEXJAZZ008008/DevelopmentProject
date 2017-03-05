@@ -13,12 +13,14 @@ namespace CaptureTheCampus
     public class Utilities : View
     {
         private GameActivity gameActivity;
+        private Maths maths;
 
         public Utilities(Context context) : base(context)
         {
-            Log.Info("Position", "Position built");
+            Log.Info("Utilities", "Utilities built");
 
             gameActivity = (GameActivity)context;
+            maths = new Maths(gameActivity);
         }
 
         public void BuildMap(GoogleMap googleMap, bool[] mapSettingsBools)
@@ -115,7 +117,7 @@ namespace CaptureTheCampus
 
         private void UpdatePaths()
         {
-            if (CheckPosition() && gameActivity.path.vertices.Count >= 1)
+            if (maths.CheckPosition() && gameActivity.path.vertices.Count >= 1)
             {
                 UpdatePath();
             }
@@ -125,73 +127,19 @@ namespace CaptureTheCampus
             }
         }
 
-        private bool CheckPosition()
-        {
-            // Get the angle between the point and the
-            // first and last vertices.
-            int max_point = gameActivity.playArea.polygon.Points.Count - 1;
-            double total_angle = GetAngle(gameActivity.playArea.polygon.Points[max_point].Latitude, gameActivity.playArea.polygon.Points[max_point].Longitude, gameActivity.position.Latitude, gameActivity.position.Longitude, gameActivity.playArea.polygon.Points[0].Latitude, gameActivity.playArea.polygon.Points[0].Longitude);
-
-            // Add the angles from the point
-            // to each other pair of vertices.
-            for (int i = 0; i < max_point; i++)
-            {
-                total_angle += GetAngle(gameActivity.playArea.polygon.Points[i].Latitude, gameActivity.playArea.polygon.Points[i].Longitude, gameActivity.position.Latitude, gameActivity.position.Longitude, gameActivity.playArea.polygon.Points[i + 1].Latitude, gameActivity.playArea.polygon.Points[i + 1].Longitude);
-            }
-
-            // The total angle should be 2 * PI or -2 * PI if
-            // the point is in the polygon and close to zero
-            // if the point is outside the polygon.
-            return (Math.Abs(total_angle) > 0.000001);
-        }
-
-        private double GetAngle(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
-        {
-            // Get the dot product.
-            double dot_product = DotProduct(Ax, Ay, Bx, By, Cx, Cy);
-
-            // Get the cross product.
-            double cross_product = CrossProductLength(Ax, Ay, Bx, By, Cx, Cy);
-
-            // Calculate the angle.
-            return Math.Atan2(cross_product, dot_product);
-        }
-
-        private double DotProduct(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
-        {
-            // Get the vectors' coordinates.
-            double BAx = Ax - Bx;
-            double BAy = Ay - By;
-            double BCx = Cx - Bx;
-            double BCy = Cy - By;
-
-            // Calculate the dot product.
-            return (BAx * BCx + BAy * BCy);
-        }
-
-        private double CrossProductLength(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
-        {
-            // Get the vectors' coordinates.
-            double BAx = Ax - Bx;
-            double BAy = Ay - By;
-            double BCx = Cx - Bx;
-            double BCy = Cy - By;
-
-            // Calculate the Z coordinate of the cross product.
-            return (BAx * BCy - BAy * BCx);
-        }
-
         private void UpdatePath()
         {
             gameActivity.path.vertices.Add(gameActivity.position);
 
             if (gameActivity.path.drawing == false)
             {
-                for (int i = 1; i < gameActivity.playArea.polygon.Points.Count; i++)
+                for (int i = 1; i < gameActivity.playArea.polygon[0].Points.Count; i++)
                 {
-                    if (doIntersect(gameActivity.path.vertices[0], gameActivity.path.vertices[1], gameActivity.playArea.polygon.Points[i - 1], gameActivity.playArea.polygon.Points[i]))
+                    if (maths.doIntersect(gameActivity.path.vertices[0], gameActivity.path.vertices[1], gameActivity.playArea.polygon[0].Points[i - 1], gameActivity.playArea.polygon[0].Points[i]))
                     {
-                        gameActivity.path.vertices[0] = LineIntersectionPoint(gameActivity.path.vertices[0], gameActivity.path.vertices[1], gameActivity.playArea.polygon.Points[i - 1], gameActivity.playArea.polygon.Points[i]);
+                        gameActivity.path.vertices[0] = maths.LineIntersectionPoint(gameActivity.path.vertices[0], gameActivity.path.vertices[1], gameActivity.playArea.polygon[0].Points[i - 1], gameActivity.playArea.polygon[0].Points[i]);
+
+                        break;
                     }
                 }
 
@@ -217,15 +165,21 @@ namespace CaptureTheCampus
             {
                 gameActivity.path.vertices.Add(gameActivity.position);
 
-                for (int i = 1; i < gameActivity.playArea.polygon.Points.Count; i++)
+                for (int i = 1; i < gameActivity.playArea.polygon[0].Points.Count; i++)
                 {
-                    if (doIntersect(gameActivity.path.vertices[gameActivity.path.vertices.Count - 2], gameActivity.path.vertices[gameActivity.path.vertices.Count - 1], gameActivity.playArea.polygon.Points[i - 1], gameActivity.playArea.polygon.Points[i]))
+                    if (maths.doIntersect(gameActivity.path.vertices[gameActivity.path.vertices.Count - 2], gameActivity.path.vertices[gameActivity.path.vertices.Count - 1], gameActivity.playArea.polygon[0].Points[i - 1], gameActivity.playArea.polygon[0].Points[i]))
                     {
-                        gameActivity.path.vertices[gameActivity.path.vertices.Count - 1] = LineIntersectionPoint(gameActivity.path.vertices[gameActivity.path.vertices.Count - 2], gameActivity.path.vertices[gameActivity.path.vertices.Count - 1], gameActivity.playArea.polygon.Points[i - 1], gameActivity.playArea.polygon.Points[i]);
+                        gameActivity.path.vertices[gameActivity.path.vertices.Count - 1] = maths.LineIntersectionPoint(gameActivity.path.vertices[gameActivity.path.vertices.Count - 2], gameActivity.path.vertices[gameActivity.path.vertices.Count - 1], gameActivity.playArea.polygon[0].Points[i - 1], gameActivity.playArea.polygon[0].Points[i]);
+
+                        break;
                     }
                 }
 
                 SetPolyline(gameActivity.path.vertices);
+
+                BuildArea();
+
+                gameActivity.path.polylines[gameActivity.path.polylines.Count - 1].Remove();
 
                 gameActivity.path.drawing = false;
 
@@ -235,92 +189,105 @@ namespace CaptureTheCampus
             }
         }
 
-        // The main function that returns true if line segment 'p1q1'
-        // and 'p2q2' intersect.
-        private bool doIntersect(LatLng p1, LatLng q1, LatLng p2, LatLng q2)
+        private void BuildArea()
         {
-            // Find the four orientations needed for general and
-            // special cases
-            int o1 = orientation(p1, q1, p2);
-            int o2 = orientation(p1, q1, q2);
-            int o3 = orientation(p2, q2, p1);
-            int o4 = orientation(p2, q2, q1);
+            List<int> intersections = new List<int>();
 
-            // General case
-            if (o1 != o2 && o3 != o4)
-                return true;
+            LatLng firstExtendedPosition = maths.ExtendLineSegment(gameActivity.path.vertices[0], gameActivity.path.vertices[gameActivity.path.vertices.Count - 1]);
+            LatLng secondExtendedPosition = maths.ExtendLineSegment(gameActivity.path.vertices[gameActivity.path.vertices.Count - 1], gameActivity.path.vertices[0]);
 
-            // Special Cases
-            // p1, q1 and p2 are colinear and p2 lies on segment p1q1
-            if (o1 == 0 && onSegment(p1, p2, q1)) return true;
+            int[] firstLineSegment = new int[2];
+            int[] secondLineSegment = new int[2];
 
-            // p1, q1 and p2 are colinear and q2 lies on segment p1q1
-            if (o2 == 0 && onSegment(p1, q2, q1)) return true;
-
-            // p2, q2 and p1 are colinear and p1 lies on segment p2q2
-            if (o3 == 0 && onSegment(p2, p1, q2)) return true;
-
-            // p2, q2 and q1 are colinear and q1 lies on segment p2q2
-            if (o4 == 0 && onSegment(p2, q1, q2)) return true;
-
-            return false; // Doesn't fall in any of the above cases
-        }
-
-        // To find orientation of ordered triplet (p, q, r).
-        // The function returns following values
-        // 0 --> p, q and r are colinear
-        // 1 --> Clockwise
-        // 2 --> Counterclockwise
-        private int orientation(LatLng p, LatLng q, LatLng r)
-        {
-            // See http://www.geeksforgeeks.org/orientation-3-ordered-points/
-            // for details of below formula.
-            double val = (q.Longitude - p.Longitude) * (r.Latitude - q.Latitude) - (q.Latitude - p.Latitude) * (r.Longitude - q.Longitude);
-
-            if (val == 0)
+            for (int i = 1; i < gameActivity.playArea.polygon[0].Points.Count; i++)
             {
-                return 0;  // colinear
+                if (maths.doIntersect(firstExtendedPosition, secondExtendedPosition, gameActivity.playArea.polygon[0].Points[i - 1], gameActivity.playArea.polygon[0].Points[i]))
+                {
+                    intersections.Add(i - 1);
+                    intersections.Add(i);
+                }
             }
 
-            return (val > 0) ? 1 : 2; // clock or counterclock wise
+            firstLineSegment[0] = intersections[0];
+            firstLineSegment[1] = intersections[1];
+
+            secondLineSegment[0] = intersections[intersections.Count - 2];
+            secondLineSegment[1] = intersections[intersections.Count - 1];
+
+            BuildAreas(firstLineSegment, secondLineSegment);
         }
 
-        // Given three colinear points p, q, r, the function checks if
-        // point q lies on line segment 'pr'
-        private bool onSegment(LatLng p, LatLng q, LatLng r)
+        private void BuildAreas(int[] firstLineSegment, int[] secondLineSegment)
         {
-            if (q.Latitude <= Math.Max(p.Latitude, r.Latitude) && q.Latitude >= Math.Min(p.Latitude, r.Latitude) && q.Longitude <= Math.Max(p.Longitude, r.Longitude) && q.Longitude >= Math.Min(p.Longitude, r.Longitude))
+            List<LatLng> firstPolygon = new List<LatLng>();
+            List<LatLng> secondPolygon = new List<LatLng>();
+
+            for (int i = 0; i < gameActivity.path.polylines[gameActivity.path.polylines.Count - 1].Points.Count; i++)
             {
-                return true;
+                firstPolygon.Add(gameActivity.path.polylines[gameActivity.path.polylines.Count - 1].Points[i]);
+                secondPolygon.Add(gameActivity.path.polylines[gameActivity.path.polylines.Count - 1].Points[i]);
+            }
+
+            for (int i = firstLineSegment[1]; i < secondLineSegment[0] + 1; i++)
+            {
+                firstPolygon.Add(gameActivity.playArea.polygon[0].Points[i]);
+            }
+
+            SetPolygon(gameActivity.playArea.polygon.Count, firstPolygon);
+
+            if (firstLineSegment[0] == 0)
+            {
+                firstLineSegment[0] = gameActivity.playArea.polygon[0].Points.Count - 1;
+            }
+
+            if (secondLineSegment[1] == gameActivity.playArea.polygon[0].Points.Count - 1)
+            {
+                secondLineSegment[1] = 0;
+
+                secondPolygon.Reverse();
+            }
+
+            for (int i = secondLineSegment[1]; i < firstLineSegment[0] + 1; i++)
+            {
+                secondPolygon.Add(gameActivity.playArea.polygon[0].Points[i]);
+            }
+
+            SetPolygon(gameActivity.playArea.polygon.Count, secondPolygon);
+
+            TestAreas();
+        }
+
+        private void TestAreas()
+        {
+            double firstArea = maths.PolygonArea(gameActivity.playArea.polygon.Count - 2);
+            double secondArea = maths.PolygonArea(gameActivity.playArea.polygon.Count - 1);
+
+            if (secondArea <= firstArea)
+            {
+                AddSecondArea(firstArea, secondArea);
             }
             else
             {
-                return false;
+                AddFirstArea(firstArea, secondArea);
             }
         }
 
-        LatLng LineIntersectionPoint(LatLng ps1, LatLng pe1, LatLng ps2, LatLng pe2)
+        private void AddSecondArea(double firstArea, double secondArea)
         {
-            // Get A,B,C of first line - points : ps1 to pe1
-            double A1 = pe1.Longitude - ps1.Longitude;
-            double B1 = ps1.Latitude - pe1.Latitude;
-            double C1 = A1 * ps1.Latitude + B1 * ps1.Longitude;
+            gameActivity.playArea.polygon[0].Points = gameActivity.playArea.polygon[gameActivity.playArea.polygon.Count - 2].Points;
 
-            // Get A,B,C of second line - points : ps2 to pe2
-            double A2 = pe2.Longitude - ps2.Longitude;
-            double B2 = ps2.Latitude - pe2.Latitude;
-            double C2 = A2 * ps2.Latitude + B2 * ps2.Longitude;
+            gameActivity.playArea.polygon.Remove(gameActivity.playArea.polygon[gameActivity.playArea.polygon.Count - 2]);
 
-            // Get delta and check if the lines are parallel
-            double delta = A1 * B2 - A2 * B1;
+            gameActivity.score += (int)((secondArea / (firstArea + secondArea)) * 100);
+        }
 
-            if (delta == 0)
-            {
-                throw new Exception("Lines are parallel");
-            }
+        private void AddFirstArea(double firstArea, double secondArea)
+        {
+            gameActivity.playArea.polygon[0].Points = gameActivity.playArea.polygon[gameActivity.playArea.polygon.Count - 1].Points;
 
-            // now return the Vector2 intersection point
-            return new LatLng((B2 * C1 - B1 * C2) / delta, (A1 * C2 - A2 * C1) / delta);
+            gameActivity.playArea.polygon.Remove(gameActivity.playArea.polygon[gameActivity.playArea.polygon.Count - 1]);
+
+            gameActivity.score += (int)((firstArea / (firstArea + secondArea)) * 100);
         }
 
         public void SetPolyline(List<LatLng> position)
@@ -351,11 +318,11 @@ namespace CaptureTheCampus
             gameActivity.path.polylines.Add(gameActivity.map.AddPolyline(polyline));
         }
 
-        public void SetPolygon(List<LatLng> position)
+        public void SetPolygon(int polygonNumber, List<LatLng> position)
         {
             Log.Debug("SetPolygon", "Setting polygon positions");
 
-            if (gameActivity.playArea.polygon == null)
+            if (gameActivity.playArea.polygon.Count < polygonNumber + 1)
             {
                 PolygonOptions polygon = new PolygonOptions();
 
@@ -368,7 +335,7 @@ namespace CaptureTheCampus
             }
             else
             {
-                gameActivity.playArea.polygon.Points = position;
+                gameActivity.playArea.polygon[polygonNumber].Points = position;
             }
         }
 
@@ -376,14 +343,14 @@ namespace CaptureTheCampus
         {
             Log.Debug("BuildPolygon", "Building polygon");
 
-            gameActivity.playArea.polygon = gameActivity.map.AddPolygon(polygon);
+            gameActivity.playArea.polygon.Add(gameActivity.map.AddPolygon(polygon));
         }
 
         internal bool UpdateRotation(SensorEvent e)
         {
             float alpha = 0.97f;
 
-            if(e.Sensor.Type == SensorType.Accelerometer)
+            if (e.Sensor.Type == SensorType.Accelerometer)
             {
                 gameActivity.gravity[0] = alpha * gameActivity.gravity[0] + (1 - alpha) * e.Values[0];
                 gameActivity.gravity[1] = alpha * gameActivity.gravity[1] + (1 - alpha) * e.Values[1];

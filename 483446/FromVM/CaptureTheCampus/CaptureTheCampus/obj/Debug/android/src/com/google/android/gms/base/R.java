@@ -300,15 +300,17 @@ containing a value of this type.
         public static final int progressbar=0x7f020017;
     }
     public static final class id {
-        public static final int CompletePlayAreaButton=0x7f070015;
-        public static final int GameMap=0x7f07000d;
-        public static final int HostMultiplayerButton=0x7f070010;
-        public static final int JoinMultiplayerButton=0x7f070011;
-        public static final int ProgressBar=0x7f07000e;
-        public static final int SetFirstMarkerButton=0x7f070013;
-        public static final int SetMap=0x7f070012;
-        public static final int SetSecondMarkerButton=0x7f070014;
-        public static final int SinglePlayerButton=0x7f07000f;
+        public static final int CompletePlayAreaButton=0x7f070017;
+        public static final int GameMap=0x7f07000f;
+        public static final int HostMultiplayerButton=0x7f070012;
+        public static final int JoinMultiplayerButton=0x7f070013;
+        public static final int ProgressBar=0x7f070010;
+        public static final int Score=0x7f07000e;
+        public static final int SetFirstMarkerButton=0x7f070015;
+        public static final int SetMap=0x7f070014;
+        public static final int SetSecondMarkerButton=0x7f070016;
+        public static final int SinglePlayerButton=0x7f070011;
+        public static final int Time=0x7f07000d;
         public static final int adjust_height=0x7f070005;
         public static final int adjust_width=0x7f070006;
         public static final int auto=0x7f07000a;

@@ -5,7 +5,7 @@
   <xs:import schemaLocation="schemas.android.com.tools.xsd" namespace="http://schemas.android.com/tools" />
   <xs:annotation>
     <xs:documentation>v25</xs:documentation>
-    <xs:documentation>03/03/2017 19:33:36</xs:documentation>
+    <xs:documentation>05/03/2017 03:09:28</xs:documentation>
   </xs:annotation>
   <xs:group name="any-view">
     <xs:choice>
@@ -95,10 +95,11 @@
       <xs:element ref="com.google.android.gms.maps.StreetViewPanoramaView" />
       <xs:element ref="com.google.android.gms.maps.MapView" />
       <xs:element ref="com.google.android.gms.common.SignInButton" />
-      <xs:element ref="CaptureTheCampus.SetMap" />
-      <xs:element ref="CaptureTheCampus.Utilities" />
+      <xs:element ref="CaptureTheCampus.Maths" />
       <xs:element ref="CaptureTheCampus.Rotation" />
+      <xs:element ref="CaptureTheCampus.SetMap" />
       <xs:element ref="CaptureTheCampus.Position" />
+      <xs:element ref="CaptureTheCampus.Utilities" />
     </xs:choice>
   </xs:group>
   <xs:element name="CheckedTextView" type="CheckedTextView">
@@ -1553,22 +1554,12 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="CaptureTheCampus.SetMap" type="CaptureTheCampus.SetMap">
+  <xs:element name="CaptureTheCampus.Maths" type="CaptureTheCampus.Maths">
     <xs:annotation>
-      <xs:documentation>Runtime Type: CaptureTheCampus.SetMap</xs:documentation>
+      <xs:documentation>Runtime Type: CaptureTheCampus.Maths</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:complexType name="CaptureTheCampus.SetMap">
-    <xs:complexContent mixed="false">
-      <xs:extension base="View" />
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="CaptureTheCampus.Utilities" type="CaptureTheCampus.Utilities">
-    <xs:annotation>
-      <xs:documentation>Runtime Type: CaptureTheCampus.Utilities</xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:complexType name="CaptureTheCampus.Utilities">
+  <xs:complexType name="CaptureTheCampus.Maths">
     <xs:complexContent mixed="false">
       <xs:extension base="View" />
     </xs:complexContent>
@@ -1583,12 +1574,32 @@
       <xs:extension base="View" />
     </xs:complexContent>
   </xs:complexType>
+  <xs:element name="CaptureTheCampus.SetMap" type="CaptureTheCampus.SetMap">
+    <xs:annotation>
+      <xs:documentation>Runtime Type: CaptureTheCampus.SetMap</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CaptureTheCampus.SetMap">
+    <xs:complexContent mixed="false">
+      <xs:extension base="View" />
+    </xs:complexContent>
+  </xs:complexType>
   <xs:element name="CaptureTheCampus.Position" type="CaptureTheCampus.Position">
     <xs:annotation>
       <xs:documentation>Runtime Type: CaptureTheCampus.Position</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:complexType name="CaptureTheCampus.Position">
+    <xs:complexContent mixed="false">
+      <xs:extension base="View" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CaptureTheCampus.Utilities" type="CaptureTheCampus.Utilities">
+    <xs:annotation>
+      <xs:documentation>Runtime Type: CaptureTheCampus.Utilities</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CaptureTheCampus.Utilities">
     <xs:complexContent mixed="false">
       <xs:extension base="View" />
     </xs:complexContent>
