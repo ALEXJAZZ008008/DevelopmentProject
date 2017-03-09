@@ -73,13 +73,15 @@ namespace CaptureTheCampus
             return markerOptions;
         }
 
-        public void SetPolygon(PolygonOptions polygon, LatLng[] position)
+        public void SetPolygon(LatLng[] vertices)
         {
             Log.Debug("SetPolygon", "Setting polygon positions");
 
-            for (int i = 0; i < position.Length; i++)
+            PolygonOptions polygon = new PolygonOptions();
+
+            for (int i = 0; i < vertices.Length; i++)
             {
-                polygon.Add(position[i]);
+                polygon.Add(vertices[i]);
             }
 
             if (setActivity.playArea.polygon == null)
@@ -88,7 +90,7 @@ namespace CaptureTheCampus
             }
             else
             {
-                setActivity.playArea.polygon.Points = position;
+                setActivity.playArea.polygon.Points = vertices;
             }
         }
 

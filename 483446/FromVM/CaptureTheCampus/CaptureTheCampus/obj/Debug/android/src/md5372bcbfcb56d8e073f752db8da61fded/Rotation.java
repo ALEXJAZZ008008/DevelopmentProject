@@ -2,7 +2,7 @@ package md5372bcbfcb56d8e073f752db8da61fded;
 
 
 public class Rotation
-	extends android.view.View
+	extends android.app.Activity
 	implements
 		mono.android.IGCUserPeer,
 		android.hardware.SensorEventListener
@@ -18,35 +18,18 @@ public class Rotation
 	}
 
 
+	public Rotation () throws java.lang.Throwable
+	{
+		super ();
+		if (getClass () == Rotation.class)
+			mono.android.TypeManager.Activate ("CaptureTheCampus.Rotation, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
+	}
+
 	public Rotation (android.content.Context p0) throws java.lang.Throwable
 	{
-		super (p0);
+		super ();
 		if (getClass () == Rotation.class)
 			mono.android.TypeManager.Activate ("CaptureTheCampus.Rotation, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Android.Content.Context, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065", this, new java.lang.Object[] { p0 });
-	}
-
-
-	public Rotation (android.content.Context p0, android.util.AttributeSet p1) throws java.lang.Throwable
-	{
-		super (p0, p1);
-		if (getClass () == Rotation.class)
-			mono.android.TypeManager.Activate ("CaptureTheCampus.Rotation, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Android.Content.Context, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065:Android.Util.IAttributeSet, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065", this, new java.lang.Object[] { p0, p1 });
-	}
-
-
-	public Rotation (android.content.Context p0, android.util.AttributeSet p1, int p2) throws java.lang.Throwable
-	{
-		super (p0, p1, p2);
-		if (getClass () == Rotation.class)
-			mono.android.TypeManager.Activate ("CaptureTheCampus.Rotation, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Android.Content.Context, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065:Android.Util.IAttributeSet, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065:System.Int32, mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e", this, new java.lang.Object[] { p0, p1, p2 });
-	}
-
-
-	public Rotation (android.content.Context p0, android.util.AttributeSet p1, int p2, int p3) throws java.lang.Throwable
-	{
-		super (p0, p1, p2, p3);
-		if (getClass () == Rotation.class)
-			mono.android.TypeManager.Activate ("CaptureTheCampus.Rotation, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Android.Content.Context, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065:Android.Util.IAttributeSet, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065:System.Int32, mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e:System.Int32, mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e", this, new java.lang.Object[] { p0, p1, p2, p3 });
 	}
 
 

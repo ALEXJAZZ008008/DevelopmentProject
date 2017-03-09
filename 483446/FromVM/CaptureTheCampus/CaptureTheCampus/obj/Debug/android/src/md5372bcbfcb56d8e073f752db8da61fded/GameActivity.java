@@ -13,6 +13,7 @@ public class GameActivity
 			"n_onCreate:(Landroid/os/Bundle;)V:GetOnCreate_Landroid_os_Bundle_Handler\n" +
 			"n_onResume:()V:GetOnResumeHandler\n" +
 			"n_onPause:()V:GetOnPauseHandler\n" +
+			"n_finish:()V:GetFinishHandler\n" +
 			"";
 		mono.android.Runtime.register ("CaptureTheCampus.GameActivity, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", GameActivity.class, __md_methods);
 	}
@@ -48,6 +49,14 @@ public class GameActivity
 	}
 
 	private native void n_onPause ();
+
+
+	public void finish ()
+	{
+		n_finish ();
+	}
+
+	private native void n_finish ();
 
 	private java.util.ArrayList refList;
 	public void monodroidAddReference (java.lang.Object obj)

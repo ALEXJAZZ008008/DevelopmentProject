@@ -1,29 +1,29 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
 using Android.OS;
 using Android.Util;
 using Android.Widget;
-using Android.Content;
-using Android.Gms.Maps.Model;
 
 namespace CaptureTheCampus
 {
     [Activity(Label = "@string/SetActivityLabel", Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class SetActivity : Activity
     {
+        public struct PlayArea
+        {
+            public LatLng[] vertices;
+            public Polygon polygon;
+        }
+
         private SetMap mapClass;
         public GoogleMap map;
         private Marker[] markers;
         private int markerNumber;
         public bool buttonClickBool;
 
-        public struct PlayArea
-        {
-            public LatLng[] vertices;
-            public PolygonOptions polygonOptions;
-            public Polygon polygon;
-        }
         public PlayArea playArea;
 
         private Button setFirstMarkerButton, setSecondMarkerButton, completePlayAreaButton;
@@ -77,8 +77,6 @@ namespace CaptureTheCampus
             playArea.vertices[1] = new LatLng(0, 0);
             playArea.vertices[2] = new LatLng(0, 0);
             playArea.vertices[3] = new LatLng(0, 0);
-
-            playArea.polygonOptions = new PolygonOptions();
 
             setFirstMarkerButton = FindViewById<Button>(Resource.Id.SetFirstMarkerButton);
             setSecondMarkerButton = FindViewById<Button>(Resource.Id.SetSecondMarkerButton);
@@ -179,7 +177,7 @@ namespace CaptureTheCampus
                     playArea.vertices[3].Latitude = playArea.vertices[2].Latitude;
                     playArea.vertices[3].Longitude = playArea.vertices[0].Longitude;
 
-                    mapClass.SetPolygon(playArea.polygonOptions, playArea.vertices);
+                    mapClass.SetPolygon(playArea.vertices);
                 }
             }
         }

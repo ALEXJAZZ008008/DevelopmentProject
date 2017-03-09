@@ -2,7 +2,7 @@ package md5372bcbfcb56d8e073f752db8da61fded;
 
 
 public class Position
-	extends android.view.View
+	extends android.app.Activity
 	implements
 		mono.android.IGCUserPeer,
 		com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks,
@@ -22,35 +22,18 @@ public class Position
 	}
 
 
+	public Position () throws java.lang.Throwable
+	{
+		super ();
+		if (getClass () == Position.class)
+			mono.android.TypeManager.Activate ("CaptureTheCampus.Position, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
+	}
+
 	public Position (android.content.Context p0) throws java.lang.Throwable
 	{
-		super (p0);
+		super ();
 		if (getClass () == Position.class)
 			mono.android.TypeManager.Activate ("CaptureTheCampus.Position, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Android.Content.Context, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065", this, new java.lang.Object[] { p0 });
-	}
-
-
-	public Position (android.content.Context p0, android.util.AttributeSet p1) throws java.lang.Throwable
-	{
-		super (p0, p1);
-		if (getClass () == Position.class)
-			mono.android.TypeManager.Activate ("CaptureTheCampus.Position, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Android.Content.Context, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065:Android.Util.IAttributeSet, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065", this, new java.lang.Object[] { p0, p1 });
-	}
-
-
-	public Position (android.content.Context p0, android.util.AttributeSet p1, int p2) throws java.lang.Throwable
-	{
-		super (p0, p1, p2);
-		if (getClass () == Position.class)
-			mono.android.TypeManager.Activate ("CaptureTheCampus.Position, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Android.Content.Context, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065:Android.Util.IAttributeSet, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065:System.Int32, mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e", this, new java.lang.Object[] { p0, p1, p2 });
-	}
-
-
-	public Position (android.content.Context p0, android.util.AttributeSet p1, int p2, int p3) throws java.lang.Throwable
-	{
-		super (p0, p1, p2, p3);
-		if (getClass () == Position.class)
-			mono.android.TypeManager.Activate ("CaptureTheCampus.Position, CaptureTheCampus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Android.Content.Context, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065:Android.Util.IAttributeSet, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065:System.Int32, mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e:System.Int32, mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e", this, new java.lang.Object[] { p0, p1, p2, p3 });
 	}
 
 

@@ -1,25 +1,27 @@
+using Android.App;
 using Android.Content;
-using Android.Views;
-using Android.Util;
-using Android.Locations;
-using Android.Gms.Maps.Model;
 using Android.Gms.Maps;
-using System.Collections.Generic;
-using System;
+using Android.Gms.Maps.Model;
 using Android.Hardware;
+using Android.Locations;
+using Android.Util;
+using System;
+using System.Collections.Generic;
 
 namespace CaptureTheCampus
 {
-    public class Utilities : View
+    public class Utilities : Activity
     {
         private GameActivity gameActivity;
+        private Area area;
         private Maths maths;
 
-        public Utilities(Context context) : base(context)
+        public Utilities(Context context)
         {
             Log.Info("Utilities", "Utilities built");
 
             gameActivity = (GameActivity)context;
+            area = new Area(gameActivity, this);
             maths = new Maths(gameActivity);
         }
 
@@ -61,19 +63,19 @@ namespace CaptureTheCampus
 
             MarkerOptions markerOptions = new MarkerOptions();
 
-            markerOptions.SetPosition(gameActivity.position);
+            markerOptions.SetPosition(gameActivity.path.currentPosition);
 
             return markerOptions;
         }
 
         public void UpdateLocationInformation(Location location)
         {
-            Log.Debug("Position", gameActivity.position.ToString());
+            Log.Debug("Position", gameActivity.path.currentPosition.ToString());
 
-            gameActivity.position = new LatLng(location.Latitude, location.Longitude);
+            gameActivity.path.currentPosition = new LatLng(location.Latitude, location.Longitude);
 
             UpdateLocation();
-            UpdatePaths();
+            area.UpdatePaths();
         }
 
         private void UpdateLocation()
@@ -102,7 +104,7 @@ namespace CaptureTheCampus
 
             CameraPosition.Builder builder = CameraPosition.InvokeBuilder();
 
-            builder.Target(gameActivity.position);
+            builder.Target(gameActivity.path.currentPosition);
             builder.Zoom(builderSettingsInts[0]);
             builder.Bearing(builderSettingsInts[1]);
             builder.Tilt(builderSettingsInts[2]);
@@ -112,202 +114,37 @@ namespace CaptureTheCampus
 
         private void MoveMarker()
         {
-            gameActivity.markers[0].Position = gameActivity.position;
+            gameActivity.markers[0].Position = gameActivity.path.currentPosition;
         }
 
-        private void UpdatePaths()
-        {
-            if (maths.CheckPosition() && gameActivity.path.vertices.Count >= 1)
-            {
-                UpdatePath();
-            }
-            else
-            {
-                ResetPath();
-            }
-        }
-
-        private void UpdatePath()
-        {
-            gameActivity.path.vertices.Add(gameActivity.position);
-
-            if (gameActivity.path.drawing == false)
-            {
-                for (int i = 1; i < gameActivity.playArea.polygon[0].Points.Count; i++)
-                {
-                    if (maths.doIntersect(gameActivity.path.vertices[0], gameActivity.path.vertices[1], gameActivity.playArea.polygon[0].Points[i - 1], gameActivity.playArea.polygon[0].Points[i]))
-                    {
-                        gameActivity.path.vertices[0] = maths.LineIntersectionPoint(gameActivity.path.vertices[0], gameActivity.path.vertices[1], gameActivity.playArea.polygon[0].Points[i - 1], gameActivity.playArea.polygon[0].Points[i]);
-
-                        break;
-                    }
-                }
-
-                SetPolyline(gameActivity.path.vertices);
-
-                gameActivity.path.drawing = true;
-            }
-            else
-            {
-                SetPolyline(gameActivity.path.vertices);
-            }
-        }
-
-        private void ResetPath()
-        {
-            if (gameActivity.path.drawing == false)
-            {
-                gameActivity.path.vertices.Clear();
-
-                gameActivity.path.vertices.Add(gameActivity.position);
-            }
-            else
-            {
-                gameActivity.path.vertices.Add(gameActivity.position);
-
-                for (int i = 1; i < gameActivity.playArea.polygon[0].Points.Count; i++)
-                {
-                    if (maths.doIntersect(gameActivity.path.vertices[gameActivity.path.vertices.Count - 2], gameActivity.path.vertices[gameActivity.path.vertices.Count - 1], gameActivity.playArea.polygon[0].Points[i - 1], gameActivity.playArea.polygon[0].Points[i]))
-                    {
-                        gameActivity.path.vertices[gameActivity.path.vertices.Count - 1] = maths.LineIntersectionPoint(gameActivity.path.vertices[gameActivity.path.vertices.Count - 2], gameActivity.path.vertices[gameActivity.path.vertices.Count - 1], gameActivity.playArea.polygon[0].Points[i - 1], gameActivity.playArea.polygon[0].Points[i]);
-
-                        break;
-                    }
-                }
-
-                SetPolyline(gameActivity.path.vertices);
-
-                BuildArea();
-
-                gameActivity.path.polylines[gameActivity.path.polylines.Count - 1].Remove();
-
-                gameActivity.path.drawing = false;
-
-                gameActivity.path.vertices.Clear();
-
-                gameActivity.path.vertices.Add(gameActivity.position);
-            }
-        }
-
-        private void BuildArea()
-        {
-            List<int> intersections = new List<int>();
-
-            LatLng firstExtendedPosition = maths.ExtendLineSegment(gameActivity.path.vertices[0], gameActivity.path.vertices[gameActivity.path.vertices.Count - 1]);
-            LatLng secondExtendedPosition = maths.ExtendLineSegment(gameActivity.path.vertices[gameActivity.path.vertices.Count - 1], gameActivity.path.vertices[0]);
-
-            int[] firstLineSegment = new int[2];
-            int[] secondLineSegment = new int[2];
-
-            for (int i = 1; i < gameActivity.playArea.polygon[0].Points.Count; i++)
-            {
-                if (maths.doIntersect(firstExtendedPosition, secondExtendedPosition, gameActivity.playArea.polygon[0].Points[i - 1], gameActivity.playArea.polygon[0].Points[i]))
-                {
-                    intersections.Add(i - 1);
-                    intersections.Add(i);
-                }
-            }
-
-            firstLineSegment[0] = intersections[0];
-            firstLineSegment[1] = intersections[1];
-
-            secondLineSegment[0] = intersections[intersections.Count - 2];
-            secondLineSegment[1] = intersections[intersections.Count - 1];
-
-            BuildAreas(firstLineSegment, secondLineSegment);
-        }
-
-        private void BuildAreas(int[] firstLineSegment, int[] secondLineSegment)
-        {
-            List<LatLng> firstPolygon = new List<LatLng>();
-            List<LatLng> secondPolygon = new List<LatLng>();
-
-            for (int i = 0; i < gameActivity.path.polylines[gameActivity.path.polylines.Count - 1].Points.Count; i++)
-            {
-                firstPolygon.Add(gameActivity.path.polylines[gameActivity.path.polylines.Count - 1].Points[i]);
-                secondPolygon.Add(gameActivity.path.polylines[gameActivity.path.polylines.Count - 1].Points[i]);
-            }
-
-            for (int i = firstLineSegment[1]; i < secondLineSegment[0] + 1; i++)
-            {
-                firstPolygon.Add(gameActivity.playArea.polygon[0].Points[i]);
-            }
-
-            SetPolygon(gameActivity.playArea.polygon.Count, firstPolygon);
-
-            if (firstLineSegment[0] == 0)
-            {
-                firstLineSegment[0] = gameActivity.playArea.polygon[0].Points.Count - 1;
-            }
-
-            if (secondLineSegment[1] == gameActivity.playArea.polygon[0].Points.Count - 1)
-            {
-                secondLineSegment[1] = 0;
-
-                secondPolygon.Reverse();
-            }
-
-            for (int i = secondLineSegment[1]; i < firstLineSegment[0] + 1; i++)
-            {
-                secondPolygon.Add(gameActivity.playArea.polygon[0].Points[i]);
-            }
-
-            SetPolygon(gameActivity.playArea.polygon.Count, secondPolygon);
-
-            TestAreas();
-        }
-
-        private void TestAreas()
-        {
-            double firstArea = maths.PolygonArea(gameActivity.playArea.polygon.Count - 2);
-            double secondArea = maths.PolygonArea(gameActivity.playArea.polygon.Count - 1);
-
-            if (secondArea <= firstArea)
-            {
-                AddSecondArea(firstArea, secondArea);
-            }
-            else
-            {
-                AddFirstArea(firstArea, secondArea);
-            }
-        }
-
-        private void AddSecondArea(double firstArea, double secondArea)
-        {
-            gameActivity.playArea.polygon[0].Points = gameActivity.playArea.polygon[gameActivity.playArea.polygon.Count - 2].Points;
-
-            gameActivity.playArea.polygon.Remove(gameActivity.playArea.polygon[gameActivity.playArea.polygon.Count - 2]);
-
-            gameActivity.score += (int)((secondArea / (firstArea + secondArea)) * 100);
-        }
-
-        private void AddFirstArea(double firstArea, double secondArea)
-        {
-            gameActivity.playArea.polygon[0].Points = gameActivity.playArea.polygon[gameActivity.playArea.polygon.Count - 1].Points;
-
-            gameActivity.playArea.polygon.Remove(gameActivity.playArea.polygon[gameActivity.playArea.polygon.Count - 1]);
-
-            gameActivity.score += (int)((firstArea / (firstArea + secondArea)) * 100);
-        }
-
-        public void SetPolyline(List<LatLng> position)
+        public void SetPolyline(LinkedList<LatLng> vertices)
         {
             Log.Debug("SetPolyline", "Setting polyline positions");
 
             if (gameActivity.path.drawing == false)
             {
                 PolylineOptions polyline = new PolylineOptions();
+                LinkedListNode<LatLng> verticesNode = vertices.First;
 
-                for (int i = 0; i < position.Count; i++)
+                while (true)
                 {
-                    polyline.Add(position[i]);
+                    polyline.Add(verticesNode.Value);
+
+                    if (verticesNode.Next != null)
+                    {
+                        verticesNode = verticesNode.Next;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
 
                 BuildPolyline(polyline);
             }
             else
             {
-                gameActivity.path.polylines[gameActivity.path.polylines.Count - 1].Points = position;
+                gameActivity.path.polyline.Points = new List<LatLng>(vertices);
             }
         }
 
@@ -315,35 +152,44 @@ namespace CaptureTheCampus
         {
             Log.Debug("BuildPolyline", "Building polyline");
 
-            gameActivity.path.polylines.Add(gameActivity.map.AddPolyline(polyline));
+            gameActivity.path.polyline = gameActivity.map.AddPolyline(polyline);
         }
 
-        public void SetPolygon(int polygonNumber, List<LatLng> position)
+        public void SetPolygon(LinkedList<LatLng> vertices)
         {
             Log.Debug("SetPolygon", "Setting polygon positions");
 
-            if (gameActivity.playArea.polygon.Count < polygonNumber + 1)
-            {
-                PolygonOptions polygon = new PolygonOptions();
+            PolygonOptions polygon = new PolygonOptions();
+            LinkedListNode<LatLng> verticesNode = vertices.First;
 
-                for (int i = 0; i < position.Count; i++)
+            while (true)
+            {
+                polygon.Add(verticesNode.Value);
+
+                if (verticesNode.Next != null)
                 {
-                    polygon.Add(position[i]);
+                    verticesNode = verticesNode.Next;
                 }
+                else
+                {
+                    break;
+                }
+            }
 
-                BuildPolygon(polygon);
-            }
-            else
-            {
-                gameActivity.playArea.polygon[polygonNumber].Points = position;
-            }
+            BuildPolygon(polygon);
         }
 
         private void BuildPolygon(PolygonOptions polygon)
         {
             Log.Debug("BuildPolygon", "Building polygon");
 
-            gameActivity.playArea.polygon.Add(gameActivity.map.AddPolygon(polygon));
+            gameActivity.playArea.polygons.Add(gameActivity.map.AddPolygon(polygon));
+
+            if(gameActivity.playArea.polygons.Count == 1)
+            {
+                gameActivity.initialArea = maths.PolygonArea(0);
+                gameActivity.area = 100;
+            }
         }
 
         internal bool UpdateRotation(SensorEvent e)
