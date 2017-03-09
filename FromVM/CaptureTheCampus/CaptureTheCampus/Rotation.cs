@@ -1,17 +1,17 @@
+using Android.App;
 using Android.Content;
-using Android.Runtime;
-using Android.Views;
 using Android.Hardware;
+using Android.Runtime;
 using Android.Util;
 
 namespace CaptureTheCampus
 {
-    public class Rotation: View, ISensorEventListener
+    public class Rotation: Activity, ISensorEventListener
     {
         private GameActivity gameActivity;
         private Utilities utilities;
 
-        public Rotation (Context context) : base (context)
+        public Rotation (Context context)
         {
             Log.Info("Rotation", "Rotation built");
 

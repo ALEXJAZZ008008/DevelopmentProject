@@ -1,16 +1,15 @@
 using Android.Content;
-using Android.Views;
+using Android.Gms.Maps.Model;
 using Android.Util;
 using System;
-using Android.Gms.Maps.Model;
 
 namespace CaptureTheCampus
 {
-    public class Maths : View
+    public class Maths
     {
         private GameActivity gameActivity;
 
-        public Maths(Context context) : base(context)
+        public Maths(Context context)
         {
             Log.Info("Maths", "Maths built");
 
@@ -21,14 +20,14 @@ namespace CaptureTheCampus
         {
             // Get the angle between the point and the
             // first and last vertices.
-            int max_point = gameActivity.playArea.polygon[0].Points.Count - 1;
-            double total_angle = GetAngle(gameActivity.playArea.polygon[0].Points[max_point].Latitude, gameActivity.playArea.polygon[0].Points[max_point].Longitude, gameActivity.position.Latitude, gameActivity.position.Longitude, gameActivity.playArea.polygon[0].Points[0].Latitude, gameActivity.playArea.polygon[0].Points[0].Longitude);
+            int max_point = gameActivity.playArea.polygons[0].Points.Count - 1;
+            double total_angle = GetAngle(gameActivity.playArea.polygons[0].Points[max_point].Latitude, gameActivity.playArea.polygons[0].Points[max_point].Longitude, gameActivity.path.currentPosition.Latitude, gameActivity.path.currentPosition.Longitude, gameActivity.playArea.polygons[0].Points[0].Latitude, gameActivity.playArea.polygons[0].Points[0].Longitude);
 
             // Add the angles from the point
             // to each other pair of vertices.
             for (int i = 0; i < max_point; i++)
             {
-                total_angle += GetAngle(gameActivity.playArea.polygon[0].Points[i].Latitude, gameActivity.playArea.polygon[0].Points[i].Longitude, gameActivity.position.Latitude, gameActivity.position.Longitude, gameActivity.playArea.polygon[0].Points[i + 1].Latitude, gameActivity.playArea.polygon[0].Points[i + 1].Longitude);
+                total_angle += GetAngle(gameActivity.playArea.polygons[0].Points[i].Latitude, gameActivity.playArea.polygons[0].Points[i].Longitude, gameActivity.path.currentPosition.Latitude, gameActivity.path.currentPosition.Longitude, gameActivity.playArea.polygons[0].Points[i + 1].Latitude, gameActivity.playArea.polygons[0].Points[i + 1].Longitude);
             }
 
             // The total angle should be 2 * PI or -2 * PI if
@@ -73,30 +72,22 @@ namespace CaptureTheCampus
             return (BAx * BCy - BAy * BCx);
         }
 
-        // Find the polygon's centroid.
-
-        public LatLng ExtendLineSegment(LatLng firstPoint, LatLng secondPoint)
-        {
-            double lenAB = Math.Sqrt(Math.Pow(secondPoint.Latitude - firstPoint.Latitude, 2.0) + Math.Pow(secondPoint.Longitude - firstPoint.Longitude, 2.0));
-
-            return new LatLng(firstPoint.Latitude + (firstPoint.Latitude - secondPoint.Latitude) / lenAB * (PolygonArea(0) / (1000 * (4 * 4))), firstPoint.Longitude + (firstPoint.Longitude - secondPoint.Longitude) / lenAB * (PolygonArea(0) / (1000 * (4 * 4))));
-        }
-
         public double PolygonArea(int position)
         {
             // Return the absolute value of the signed area.
             // The signed area is negative if the polyogn is
             // oriented clockwise.
+
             return Math.Abs(SignedPolygonArea(position));
         }
 
         private double SignedPolygonArea(int position)
         {
             // Add the first point to the end.
-            int num_points = gameActivity.playArea.polygon[position].Points.Count;
+            int num_points = gameActivity.playArea.polygons[position].Points.Count;
             LatLng[] pts = new LatLng[num_points + 1];
-            gameActivity.playArea.polygon[position].Points.CopyTo(pts, 0);
-            pts[num_points] = gameActivity.playArea.polygon[position].Points[0];
+            gameActivity.playArea.polygons[position].Points.CopyTo(pts, 0);
+            pts[num_points] = gameActivity.playArea.polygons[position].Points[0];
 
             // Get the areas.
             double area = 0;
@@ -108,6 +99,50 @@ namespace CaptureTheCampus
 
             // Return the result.
             return area;
+        }
+
+        // Find the polygon's centroid.
+        public LatLng FindCentroid()
+        {
+            // Add the first point to the end.
+            int num_points = gameActivity.playArea.polygons[0].Points.Count;
+            LatLng[] pts = new LatLng[num_points + 1];
+            gameActivity.playArea.polygons[0].Points.CopyTo(pts, 0);
+            pts[num_points] = gameActivity.playArea.polygons[0].Points[0];
+
+            // Find the centroid.
+            double X = 0;
+            double Y = 0;
+            double second_factor;
+
+            for (int i = 0; i < num_points; i++)
+            {
+                second_factor = pts[i].Latitude * pts[i + 1].Longitude - pts[i + 1].Latitude * pts[i].Longitude;
+                X += (pts[i].Latitude + pts[i + 1].Latitude) * second_factor;
+                Y += (pts[i].Longitude + pts[i + 1].Longitude) * second_factor;
+            }
+
+            // Divide by 6 times the polygon's area.
+            double polygon_area = PolygonArea(0);
+            X /= (6 * polygon_area);
+            Y /= (6 * polygon_area);
+
+            // If the values are negative, the polygon is
+            // oriented counterclockwise so reverse the signs.
+            if (X < 0)
+            {
+                X = -X;
+                Y = -Y;
+            }
+
+            return new LatLng(X, Y);
+        }
+
+        public LatLng ExtendLineSegment(LatLng firstPoint, LatLng secondPoint)
+        {
+            double lenAB = Math.Sqrt(Math.Pow(secondPoint.Latitude - firstPoint.Latitude, 2.0) + Math.Pow(secondPoint.Longitude - firstPoint.Longitude, 2.0));
+
+            return new LatLng(firstPoint.Latitude + (firstPoint.Latitude - secondPoint.Latitude) / lenAB * (PolygonArea(0) / (1000 * (gameActivity.playArea.polygons[0].Points.Count * gameActivity.playArea.polygons[0].Points.Count))), firstPoint.Longitude + (firstPoint.Longitude - secondPoint.Longitude) / lenAB * (PolygonArea(0) / (1000 * (gameActivity.playArea.polygons[0].Points.Count * gameActivity.playArea.polygons[0].Points.Count))));
         }
 
         // The main function that returns true if line segment 'p1q1'

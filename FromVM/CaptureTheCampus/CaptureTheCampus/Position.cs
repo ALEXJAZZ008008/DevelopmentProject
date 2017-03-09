@@ -1,3 +1,4 @@
+using Android.App;
 using Android.Content;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
@@ -5,18 +6,17 @@ using Android.Gms.Location;
 using Android.Locations;
 using Android.OS;
 using Android.Util;
-using Android.Views;
 
 namespace CaptureTheCampus
 {
-    public class Position : View, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener
+    public class Position : Activity, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener
     {
         private GameActivity gameActivity;
         private Utilities utilities;
 
         private LocationRequest locRequest;
 
-        public Position(Context context) : base (context)
+        public Position(Context context)
         {
             Log.Info("Position", "Position built");
 
@@ -81,7 +81,7 @@ namespace CaptureTheCampus
 
         public void OnLocationChanged(Location location)
         {
-            if (location.Latitude != gameActivity.position.Latitude || location.Longitude != gameActivity.position.Longitude)
+            if (location.Latitude != gameActivity.path.currentPosition.Latitude || location.Longitude != gameActivity.path.currentPosition.Longitude)
             {
                 // This method returns changes in the user's location if they've been requested
 

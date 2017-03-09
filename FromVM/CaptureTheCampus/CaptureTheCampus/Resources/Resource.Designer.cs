@@ -259,6 +259,9 @@ namespace CaptureTheCampus
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f07000d
+			public const int Area = 2131165197;
+			
 			// aapt resource value: 0x7f070017
 			public const int CompletePlayAreaButton = 2131165207;
 			
@@ -288,9 +291,6 @@ namespace CaptureTheCampus
 			
 			// aapt resource value: 0x7f070011
 			public const int SinglePlayerButton = 2131165201;
-			
-			// aapt resource value: 0x7f07000d
-			public const int Time = 2131165197;
 			
 			// aapt resource value: 0x7f070005
 			public const int adjust_height = 2131165189;

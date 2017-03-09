@@ -7,10 +7,8 @@ using Android.Gms.Maps.Model;
 using Android.Hardware;
 using Android.OS;
 using Android.Util;
-using System.Collections.Generic;
-using Android.Content;
 using Android.Widget;
-using System.Timers;
+using System.Collections.Generic;
 
 namespace CaptureTheCampus
 {
@@ -19,21 +17,24 @@ namespace CaptureTheCampus
     {
         public struct PlayArea
         {
-            public List<LatLng> vertices;
-            public List<Polygon> polygon;
+            public LinkedList<LatLng> vertices;
+            public LinkedListNode<LatLng> verticesNode;
+            public List<Polygon> polygons;
         }
 
         public struct Path
         {
-            public List<LatLng> vertices;
-            public List<Polyline> polylines;
+            public LatLng currentPosition;
+            public LinkedList<LatLng> vertices;
+            public LinkedListNode<LatLng> verticesNode;
+            public Polyline polyline;
             public bool drawing;
         }
 
         private string gameType;
-        private TextView timeTextView, scoreTextView;
-        private Timer timer;
-        public int score;
+        public TextView areaTextView, scoreTextView;
+        public double initialArea;
+        public int area, score;
 
         private GameMap mapClass;
         public GoogleMap map;
@@ -42,7 +43,6 @@ namespace CaptureTheCampus
 
         private Position positionClass;
         public GoogleApiClient apiClient;
-        public LatLng position;
         public Path path;
 
         private Rotation rotationClass;
@@ -62,7 +62,7 @@ namespace CaptureTheCampus
 
             StartMap();
             StartPosition();
-            StartRotation();
+            //StartRotation();
         }
 
         protected override void OnResume()
@@ -71,7 +71,7 @@ namespace CaptureTheCampus
             Log.Debug("OnResume", "OnResume called, connecting to clients...");
 
             StartUpdatePosition();
-            StartUpdateRotation();
+            //StartUpdateRotation();
         }
 
         protected override void OnPause()
@@ -79,7 +79,7 @@ namespace CaptureTheCampus
             Log.Debug("OnPause", "OnPause called, stopping client updates");
 
             StopUpdatePosition();
-            StopUpdateRotation();
+            //StopUpdateRotation();
 
             base.OnPause();
         }
@@ -87,28 +87,26 @@ namespace CaptureTheCampus
         private void Initialise()
         {
             gameType = Intent.GetStringExtra("gameType");
-            timeTextView = (TextView)FindViewById(Resource.Id.Time);
+            areaTextView = (TextView)FindViewById(Resource.Id.Area);
             scoreTextView = (TextView)FindViewById(Resource.Id.Score);
-            timer = new Timer();
-            timer.Elapsed += (sender, e) => { };
-            timer.Interval = 600000;
-            timeTextView.Text = "Time: " + ((timer.Interval / 60) / 100).ToString();
+            area = 100;
+            areaTextView.Text = "Area: " + area.ToString();
             score = 0;
             scoreTextView.Text = "Score: " + score.ToString();
 
             mapClass = new GameMap(this);
             markers = new List<Marker>();
             playArea = new PlayArea();
+            playArea.vertices = new LinkedList<LatLng>();
 
             GetVertices();
 
-            playArea.polygon = new List<Polygon>();
+            playArea.polygons = new List<Polygon>();
 
             positionClass = new Position(this);
-            position = new LatLng(0, 0);
             path = new Path();
-            path.vertices = new List<LatLng>();
-            path.polylines = new List<Polyline>();
+            path.currentPosition = new LatLng(0, 0);
+            path.vertices = new LinkedList<LatLng>();
             path.drawing = false;
 
             rotationClass = new Rotation(this);
@@ -119,13 +117,11 @@ namespace CaptureTheCampus
 
         private void GetVertices()
         {
-            playArea.vertices = new List<LatLng>();
+            playArea.verticesNode = playArea.vertices.AddFirst(new LatLng(Intent.GetDoubleExtra("markerOneLatitude", 0), Intent.GetDoubleExtra("markerOneLongitude", 0)));
+            playArea.verticesNode = playArea.vertices.AddAfter(playArea.verticesNode, new LatLng(Intent.GetDoubleExtra("markerTwoLatitude", 0), Intent.GetDoubleExtra("markerTwoLongitude", 0)));
 
-            playArea.vertices.Add(new LatLng(Intent.GetDoubleExtra("markerOneLatitude", 0), Intent.GetDoubleExtra("markerOneLongitude", 0)));
-            playArea.vertices.Add(new LatLng(Intent.GetDoubleExtra("markerTwoLatitude", 0), Intent.GetDoubleExtra("markerTwoLongitude", 0)));
-
-            playArea.vertices.Insert(1, new LatLng(playArea.vertices[0].Latitude, playArea.vertices[1].Longitude));
-            playArea.vertices.Add(new LatLng(playArea.vertices[2].Latitude, playArea.vertices[0].Longitude));
+            playArea.vertices.AddBefore(playArea.verticesNode, new LatLng(playArea.vertices.First.Value.Latitude, playArea.vertices.Last.Value.Longitude));
+            playArea.vertices.AddLast(new LatLng(playArea.vertices.Last.Value.Latitude, playArea.vertices.First.Value.Longitude));
         }
 
         private void StartMap()
@@ -138,7 +134,7 @@ namespace CaptureTheCampus
         private void StartPosition()
         {
             Log.Debug("StartPosition", "Starting position client");
-
+            
             // pass in the Context, ConnectionListener and ConnectionFailedListener
             apiClient = new GoogleApiClient.Builder(this, positionClass, positionClass).AddApi(LocationServices.API).Build();
         }
@@ -180,6 +176,11 @@ namespace CaptureTheCampus
             Log.Debug("StopUpdateRotation", "Stopping updates from rotation client");
 
             sensorManager.UnregisterListener(rotationClass);
+        }
+
+        public override void Finish()
+        {
+            base.Finish();
         }
     }
 }
