@@ -301,15 +301,16 @@ containing a value of this type.
     }
     public static final class id {
         public static final int Area=0x7f07000d;
-        public static final int CompletePlayAreaButton=0x7f070017;
+        public static final int CompletePlayAreaButton=0x7f070018;
         public static final int GameMap=0x7f07000f;
         public static final int HostMultiplayerButton=0x7f070012;
         public static final int JoinMultiplayerButton=0x7f070013;
+        public static final int MainMenuButton=0x7f070014;
         public static final int ProgressBar=0x7f070010;
         public static final int Score=0x7f07000e;
-        public static final int SetFirstMarkerButton=0x7f070015;
-        public static final int SetMap=0x7f070014;
-        public static final int SetSecondMarkerButton=0x7f070016;
+        public static final int SetFirstMarkerButton=0x7f070016;
+        public static final int SetMap=0x7f070015;
+        public static final int SetSecondMarkerButton=0x7f070017;
         public static final int SinglePlayerButton=0x7f070011;
         public static final int adjust_height=0x7f070005;
         public static final int adjust_width=0x7f070006;
@@ -332,22 +333,25 @@ containing a value of this type.
         public static final int game=0x7f030000;
         public static final int main=0x7f030001;
         public static final int menu=0x7f030002;
-        public static final int search=0x7f030003;
-        public static final int set=0x7f030004;
+        public static final int score=0x7f030003;
+        public static final int search=0x7f030004;
+        public static final int set=0x7f030005;
     }
     public static final class string {
-        public static final int CompletePlayAreaButton=0x7f05001c;
+        public static final int CompletePlayAreaButton=0x7f05001d;
         public static final int GameActivityLabel=0x7f050015;
-        public static final int HostMultiplayerButtonLabel=0x7f050018;
-        public static final int JoinMultiplayerButtonLabel=0x7f050019;
+        public static final int HostMultiplayerButtonLabel=0x7f050019;
+        public static final int JoinMultiplayerButtonLabel=0x7f05001a;
         public static final int MainActivityLabel=0x7f050011;
-        public static final int MainMenuTitle=0x7f050016;
+        public static final int MainMenuButtonLabel=0x7f05001e;
+        public static final int MainMenuTitle=0x7f050017;
         public static final int MenuActivityLabel=0x7f050012;
+        public static final int ScoreActivityLabel=0x7f050016;
         public static final int SearchActivityLabel=0x7f050014;
         public static final int SetActivityLabel=0x7f050013;
-        public static final int SetFirstMarkerButton=0x7f05001a;
-        public static final int SetSecondMarkerButton=0x7f05001b;
-        public static final int SinglePlayerButtonLabel=0x7f050017;
+        public static final int SetFirstMarkerButton=0x7f05001b;
+        public static final int SetSecondMarkerButton=0x7f05001c;
+        public static final int SinglePlayerButtonLabel=0x7f050018;
         public static final int common_google_play_services_enable_button=0x7f050000;
         public static final int common_google_play_services_enable_text=0x7f050001;
         public static final int common_google_play_services_enable_title=0x7f050002;

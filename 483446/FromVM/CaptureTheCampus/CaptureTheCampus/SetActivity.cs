@@ -1,6 +1,8 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Gms.Common.Apis;
+using Android.Gms.Location;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
@@ -21,10 +23,13 @@ namespace CaptureTheCampus
         private SetMap mapClass;
         public GoogleMap map;
         private Marker[] markers;
+        public PlayArea playArea;
         private int markerNumber;
         public bool buttonClickBool;
 
-        public PlayArea playArea;
+        private SetPosition positionClass;
+        public GoogleApiClient apiClient;
+        public bool positionBool;
 
         private Button setFirstMarkerButton, setSecondMarkerButton, completePlayAreaButton;
 
@@ -39,12 +44,15 @@ namespace CaptureTheCampus
             Initialise();
 
             StartMap();
+            StartPosition();
         }
 
         protected override void OnResume()
         {
             base.OnResume();
             Log.Debug("OnResume", "OnResume called, starting event handlers...");
+
+            StartUpdatePosition();
 
             StartButtonEventHandlers();
 
@@ -58,6 +66,8 @@ namespace CaptureTheCampus
         {
             Log.Debug("OnPause", "OnPause called, stopping event handlers");
 
+            StopUpdatePosition();
+
             StopButtonEventHandlers();
             StopMapClickEventHandler();
 
@@ -67,9 +77,6 @@ namespace CaptureTheCampus
         private void Initialise()
         {
             mapClass = new SetMap(this);
-            markers = new Marker[2];
-            markerNumber = -1;
-            buttonClickBool = false;
             playArea = new PlayArea();
             playArea.vertices = new LatLng[4];
 
@@ -77,6 +84,13 @@ namespace CaptureTheCampus
             playArea.vertices[1] = new LatLng(0, 0);
             playArea.vertices[2] = new LatLng(0, 0);
             playArea.vertices[3] = new LatLng(0, 0);
+
+            markers = new Marker[2];
+            markerNumber = -1;
+            buttonClickBool = false;
+
+            positionClass = new SetPosition(this);
+            positionBool = false;
 
             setFirstMarkerButton = FindViewById<Button>(Resource.Id.SetFirstMarkerButton);
             setSecondMarkerButton = FindViewById<Button>(Resource.Id.SetSecondMarkerButton);
@@ -90,11 +104,39 @@ namespace CaptureTheCampus
             FragmentManager.FindFragmentById<MapFragment>(Resource.Id.SetMap).GetMapAsync(mapClass);
         }
 
+        private void StartPosition()
+        {
+            Log.Debug("StartPosition", "Starting position client");
+
+            // pass in the Context, ConnectionListener and ConnectionFailedListener
+            apiClient = new GoogleApiClient.Builder(this, positionClass, positionClass).AddApi(LocationServices.API).Build();
+        }
+
+        private void StartUpdatePosition()
+        {
+            Log.Debug("StartUpdatePosition", "Starting updates from position client");
+
+            apiClient.Connect();
+        }
+
         private void StartButtonEventHandlers()
         {
             setFirstMarkerButton.Click += (sender, e) => FirstButtonClickEvent();
             setSecondMarkerButton.Click += (sender, e) => SecondButtonClickEvent();
             completePlayAreaButton.Click += (sender, e) => GoToGameActivity();
+        }
+
+        public void StopUpdatePosition()
+        {
+            if (apiClient.IsConnected == true)
+            {
+                Log.Debug("StopUpdatePosition", "Stopping updates from position client");
+
+                // stop location updates, passing in the LocationListener
+                LocationServices.FusedLocationApi.RemoveLocationUpdates(apiClient, positionClass);
+
+                apiClient.Disconnect();
+            }
         }
 
         private void StopButtonEventHandlers()

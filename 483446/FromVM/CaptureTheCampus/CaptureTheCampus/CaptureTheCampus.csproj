@@ -108,7 +108,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Area.cs" />
+    <Compile Include="Hazards.cs" />
     <Compile Include="Maths.cs" />
+    <Compile Include="ScoreActivity.cs" />
+    <Compile Include="SetPosition.cs" />
     <Compile Include="SetActivity.cs" />
     <Compile Include="GameMap.cs" />
     <Compile Include="Host.cs" />
@@ -117,7 +120,7 @@
     <Compile Include="GameActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MenuActivity.cs" />
-    <Compile Include="Position.cs" />
+    <Compile Include="GamePosition.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rotation.cs" />
@@ -158,6 +161,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Set.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Score.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

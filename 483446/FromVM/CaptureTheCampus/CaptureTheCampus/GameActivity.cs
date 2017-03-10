@@ -9,6 +9,9 @@ using Android.OS;
 using Android.Util;
 using Android.Widget;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
+using Android.Content;
 
 namespace CaptureTheCampus
 {
@@ -19,7 +22,9 @@ namespace CaptureTheCampus
         {
             public LinkedList<LatLng> vertices;
             public LinkedListNode<LatLng> verticesNode;
-            public List<Polygon> polygons;
+            public LinkedList<Polygon> polygons;
+            public LinkedListNode<Polygon> polygonsNode;
+            public bool playAreaDrawnBool;
         }
 
         public struct Path
@@ -28,20 +33,24 @@ namespace CaptureTheCampus
             public LinkedList<LatLng> vertices;
             public LinkedListNode<LatLng> verticesNode;
             public Polyline polyline;
-            public bool drawing;
+            public bool drawingBool;
         }
 
+        private Task finishTask, scoreTask, hazardTask;
         private string gameType;
         public TextView areaTextView, scoreTextView;
         public double initialArea;
         public int area, score;
+        public bool finishBool;
 
         private GameMap mapClass;
         public GoogleMap map;
         public List<Marker> markers;
+        public int markerNumber;
         public PlayArea playArea;
+        public Circle circle;
 
-        private Position positionClass;
+        private GamePosition positionClass;
         public GoogleApiClient apiClient;
         public Path path;
 
@@ -63,6 +72,8 @@ namespace CaptureTheCampus
             StartMap();
             StartPosition();
             //StartRotation();
+
+            StartTasks();
         }
 
         protected override void OnResume()
@@ -86,6 +97,9 @@ namespace CaptureTheCampus
 
         private void Initialise()
         {
+            finishTask = new Task(() => FinishCheck());
+            scoreTask = new Task(() => EndConditions());
+            hazardTask = new Task(() => RunHazards());
             gameType = Intent.GetStringExtra("gameType");
             areaTextView = (TextView)FindViewById(Resource.Id.Area);
             scoreTextView = (TextView)FindViewById(Resource.Id.Score);
@@ -93,26 +107,102 @@ namespace CaptureTheCampus
             areaTextView.Text = "Area: " + area.ToString();
             score = 0;
             scoreTextView.Text = "Score: " + score.ToString();
+            finishBool = false;
 
             mapClass = new GameMap(this);
             markers = new List<Marker>();
+
+            if(gameType == "Single Player")
+            {
+                markerNumber = 0;
+            }
+
             playArea = new PlayArea();
             playArea.vertices = new LinkedList<LatLng>();
 
             GetVertices();
 
-            playArea.polygons = new List<Polygon>();
+            playArea.polygons = new LinkedList<Polygon>();
+            playArea.playAreaDrawnBool = false;
 
-            positionClass = new Position(this);
+            positionClass = new GamePosition(this);
             path = new Path();
             path.currentPosition = new LatLng(0, 0);
             path.vertices = new LinkedList<LatLng>();
-            path.drawing = false;
+            path.drawingBool = false;
 
             rotationClass = new Rotation(this);
             gravity = new float[3];
             geoMagnetic = new float[3];
             azimuth = 0;
+        }
+
+        private void FinishCheck()
+        {
+            while(true)
+            {
+                if(finishBool == true)
+                {
+                    Finish();
+
+                    break;
+                }
+
+                Thread.Sleep(1000);
+            }
+        }
+
+        private void EndConditions()
+        {
+            while (true)
+            {
+                if (area <= 25 && area != 0)
+                {
+                    GoToScoreActivity();
+
+                    break;
+                }
+
+                Thread.Sleep(1000);
+            }
+        }
+
+        private void GoToScoreActivity()
+        {
+            Log.Debug("GoToScoreActivity", "GoToScoreActivity called, going to ScoreActivity...");
+
+            Intent intent = new Intent(this, typeof(ScoreActivity));
+            intent.PutExtra("score", score);
+            StartActivity(intent);
+
+            finishBool = true;
+        }
+
+        private void RunHazards()
+        {
+            while (true)
+            {
+                if(circle != null)
+                {
+                    break;
+                }
+
+                Thread.Sleep(1000);
+            }
+
+            Hazards hazards = new Hazards(this, circle);
+
+            while (true)
+            {
+                hazards.RunHazards();
+
+                if(finishBool == true)
+                {
+                    break;
+                }
+
+                Thread.Sleep(1000);
+            }
         }
 
         private void GetVertices()
@@ -146,6 +236,13 @@ namespace CaptureTheCampus
             sensorManager = (SensorManager)GetSystemService(SensorService);
         }
 
+        private void StartTasks()
+        {
+            finishTask.Start();
+            scoreTask.Start();
+            hazardTask.Start();
+        }
+
         private void StartUpdatePosition()
         {
             Log.Debug("StartUpdatePosition", "Starting updates from position client");
@@ -176,11 +273,6 @@ namespace CaptureTheCampus
             Log.Debug("StopUpdateRotation", "Stopping updates from rotation client");
 
             sensorManager.UnregisterListener(rotationClass);
-        }
-
-        public override void Finish()
-        {
-            base.Finish();
         }
     }
 }

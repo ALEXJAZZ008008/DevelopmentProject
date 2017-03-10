@@ -262,8 +262,8 @@ namespace CaptureTheCampus
 			// aapt resource value: 0x7f07000d
 			public const int Area = 2131165197;
 			
-			// aapt resource value: 0x7f070017
-			public const int CompletePlayAreaButton = 2131165207;
+			// aapt resource value: 0x7f070018
+			public const int CompletePlayAreaButton = 2131165208;
 			
 			// aapt resource value: 0x7f07000f
 			public const int GameMap = 2131165199;
@@ -274,20 +274,23 @@ namespace CaptureTheCampus
 			// aapt resource value: 0x7f070013
 			public const int JoinMultiplayerButton = 2131165203;
 			
+			// aapt resource value: 0x7f070014
+			public const int MainMenuButton = 2131165204;
+			
 			// aapt resource value: 0x7f070010
 			public const int ProgressBar = 2131165200;
 			
 			// aapt resource value: 0x7f07000e
 			public const int Score = 2131165198;
 			
-			// aapt resource value: 0x7f070015
-			public const int SetFirstMarkerButton = 2131165205;
-			
-			// aapt resource value: 0x7f070014
-			public const int SetMap = 2131165204;
-			
 			// aapt resource value: 0x7f070016
-			public const int SetSecondMarkerButton = 2131165206;
+			public const int SetFirstMarkerButton = 2131165206;
+			
+			// aapt resource value: 0x7f070015
+			public const int SetMap = 2131165205;
+			
+			// aapt resource value: 0x7f070017
+			public const int SetSecondMarkerButton = 2131165207;
 			
 			// aapt resource value: 0x7f070011
 			public const int SinglePlayerButton = 2131165201;
@@ -370,10 +373,13 @@ namespace CaptureTheCampus
 			public const int Menu = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int Search = 2130903043;
+			public const int Score = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int Set = 2130903044;
+			public const int Search = 2130903044;
+			
+			// aapt resource value: 0x7f030005
+			public const int Set = 2130903045;
 			
 			static Layout()
 			{
@@ -388,26 +394,32 @@ namespace CaptureTheCampus
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f05001c
-			public const int CompletePlayAreaButton = 2131034140;
+			// aapt resource value: 0x7f05001d
+			public const int CompletePlayAreaButton = 2131034141;
 			
 			// aapt resource value: 0x7f050015
 			public const int GameActivityLabel = 2131034133;
 			
-			// aapt resource value: 0x7f050018
-			public const int HostMultiplayerButtonLabel = 2131034136;
-			
 			// aapt resource value: 0x7f050019
-			public const int JoinMultiplayerButtonLabel = 2131034137;
+			public const int HostMultiplayerButtonLabel = 2131034137;
+			
+			// aapt resource value: 0x7f05001a
+			public const int JoinMultiplayerButtonLabel = 2131034138;
 			
 			// aapt resource value: 0x7f050011
 			public const int MainActivityLabel = 2131034129;
 			
-			// aapt resource value: 0x7f050016
-			public const int MainMenuTitle = 2131034134;
+			// aapt resource value: 0x7f05001e
+			public const int MainMenuButtonLabel = 2131034142;
+			
+			// aapt resource value: 0x7f050017
+			public const int MainMenuTitle = 2131034135;
 			
 			// aapt resource value: 0x7f050012
 			public const int MenuActivityLabel = 2131034130;
+			
+			// aapt resource value: 0x7f050016
+			public const int ScoreActivityLabel = 2131034134;
 			
 			// aapt resource value: 0x7f050014
 			public const int SearchActivityLabel = 2131034132;
@@ -415,14 +427,14 @@ namespace CaptureTheCampus
 			// aapt resource value: 0x7f050013
 			public const int SetActivityLabel = 2131034131;
 			
-			// aapt resource value: 0x7f05001a
-			public const int SetFirstMarkerButton = 2131034138;
-			
 			// aapt resource value: 0x7f05001b
-			public const int SetSecondMarkerButton = 2131034139;
+			public const int SetFirstMarkerButton = 2131034139;
 			
-			// aapt resource value: 0x7f050017
-			public const int SinglePlayerButtonLabel = 2131034135;
+			// aapt resource value: 0x7f05001c
+			public const int SetSecondMarkerButton = 2131034140;
+			
+			// aapt resource value: 0x7f050018
+			public const int SinglePlayerButtonLabel = 2131034136;
 			
 			// aapt resource value: 0x7f050000
 			public const int common_google_play_services_enable_button = 2131034112;
