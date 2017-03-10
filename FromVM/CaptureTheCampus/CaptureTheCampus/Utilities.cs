@@ -63,9 +63,53 @@ namespace CaptureTheCampus
 
             MarkerOptions markerOptions = new MarkerOptions();
 
+            markerOptions.SetIcon(BitmapDescriptorFactory.DefaultMarker(Colour(gameActivity.markers.Count)));
             markerOptions.SetPosition(gameActivity.path.currentPosition);
 
             return markerOptions;
+        }
+
+        public float Colour(int count)
+        {
+            while (true)
+            {
+                switch (count)
+                {
+                    case 0:
+                        return BitmapDescriptorFactory.HueAzure;
+
+                    case 1:
+                        return BitmapDescriptorFactory.HueBlue;
+
+                    case 2:
+                        return BitmapDescriptorFactory.HueCyan;
+
+                    case 3:
+                        return BitmapDescriptorFactory.HueGreen;
+
+                    case 4:
+                        return BitmapDescriptorFactory.HueMagenta;
+
+                    case 5:
+                        return BitmapDescriptorFactory.HueOrange;
+
+                    case 6:
+                        return BitmapDescriptorFactory.HueRed;
+
+                    case 7:
+                        return BitmapDescriptorFactory.HueRose;
+
+                    case 8:
+                        return BitmapDescriptorFactory.HueViolet;
+
+                    case 9:
+                        return BitmapDescriptorFactory.HueYellow;
+
+                    default:
+                        count = count - 10;
+                        break;
+                }
+            }
         }
 
         public void UpdateLocationInformation(Location location)
@@ -90,7 +134,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("SetCamera", "Setting camera position");
 
-            int[] builderSettingsInts = { 0, (int)gameActivity.azimuth, 21 };
+            int[] builderSettingsInts = { 17, (int)gameActivity.azimuth, 21 };
 
             CameraPosition cameraPosition = CameraBuilder(builderSettingsInts).Build();
             CameraUpdate cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
@@ -114,14 +158,14 @@ namespace CaptureTheCampus
 
         private void MoveMarker()
         {
-            gameActivity.markers[0].Position = gameActivity.path.currentPosition;
+            gameActivity.markers[gameActivity.markerNumber].Position = gameActivity.path.currentPosition;
         }
 
         public void SetPolyline(LinkedList<LatLng> vertices)
         {
             Log.Debug("SetPolyline", "Setting polyline positions");
 
-            if (gameActivity.path.drawing == false)
+            if (gameActivity.path.drawingBool == false)
             {
                 PolylineOptions polyline = new PolylineOptions();
                 LinkedListNode<LatLng> verticesNode = vertices.First;
@@ -160,6 +204,7 @@ namespace CaptureTheCampus
             Log.Debug("SetPolygon", "Setting polygon positions");
 
             PolygonOptions polygon = new PolygonOptions();
+
             LinkedListNode<LatLng> verticesNode = vertices.First;
 
             while (true)
@@ -183,16 +228,37 @@ namespace CaptureTheCampus
         {
             Log.Debug("BuildPolygon", "Building polygon");
 
-            gameActivity.playArea.polygons.Add(gameActivity.map.AddPolygon(polygon));
+            gameActivity.playArea.polygonsNode = gameActivity.playArea.polygons.AddLast(gameActivity.map.AddPolygon(polygon));
 
-            if(gameActivity.playArea.polygons.Count == 1)
+            if (gameActivity.playArea.playAreaDrawnBool == false)
             {
-                gameActivity.initialArea = maths.PolygonArea(0);
-                gameActivity.area = 100;
+                gameActivity.initialArea = maths.PolygonArea(gameActivity.playArea.vertices);
+                gameActivity.area = (int)((maths.PolygonArea(gameActivity.playArea.vertices) / gameActivity.initialArea) * 100);
+
+                gameActivity.playArea.playAreaDrawnBool = true;
             }
         }
 
-        internal bool UpdateRotation(SensorEvent e)
+        public void SetCircle()
+        {
+            Log.Debug("SetCircle", "Setting circle positions");
+
+            CircleOptions circleOptions = new CircleOptions();
+
+            circleOptions.InvokeCenter(maths.FindCentroid());
+            circleOptions.InvokeRadius(maths.ShortestLineSegment(gameActivity.playArea.vertices) * 5000);
+
+            BuildCircle(circleOptions);
+        }
+
+        private void BuildCircle(CircleOptions circle)
+        {
+            Log.Debug("BuildCircle", "Building circle");
+
+            gameActivity.circle = gameActivity.map.AddCircle(circle);
+        }
+
+        public bool UpdateRotation(SensorEvent e)
         {
             float alpha = 0.97f;
 

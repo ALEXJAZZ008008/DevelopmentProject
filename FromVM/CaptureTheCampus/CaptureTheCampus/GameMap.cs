@@ -1,3 +1,4 @@
+using System;
 using Android.App;
 using Android.Content;
 using Android.Gms.Maps;
@@ -36,8 +37,15 @@ namespace CaptureTheCampus
             };
 
             utilities.BuildMap(googleMap, mapSettingsBools);
+
+            SetObjects();
+        }
+
+        private void SetObjects()
+        {
             utilities.SetMarker();
             utilities.SetPolygon(gameActivity.playArea.vertices);
+            utilities.SetCircle();
         }
     }
 }

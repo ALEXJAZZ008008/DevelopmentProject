@@ -1,5 +1,6 @@
 using Android.Content;
 using Android.Gms.Maps.Model;
+using Android.Graphics;
 using Android.Util;
 using Android.Widget;
 using System.Collections.Generic;
@@ -37,13 +38,13 @@ namespace CaptureTheCampus
         {
             gameActivity.path.verticesNode = gameActivity.path.vertices.AddAfter(gameActivity.path.verticesNode, gameActivity.path.currentPosition);
 
-            if (gameActivity.path.drawing == false)
+            if (gameActivity.path.drawingBool == false)
             {
                 FindInitialPathIntersection();
 
                 utilities.SetPolyline(gameActivity.path.vertices);
 
-                gameActivity.path.drawing = true;
+                gameActivity.path.drawingBool = true;
             }
             else
             {
@@ -77,7 +78,7 @@ namespace CaptureTheCampus
                     }
                     else
                     {
-                        gameActivity.Finish();
+                        gameActivity.finishBool = true;
                     }
                 }
             }
@@ -102,7 +103,7 @@ namespace CaptureTheCampus
 
         private void ResetPath()
         {
-            if (gameActivity.path.drawing != false)
+            if (gameActivity.path.drawingBool != false)
             {
                 gameActivity.path.verticesNode = gameActivity.path.vertices.AddLast(gameActivity.path.currentPosition).Previous;
 
@@ -112,7 +113,7 @@ namespace CaptureTheCampus
 
                 BuildArea();
 
-                gameActivity.path.drawing = false;
+                gameActivity.path.drawingBool = false;
             }
 
             gameActivity.path.vertices.Clear();
@@ -145,7 +146,7 @@ namespace CaptureTheCampus
                     }
                     else
                     {
-                        gameActivity.Finish();
+                        gameActivity.finishBool = true;
                     }
                 }
             }
@@ -171,8 +172,6 @@ namespace CaptureTheCampus
         private void BuildArea()
         {
             CheckFirstPlayAreaIntersection();
-
-            //BuildAreas(firstLineSegment, secondLineSegment);
         }
 
         private void CheckFirstPlayAreaIntersection()
@@ -183,7 +182,7 @@ namespace CaptureTheCampus
             }
             else
             {
-                gameActivity.Finish();
+                gameActivity.finishBool = true;
             } 
         }
 
@@ -195,7 +194,7 @@ namespace CaptureTheCampus
             }
             else
             {
-                gameActivity.Finish();
+                gameActivity.finishBool = true;
             }
         }
 
@@ -356,8 +355,8 @@ namespace CaptureTheCampus
 
         private void TestAreas()
         {
-            double firstArea = maths.PolygonArea(gameActivity.playArea.polygons.Count - 2);
-            double secondArea = maths.PolygonArea(gameActivity.playArea.polygons.Count - 1);
+            double firstArea = maths.PolygonArea(new LinkedList<LatLng>(gameActivity.playArea.polygons.Last.Previous.Value.Points));
+            double secondArea = maths.PolygonArea(new LinkedList<LatLng>(gameActivity.playArea.polygons.Last.Value.Points));
 
             if (firstArea <= secondArea)
             {
@@ -367,45 +366,43 @@ namespace CaptureTheCampus
             {
                 AddSecondArea(secondArea);
             }
+
+            UpdatePolygons();
         }
 
         private void AddFirstArea(double firstArea)
         {
-            gameActivity.playArea.polygons[0].Points = gameActivity.playArea.polygons[gameActivity.playArea.polygons.Count - 1].Points;
+            gameActivity.playArea.polygons.First.Value.Points = gameActivity.playArea.polygons.Last.Value.Points;            
 
-            UpdateVertices();
-
-            gameActivity.playArea.polygons.Remove(gameActivity.playArea.polygons[gameActivity.playArea.polygons.Count - 1]);
+            gameActivity.playArea.polygons.Remove(gameActivity.playArea.polygons.Last.Value);
 
             UpdateScore(firstArea);
         }
 
         private void AddSecondArea(double secondArea)
         {
-            gameActivity.playArea.polygons[0].Points = gameActivity.playArea.polygons[gameActivity.playArea.polygons.Count - 2].Points;
+            gameActivity.playArea.polygons.First.Value.Points = gameActivity.playArea.polygons.Last.Previous.Value.Points;
 
-            UpdateVertices();
-
-            gameActivity.playArea.polygons.Remove(gameActivity.playArea.polygons[gameActivity.playArea.polygons.Count - 2]);
+            gameActivity.playArea.polygons.Remove(gameActivity.playArea.polygons.Last.Previous.Value);
 
             UpdateScore(secondArea);
         }
 
-        private void UpdateVertices()
-        {
-            gameActivity.playArea.vertices = new LinkedList<LatLng>(gameActivity.playArea.polygons[0].Points);
-            gameActivity.playArea.vertices.RemoveLast();
-        }
-
         private void UpdateScore(double area)
         {
-            double newArea = maths.PolygonArea(0);
-
-            gameActivity.area = (int)((newArea / gameActivity.initialArea) * 100);
+            gameActivity.area = (int)((maths.PolygonArea(gameActivity.playArea.vertices) / gameActivity.initialArea) * 100);
             gameActivity.areaTextView.Text = "Area: " + gameActivity.area.ToString();
 
-            gameActivity.score += (int)((area / newArea) * 100);
+            gameActivity.score += (int)((area / gameActivity.initialArea) * 100);
             gameActivity.scoreTextView.Text = "Score: " + gameActivity.score.ToString();
+        }
+
+        private void UpdatePolygons()
+        {
+            gameActivity.playArea.vertices = new LinkedList<LatLng>(gameActivity.playArea.polygons.First.Value.Points);
+            gameActivity.playArea.vertices.RemoveLast();
+
+            gameActivity.playArea.polygons.Last.Value.FillColor = Color.HSVToColor(new float[] { utilities.Colour(gameActivity.markerNumber), 1.0f, 1.0f });
         }
     }
 }
