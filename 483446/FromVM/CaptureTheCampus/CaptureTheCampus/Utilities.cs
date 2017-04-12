@@ -257,12 +257,13 @@ namespace CaptureTheCampus
         public LatLng FindCirclePosition(LinkedList<LatLng> vertices, double radius)
         {
             LatLng position;
+            LatLng[] interceptionVertex;
 
             while (true)
             {
                 position = maths.FindRandomPoint();
 
-                if (maths.PointInPolygon(vertices, position) && !CircleIntersectPolygon(vertices, position, radius))
+                if (maths.PointInPolygon(vertices, position) && !CircleIntersectPolygon(vertices, position, radius, out interceptionVertex))
                 {
                     break;
                 }
@@ -271,14 +272,20 @@ namespace CaptureTheCampus
             return position;
         }
 
-        public bool CircleIntersectPolygon(LinkedList<LatLng> vertices, LatLng position, double radius)
+        public bool CircleIntersectPolygon(LinkedList<LatLng> vertices, LatLng position, double inRadius, out LatLng[] interceptionVertex)
         {
+            double radius = 1d / (111.3d / (inRadius / 1000d));
+
+            interceptionVertex = new LatLng[2];
             LinkedListNode<LatLng> verticesNode = vertices.First.Next;
 
             while (true)
             {
                 if (maths.CircleLineIntersect(position, verticesNode.Previous.Value, verticesNode.Value, radius))
                 {
+                    interceptionVertex[0] = verticesNode.Previous.Value;
+                    interceptionVertex[1] = verticesNode.Value;
+
                     return true;
                 }
 
@@ -288,7 +295,15 @@ namespace CaptureTheCampus
                 }
                 else
                 {
-                    return maths.CircleLineIntersect(position, vertices.First.Value, vertices.Last.Value, radius);
+                    if(maths.CircleLineIntersect(position, vertices.First.Value, vertices.Last.Value, radius))
+                    {
+                        interceptionVertex[0] = vertices.First.Value;
+                        interceptionVertex[1] = vertices.Last.Value;
+
+                        return true;
+                    }
+
+                    return false;
                 }
             }
         }

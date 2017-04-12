@@ -531,14 +531,43 @@ namespace CaptureTheCampus
                 return false;
             }
 
-            double d = Math.Sin(GetAngle(a.Latitude, a.Longitude, b.Latitude, b.Longitude, c.Latitude, c.Longitude)) * ab;
+            double d = Math.Abs(Math.Sin(GetAngle(a.Latitude, a.Longitude, b.Latitude, b.Longitude, c.Latitude, c.Longitude)) * ab);
 
-            if(d < radius)
+            if(d > radius)
             {
                 return false;
             }
 
             return true;
+        }
+
+        public LatLng DegreesToUnitVector(int degrees)
+        {
+            double radians = DegreesToRadians(degrees);
+
+            LatLng degreesUnitVector = new LatLng(Math.Cos(radians), Math.Sin(radians));
+
+            double degreesUnitVectorMagnitude = Math.Sqrt(Math.Pow(degreesUnitVector.Latitude, 2) + Math.Pow(degreesUnitVector.Longitude, 2));
+            degreesUnitVector = new LatLng(degreesUnitVector.Latitude / degreesUnitVectorMagnitude, degreesUnitVector.Longitude / degreesUnitVectorMagnitude);
+
+            return degreesUnitVector;
+        }
+
+        private double DegreesToRadians(int degrees)
+        {
+            return (degrees - 180) * (Math.PI / 180);
+        }
+
+        public int UnitVectorToDegrees(LatLng degreesUnitVector)
+        {
+            double radians = Math.Atan2(degreesUnitVector.Longitude, degreesUnitVector.Latitude);
+
+            return RadiansToDegrees(radians);
+        }
+
+        private int RadiansToDegrees(double radians)
+        {
+            return (int)(radians * (180 / Math.PI)) + 180;
         }
     }
 }
