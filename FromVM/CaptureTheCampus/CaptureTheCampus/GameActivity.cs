@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using Android.Content;
+using System;
 
 namespace CaptureTheCampus
 {
@@ -20,7 +21,7 @@ namespace CaptureTheCampus
     {
         public struct PlayArea
         {
-            public LinkedList<LatLng> vertices;
+            volatile public LinkedList<LatLng> vertices;
             public LinkedListNode<LatLng> verticesNode;
             public LinkedList<Polygon> polygons;
             public LinkedListNode<Polygon> polygonsNode;
@@ -40,15 +41,14 @@ namespace CaptureTheCampus
         private string gameType;
         public TextView areaTextView, scoreTextView;
         public double initialArea;
-        public int area, score;
-        public bool finishBool;
+        volatile public int area, score;
+        volatile public bool finishBool;
 
         private GameMap mapClass;
         public GoogleMap map;
         public List<Marker> markers;
         public int markerNumber;
         public PlayArea playArea;
-        public Circle circle;
 
         private GamePosition positionClass;
         public GoogleApiClient apiClient;
@@ -58,6 +58,9 @@ namespace CaptureTheCampus
         public SensorManager sensorManager;
         public float[] gravity, geoMagnetic;
         public float azimuth;
+
+        private Hazards hazards;
+        volatile public Circle circle;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -100,6 +103,7 @@ namespace CaptureTheCampus
             finishTask = new Task(() => FinishCheck());
             scoreTask = new Task(() => EndConditions());
             hazardTask = new Task(() => RunHazards());
+
             gameType = Intent.GetStringExtra("gameType");
             areaTextView = (TextView)FindViewById(Resource.Id.Area);
             scoreTextView = (TextView)FindViewById(Resource.Id.Score);
@@ -135,6 +139,8 @@ namespace CaptureTheCampus
             gravity = new float[3];
             geoMagnetic = new float[3];
             azimuth = 0;
+
+            hazards = new Hazards(this);
         }
 
         private void FinishCheck()
@@ -190,11 +196,15 @@ namespace CaptureTheCampus
                 Thread.Sleep(1000);
             }
 
-            Hazards hazards = new Hazards(this, circle);
+            hazards.SetCircle(circle);
+
+            LinkedList<LatLng> temporaryVertices = new LinkedList<LatLng>();
 
             while (true)
             {
-                hazards.RunHazards();
+                CopyVertices(temporaryVertices);
+
+                hazards.RunHazards(temporaryVertices);
 
                 if(finishBool == true)
                 {
@@ -202,6 +212,20 @@ namespace CaptureTheCampus
                 }
 
                 Thread.Sleep(1000);
+            }
+        }
+
+        private void CopyVertices(LinkedList<LatLng> temporaryVertices)
+        {
+            LatLng[] temporaryArray = new LatLng[playArea.vertices.Count];
+
+            playArea.vertices.CopyTo(temporaryArray, 0);
+
+            temporaryVertices.Clear();
+
+            for (int i = 0; i < temporaryArray.Length; i++)
+            {
+                temporaryVertices.AddLast(temporaryArray[i]);
             }
         }
 
