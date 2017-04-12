@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using Android.Content;
-using System;
 
 namespace CaptureTheCampus
 {
@@ -198,13 +197,15 @@ namespace CaptureTheCampus
 
             hazards.SetCircle(circle);
 
-            LinkedList<LatLng> temporaryVertices = new LinkedList<LatLng>();
+            LinkedList<LatLng> temporaryPlayAreaVertices = new LinkedList<LatLng>();
+            LinkedList<LatLng> temporaryPathVertices = new LinkedList<LatLng>();
 
             while (true)
             {
-                CopyVertices(temporaryVertices);
+                CopyVertices(temporaryPlayAreaVertices, playArea.vertices);
+                CopyVertices(temporaryPathVertices, path.vertices);
 
-                hazards.RunHazards(temporaryVertices);
+                hazards.RunHazards(temporaryPlayAreaVertices, temporaryPathVertices);
 
                 if(finishBool == true)
                 {
@@ -215,11 +216,11 @@ namespace CaptureTheCampus
             }
         }
 
-        private void CopyVertices(LinkedList<LatLng> temporaryVertices)
+        private void CopyVertices(LinkedList<LatLng> temporaryVertices, LinkedList<LatLng> inVertices)
         {
-            LatLng[] temporaryArray = new LatLng[playArea.vertices.Count];
+            LatLng[] temporaryArray = new LatLng[inVertices.Count];
 
-            playArea.vertices.CopyTo(temporaryArray, 0);
+            inVertices.CopyTo(temporaryArray, 0);
 
             temporaryVertices.Clear();
 

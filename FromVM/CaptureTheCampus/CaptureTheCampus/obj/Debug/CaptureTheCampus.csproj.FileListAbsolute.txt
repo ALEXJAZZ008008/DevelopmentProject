@@ -13,7 +13,6 @@ C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTh
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.GooglePlayServices.Location.dll
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.GooglePlayServices.Maps.dll
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Xamarin.GooglePlayServices.Tasks.dll
-C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\CaptureTheCampus.csprojResolveAssemblyReference.cache
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.GooglePlayServices.Basement.dll
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.GooglePlayServices.Tasks.dll
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\XbdMerge\Xamarin.GooglePlayServices.Base.dll
@@ -41,6 +40,7 @@ C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTh
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\R.cs.flag
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\uploadflags.txt
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\CaptureTheCampus.dll.mdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\obj\Debug\CaptureTheCampus.csprojResolveAssemblyReference.cache
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Java.Interop.dll.mdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\Mono.Android.dll.mdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\CaptureTheCampus\bin\Debug\mscorlib.dll.mdb

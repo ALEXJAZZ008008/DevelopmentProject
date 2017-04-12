@@ -15,6 +15,7 @@ namespace CaptureTheCampus
         volatile private Circle circle;
         private double velocity;
         private int degrees;
+        private int attempts;
 
         public Hazards(Context context)
         {
@@ -24,10 +25,12 @@ namespace CaptureTheCampus
             utilities = new Utilities(gameActivity);
             maths = new Maths(gameActivity);
 
-            velocity = 1d / (111d / (10d / (60d * 60d)));
+            velocity = 1d / (111.3d / (10d / (60d * 60d)));
             degrees = 0;
 
             SetDegrees();
+
+            attempts = 0;
         }
 
         public void SetCircle(Circle inCircle)
@@ -42,57 +45,87 @@ namespace CaptureTheCampus
             degrees = random.Next(0, 361);
         }
 
-        public void RunHazards(LinkedList<LatLng> vertices)
+        public void RunHazards(LinkedList<LatLng> polygonVertices, LinkedList<LatLng> pathVertices)
         {
-            gameActivity.RunOnUiThread(() => CheckPosition(vertices));
+            gameActivity.RunOnUiThread(() => CheckPosition(polygonVertices, pathVertices));
         }
 
-        private void CheckPosition(LinkedList<LatLng> vertices)
+        private void CheckPosition(LinkedList<LatLng> polygonVertices, LinkedList<LatLng> pathVertices)
         {
             LatLng position = circle.Center;
             double radius = circle.Radius;
 
-            if (!maths.PointInPolygon(vertices, position))
+            if (!maths.PointInPolygon(polygonVertices, position))
             {
-                gameActivity.circle.Center = utilities.FindCirclePosition(vertices, radius);
+                gameActivity.circle.Center = utilities.FindCirclePosition(polygonVertices, radius);
 
                 SetCircle(gameActivity.circle);
                 SetDegrees();
             }
             else
             {
-                UpdatePosition();
+                LatLng[] interceptionVertex;
 
-                if (utilities.CircleIntersectPolygon(vertices, circle.Center, radius))
+                UpdatePosition(pathVertices, radius);
+
+                if (utilities.CircleIntersectPolygon(polygonVertices, circle.Center, radius, out interceptionVertex))
                 {
                     gameActivity.circle.Center = position;
 
                     SetCircle(gameActivity.circle);
+
+                    ReverseUnitVector(interceptionVertex);
+
+                    if (attempts >= 10)
+                    {
+                        gameActivity.circle.Center = utilities.FindCirclePosition(polygonVertices, radius);
+
+                        SetCircle(gameActivity.circle);
+                        SetDegrees();
+                    }
+                    else
+                    {
+                        attempts++;
+                    }
+                }
+                else
+                {
+                    attempts = 0;
                 }
             }
         }
 
-        private void UpdatePosition()
+        private void UpdatePosition(LinkedList<LatLng> pathVertices, double radius)
         {
-            double radians = DegreesToRadians();
+            LatLng degreesUnitVector = maths.DegreesToUnitVector(degrees);
 
-            circle.Center = new LatLng(circle.Center.Latitude + (Math.Cos(radians) * velocity), circle.Center.Longitude + (Math.Sin(radians) * velocity));
+            circle.Center = new LatLng(circle.Center.Latitude + (degreesUnitVector.Latitude * velocity), circle.Center.Longitude + (degreesUnitVector.Longitude * velocity));
 
             gameActivity.circle.Center = circle.Center;
+
+            CheckPlayerInterception(pathVertices, radius);
 
             UpdateUnitVector();
         }
 
-        private double DegreesToRadians()
+        private void CheckPlayerInterception(LinkedList<LatLng> pathVertices, double radius)
         {
-            return (degrees - 180) * (Math.PI / 180);
+            LatLng[] interceptionVertex;
+
+            if (pathVertices.First != null && pathVertices.First.Next != null)
+            {
+                if (utilities.CircleIntersectPolygon(pathVertices, circle.Center, radius, out interceptionVertex))
+                {
+                    ;
+                }
+            }
         }
 
         private void UpdateUnitVector()
         {
             Random random = new Random();
 
-            int acceleration = random.Next(0, 121) - 60;
+            int acceleration = random.Next(0, 91) - 45;
 
             int temporaryDegrees = degrees + acceleration;
 
@@ -111,6 +144,32 @@ namespace CaptureTheCampus
                     degrees = temporaryDegrees;
                 }
             }
+        }
+
+        private void ReverseUnitVector(LatLng[] interceptionVertex)
+        {
+            LatLng interceptionNormalVector = new LatLng(interceptionVertex[1].Longitude - interceptionVertex[0].Longitude, -(interceptionVertex[1].Latitude - interceptionVertex[0].Latitude));
+
+            double interceptionNormalVectorMagnitude = Math.Sqrt(Math.Pow(interceptionNormalVector.Latitude, 2) + Math.Pow(interceptionNormalVector.Longitude, 2));
+            interceptionNormalVector = new LatLng(Math.Abs(interceptionNormalVector.Latitude / interceptionNormalVectorMagnitude) * -1, Math.Abs(interceptionNormalVector.Longitude / interceptionNormalVectorMagnitude) * -1);
+
+            if(interceptionNormalVector.Latitude == 0)
+            {
+                interceptionNormalVector.Latitude = 1;
+            }
+
+            if (interceptionNormalVector.Longitude == 0)
+            {
+                interceptionNormalVector.Longitude = 1;
+            }
+
+            LatLng degreesUnitVector = maths.DegreesToUnitVector(degrees);
+            degreesUnitVector = new LatLng(degreesUnitVector.Latitude * interceptionNormalVector.Latitude, degreesUnitVector.Longitude * interceptionNormalVector.Longitude);
+
+            double degreesUnitVectorMagnitude = Math.Sqrt(Math.Pow(degreesUnitVector.Latitude, 2) + Math.Pow(degreesUnitVector.Longitude, 2));
+            degreesUnitVector = new LatLng(degreesUnitVector.Latitude / degreesUnitVectorMagnitude, degreesUnitVector.Longitude / degreesUnitVectorMagnitude);
+
+            degrees = maths.UnitVectorToDegrees(degreesUnitVector);
         }
     }
 }
