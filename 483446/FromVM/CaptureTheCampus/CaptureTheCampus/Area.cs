@@ -24,13 +24,15 @@ namespace CaptureTheCampus
 
         public void UpdatePaths()
         {
-            if (maths.CheckPosition() && gameActivity.path.vertices.Count >= 1)
+            bool positionBool = maths.CheckPosition();
+
+            if (positionBool && gameActivity.path.vertices.Count >= 1)
             {
                 UpdatePath();
             }
             else
             {
-                ResetPath();
+                ResetPath(positionBool);
             }
         }
 
@@ -59,7 +61,7 @@ namespace CaptureTheCampus
 
             while (true)
             {
-                if (maths.doIntersect(gameActivity.path.vertices.First.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.verticesNode.Previous.Value, gameActivity.playArea.verticesNode.Value))
+                if (maths.DoIntersect(gameActivity.path.vertices.First.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.verticesNode.Previous.Value, gameActivity.playArea.verticesNode.Value))
                 {
                     gameActivity.path.vertices.First.Value = maths.LineIntersectionPoint(gameActivity.path.vertices.First.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.verticesNode.Previous.Value, gameActivity.playArea.verticesNode.Value);
 
@@ -86,7 +88,7 @@ namespace CaptureTheCampus
 
         private bool CheckInitialPathIntersectionCirularly()
         {
-            if (maths.doIntersect(gameActivity.path.vertices.First.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.vertices.First.Value, gameActivity.playArea.vertices.Last.Value))
+            if (maths.DoIntersect(gameActivity.path.vertices.First.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.vertices.First.Value, gameActivity.playArea.vertices.Last.Value))
             {
                 gameActivity.path.vertices.First.Value = maths.LineIntersectionPoint(gameActivity.path.vertices.First.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.vertices.First.Value, gameActivity.playArea.vertices.Last.Value);
 
@@ -101,7 +103,7 @@ namespace CaptureTheCampus
             }
         }
 
-        private void ResetPath()
+        private void ResetPath(bool positionBool)
         {
             if (gameActivity.path.drawingBool != false)
             {
@@ -118,7 +120,10 @@ namespace CaptureTheCampus
 
             gameActivity.path.vertices.Clear();
 
-            gameActivity.path.verticesNode = gameActivity.path.vertices.AddFirst(gameActivity.path.currentPosition);
+            if (!positionBool)
+            {
+                gameActivity.path.verticesNode = gameActivity.path.vertices.AddFirst(gameActivity.path.currentPosition);
+            }
         }
 
         private void FindFinalPathIntersection()
@@ -127,7 +132,7 @@ namespace CaptureTheCampus
 
             while (true)
             {
-                if (maths.doIntersect(gameActivity.path.verticesNode.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.verticesNode.Previous.Value, gameActivity.playArea.verticesNode.Value))
+                if (maths.DoIntersect(gameActivity.path.verticesNode.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.verticesNode.Previous.Value, gameActivity.playArea.verticesNode.Value))
                 {
                     gameActivity.path.vertices.Last.Value = maths.LineIntersectionPoint(gameActivity.path.verticesNode.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.verticesNode.Previous.Value, gameActivity.playArea.verticesNode.Value);
 
@@ -154,7 +159,7 @@ namespace CaptureTheCampus
 
         private bool CheckFinalPathIntersectionCircularly()
         {
-            if (maths.doIntersect(gameActivity.path.verticesNode.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.vertices.First.Value, gameActivity.playArea.vertices.Last.Value))
+            if (maths.DoIntersect(gameActivity.path.verticesNode.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.vertices.First.Value, gameActivity.playArea.vertices.Last.Value))
             {
                 gameActivity.path.vertices.Last.Value = maths.LineIntersectionPoint(gameActivity.path.verticesNode.Value, gameActivity.path.vertices.Last.Value, gameActivity.playArea.vertices.First.Value, gameActivity.playArea.vertices.Last.Value);
 
@@ -207,7 +212,7 @@ namespace CaptureTheCampus
 
             while (true)
             {
-                if (maths.doIntersect(firstExtendedPosition, secondExtendedPosition, gameActivity.playArea.verticesNode.Previous.Value, gameActivity.playArea.verticesNode.Value))
+                if (maths.DoIntersect(firstExtendedPosition, secondExtendedPosition, gameActivity.playArea.verticesNode.Previous.Value, gameActivity.playArea.verticesNode.Value))
                 {
                     gameActivity.playArea.vertices.AddBefore(gameActivity.playArea.verticesNode, value);
 
@@ -234,7 +239,7 @@ namespace CaptureTheCampus
 
         private bool CheckPlayAreaIntersectionCircularly(LatLng firstExtendedPosition, LatLng secondExtendedPosition, LatLng value)
         {
-            if (maths.doIntersect(firstExtendedPosition, secondExtendedPosition, gameActivity.playArea.vertices.First.Value, gameActivity.playArea.vertices.Last.Value))
+            if (maths.DoIntersect(firstExtendedPosition, secondExtendedPosition, gameActivity.playArea.vertices.First.Value, gameActivity.playArea.vertices.Last.Value))
             {
                 gameActivity.playArea.vertices.AddLast(value);
 

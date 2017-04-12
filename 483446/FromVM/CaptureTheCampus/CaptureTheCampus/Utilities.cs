@@ -2,6 +2,7 @@ using Android.App;
 using Android.Content;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Graphics;
 using Android.Hardware;
 using Android.Locations;
 using Android.Util;
@@ -245,10 +246,51 @@ namespace CaptureTheCampus
 
             CircleOptions circleOptions = new CircleOptions();
 
-            circleOptions.InvokeCenter(maths.FindCentroid());
-            circleOptions.InvokeRadius(maths.ShortestLineSegment(gameActivity.playArea.vertices) * 5000);
+            double radius = maths.ShortestLineSegment(gameActivity.playArea.vertices) * 5000;
+
+            circleOptions.InvokeCenter(FindCirclePosition(gameActivity.playArea.vertices, radius));
+            circleOptions.InvokeRadius(radius);
 
             BuildCircle(circleOptions);
+        }
+
+        public LatLng FindCirclePosition(LinkedList<LatLng> vertices, double radius)
+        {
+            LatLng position;
+
+            while (true)
+            {
+                position = maths.FindRandomPoint();
+
+                if (maths.PointInPolygon(vertices, position) && !CircleIntersectPolygon(vertices, position, radius))
+                {
+                    break;
+                }
+            }
+
+            return position;
+        }
+
+        public bool CircleIntersectPolygon(LinkedList<LatLng> vertices, LatLng position, double radius)
+        {
+            LinkedListNode<LatLng> verticesNode = vertices.First.Next;
+
+            while (true)
+            {
+                if (maths.CircleLineIntersect(position, verticesNode.Previous.Value, verticesNode.Value, radius))
+                {
+                    return true;
+                }
+
+                if (verticesNode.Next != null)
+                {
+                    verticesNode = verticesNode.Next;
+                }
+                else
+                {
+                    return maths.CircleLineIntersect(position, vertices.First.Value, vertices.Last.Value, radius);
+                }
+            }
         }
 
         private void BuildCircle(CircleOptions circle)
@@ -256,6 +298,8 @@ namespace CaptureTheCampus
             Log.Debug("BuildCircle", "Building circle");
 
             gameActivity.circle = gameActivity.map.AddCircle(circle);
+
+            gameActivity.circle.FillColor = Color.HSVToColor(new float[] { BitmapDescriptorFactory.HueRed, 1.0f, 1.0f });
         }
 
         public bool UpdateRotation(SensorEvent e)
