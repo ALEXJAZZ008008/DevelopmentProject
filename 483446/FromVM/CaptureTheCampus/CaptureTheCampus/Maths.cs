@@ -27,7 +27,7 @@ namespace CaptureTheCampus
         {
             // Get the angle between the point and the
             // first and last vertices.
-            double total_angle = GetAngle(gameActivity.playArea.vertices.Last.Value.Latitude, gameActivity.playArea.vertices.Last.Value.Longitude, gameActivity.path.currentPosition.Latitude, gameActivity.path.currentPosition.Longitude, gameActivity.playArea.vertices.First.Value.Latitude, gameActivity.playArea.vertices.First.Value.Longitude);
+            double total_angle = GetAngle(gameActivity.playArea.vertices.Last.Value.Latitude, gameActivity.playArea.vertices.Last.Value.Longitude, gameActivity.player[gameActivity.playerPosition].currentPosition.Latitude, gameActivity.player[gameActivity.playerPosition].currentPosition.Longitude, gameActivity.playArea.vertices.First.Value.Latitude, gameActivity.playArea.vertices.First.Value.Longitude);
 
             // Add the angles from the point
             // to each other pair of vertices.
@@ -35,7 +35,7 @@ namespace CaptureTheCampus
 
             while (true)
             {
-                total_angle += GetAngle(gameActivity.playArea.verticesNode.Previous.Value.Latitude, gameActivity.playArea.verticesNode.Previous.Value.Longitude, gameActivity.path.currentPosition.Latitude, gameActivity.path.currentPosition.Longitude, gameActivity.playArea.verticesNode.Value.Latitude, gameActivity.playArea.verticesNode.Value.Longitude);
+                total_angle += GetAngle(gameActivity.playArea.verticesNode.Previous.Value.Latitude, gameActivity.playArea.verticesNode.Previous.Value.Longitude, gameActivity.player[gameActivity.playerPosition].currentPosition.Latitude, gameActivity.player[gameActivity.playerPosition].currentPosition.Longitude, gameActivity.playArea.verticesNode.Value.Latitude, gameActivity.playArea.verticesNode.Value.Longitude);
 
                 if (gameActivity.playArea.verticesNode.Next != null)
                 {

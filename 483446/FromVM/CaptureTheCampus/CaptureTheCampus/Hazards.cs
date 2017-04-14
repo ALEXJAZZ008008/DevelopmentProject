@@ -45,12 +45,12 @@ namespace CaptureTheCampus
             degrees = random.Next(0, 361);
         }
 
-        public void RunHazards(LinkedList<LatLng> polygonVertices, LinkedList<LatLng> pathVertices)
+        public void RunHazards(LinkedList<LatLng> polygonVertices, LinkedList<LatLng> pathVertices, bool deathBool)
         {
-            gameActivity.RunOnUiThread(() => CheckPosition(polygonVertices, pathVertices));
+            gameActivity.RunOnUiThread(() => CheckPosition(polygonVertices, pathVertices, deathBool));
         }
 
-        private void CheckPosition(LinkedList<LatLng> polygonVertices, LinkedList<LatLng> pathVertices)
+        private void CheckPosition(LinkedList<LatLng> polygonVertices, LinkedList<LatLng> pathVertices, bool deathBool)
         {
             LatLng position = circle.Center;
             double radius = circle.Radius;
@@ -66,7 +66,7 @@ namespace CaptureTheCampus
             {
                 LatLng[] interceptionVertex;
 
-                UpdatePosition(pathVertices, radius);
+                UpdatePosition(pathVertices, radius, deathBool);
 
                 if (utilities.CircleIntersectPolygon(polygonVertices, circle.Center, radius, out interceptionVertex))
                 {
@@ -95,7 +95,7 @@ namespace CaptureTheCampus
             }
         }
 
-        private void UpdatePosition(LinkedList<LatLng> pathVertices, double radius)
+        private void UpdatePosition(LinkedList<LatLng> pathVertices, double radius, bool deathBool)
         {
             LatLng degreesUnitVector = maths.DegreesToUnitVector(degrees);
 
@@ -103,20 +103,20 @@ namespace CaptureTheCampus
 
             gameActivity.circle.Center = circle.Center;
 
-            CheckPlayerInterception(pathVertices, radius);
+            CheckPlayerInterception(pathVertices, radius, deathBool);
 
             UpdateUnitVector();
         }
 
-        private void CheckPlayerInterception(LinkedList<LatLng> pathVertices, double radius)
+        private void CheckPlayerInterception(LinkedList<LatLng> pathVertices, double radius, bool deathBool)
         {
             LatLng[] interceptionVertex;
 
             if (pathVertices.First != null && pathVertices.First.Next != null)
             {
-                if (utilities.CircleIntersectPolygon(pathVertices, circle.Center, radius, out interceptionVertex))
+                if (utilities.CircleIntersectPolygon(pathVertices, circle.Center, radius, out interceptionVertex) && !deathBool)
                 {
-                    ;
+                    gameActivity.KillPlayer();
                 }
             }
         }

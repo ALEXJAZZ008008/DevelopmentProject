@@ -81,7 +81,7 @@ namespace CaptureTheCampus
 
         public void OnLocationChanged(Location location)
         {
-            if (location.Latitude != gameActivity.path.currentPosition.Latitude || location.Longitude != gameActivity.path.currentPosition.Longitude)
+            if (location.Latitude != gameActivity.player[gameActivity.playerPosition].currentPosition.Latitude || location.Longitude != gameActivity.player[gameActivity.playerPosition].currentPosition.Longitude)
             {
                 // This method returns changes in the user's location if they've been requested
 
