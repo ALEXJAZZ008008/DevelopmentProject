@@ -55,7 +55,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("SetMarker", "Setting marker position");
 
-            gameActivity.markers.Add(gameActivity.map.AddMarker(BuildMarker()));
+            gameActivity.player[gameActivity.playerPosition].marker = gameActivity.map.AddMarker(BuildMarker());
         }
 
         private MarkerOptions BuildMarker()
@@ -64,8 +64,8 @@ namespace CaptureTheCampus
 
             MarkerOptions markerOptions = new MarkerOptions();
 
-            markerOptions.SetIcon(BitmapDescriptorFactory.DefaultMarker(Colour(gameActivity.markers.Count)));
-            markerOptions.SetPosition(gameActivity.path.currentPosition);
+            markerOptions.SetIcon(BitmapDescriptorFactory.DefaultMarker(Colour(gameActivity.playerPosition)));
+            markerOptions.SetPosition(gameActivity.player[gameActivity.playerPosition].currentPosition);
 
             return markerOptions;
         }
@@ -115,9 +115,9 @@ namespace CaptureTheCampus
 
         public void UpdateLocationInformation(Location location)
         {
-            Log.Debug("Position", gameActivity.path.currentPosition.ToString());
+            Log.Debug("Position", gameActivity.player[gameActivity.playerPosition].currentPosition.ToString());
 
-            gameActivity.path.currentPosition = new LatLng(location.Latitude, location.Longitude);
+            gameActivity.player[gameActivity.playerPosition].currentPosition = new LatLng(location.Latitude, location.Longitude);
 
             UpdateLocation();
             area.UpdatePaths();
@@ -149,7 +149,7 @@ namespace CaptureTheCampus
 
             CameraPosition.Builder builder = CameraPosition.InvokeBuilder();
 
-            builder.Target(gameActivity.path.currentPosition);
+            builder.Target(gameActivity.player[gameActivity.playerPosition].currentPosition);
             builder.Zoom(builderSettingsInts[0]);
             builder.Bearing(builderSettingsInts[1]);
             builder.Tilt(builderSettingsInts[2]);
@@ -159,14 +159,14 @@ namespace CaptureTheCampus
 
         private void MoveMarker()
         {
-            gameActivity.markers[gameActivity.markerNumber].Position = gameActivity.path.currentPosition;
+            gameActivity.player[gameActivity.playerPosition].marker.Position = gameActivity.player[gameActivity.playerPosition].currentPosition;
         }
 
         public void SetPolyline(LinkedList<LatLng> vertices)
         {
             Log.Debug("SetPolyline", "Setting polyline positions");
 
-            if (gameActivity.path.drawingBool == false)
+            if (gameActivity.player[gameActivity.playerPosition].drawingBool == false)
             {
                 PolylineOptions polyline = new PolylineOptions();
                 LinkedListNode<LatLng> verticesNode = vertices.First;
@@ -189,7 +189,7 @@ namespace CaptureTheCampus
             }
             else
             {
-                gameActivity.path.polyline.Points = new List<LatLng>(vertices);
+                gameActivity.player[gameActivity.playerPosition].polyline.Points = new List<LatLng>(vertices);
             }
         }
 
@@ -197,7 +197,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("BuildPolyline", "Building polyline");
 
-            gameActivity.path.polyline = gameActivity.map.AddPolyline(polyline);
+            gameActivity.player[gameActivity.playerPosition].polyline = gameActivity.map.AddPolyline(polyline);
         }
 
         public void SetPolygon(LinkedList<LatLng> vertices)

@@ -1,4 +1,5 @@
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Util;
 using Android.Widget;
@@ -60,7 +61,7 @@ namespace CaptureTheCampus
         {
             MainMenuButton.Click += (sender, e) =>
             {
-                ReturnToMainMenu();
+                GoToMainMenu();
             };
         }
 
@@ -68,12 +69,18 @@ namespace CaptureTheCampus
         {
             MainMenuButton.Click -= (sender, e) =>
             {
-                ReturnToMainMenu();
+                GoToMainMenu();
             };
         }
 
-        private void ReturnToMainMenu()
+        private void GoToMainMenu()
         {
+            Log.Debug("GoToMainMenu", "GoToMainMenu called, going to SetActivity...");
+
+            Intent intent = new Intent(this, typeof(MenuActivity));
+            intent.PutExtra("gameType", "Single Player");
+            StartActivity(intent);
+
             Finish();
         }
     }

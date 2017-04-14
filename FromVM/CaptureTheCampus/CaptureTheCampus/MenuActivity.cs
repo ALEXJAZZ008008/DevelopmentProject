@@ -89,6 +89,8 @@ namespace CaptureTheCampus
             Intent intent = new Intent(this, typeof(SetActivity));
             intent.PutExtra("gameType", "Single Player");
             StartActivity(intent);
+
+            Finish();
         }
 
         private void GoToSearchActivity(string searchType)
@@ -98,6 +100,8 @@ namespace CaptureTheCampus
             Intent intent = new Intent(this, typeof(SearchActivity));
             intent.PutExtra("searchType", searchType);
             StartActivity(intent);
+
+            Finish();
         }
     }
 }

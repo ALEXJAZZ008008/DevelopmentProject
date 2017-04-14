@@ -27,31 +27,32 @@ namespace CaptureTheCampus
             public bool playAreaDrawnBool;
         }
 
-        public struct Path
+        public struct Player
         {
+            public Marker marker;
+            public int score;
             public LatLng currentPosition;
             public LinkedList<LatLng> vertices;
             public LinkedListNode<LatLng> verticesNode;
             public Polyline polyline;
-            public bool drawingBool;
+            public bool drawingBool, positionBool, deathBool;
         }
 
         private Task finishTask, scoreTask, hazardTask;
         private string gameType;
         public TextView areaTextView, scoreTextView;
         public double initialArea;
-        volatile public int area, score;
+        volatile public int area;
         volatile public bool finishBool;
 
         private GameMap mapClass;
         public GoogleMap map;
-        public List<Marker> markers;
-        public int markerNumber;
         public PlayArea playArea;
 
         private GamePosition positionClass;
         public GoogleApiClient apiClient;
-        public Path path;
+        public Player[] player;
+        public int playerPosition;
 
         private Rotation rotationClass;
         public SensorManager sensorManager;
@@ -108,17 +109,9 @@ namespace CaptureTheCampus
             scoreTextView = (TextView)FindViewById(Resource.Id.Score);
             area = 100;
             areaTextView.Text = "Area: " + area.ToString();
-            score = 0;
-            scoreTextView.Text = "Score: " + score.ToString();
             finishBool = false;
 
             mapClass = new GameMap(this);
-            markers = new List<Marker>();
-
-            if(gameType == "Single Player")
-            {
-                markerNumber = 0;
-            }
 
             playArea = new PlayArea();
             playArea.vertices = new LinkedList<LatLng>();
@@ -129,10 +122,23 @@ namespace CaptureTheCampus
             playArea.playAreaDrawnBool = false;
 
             positionClass = new GamePosition(this);
-            path = new Path();
-            path.currentPosition = new LatLng(0, 0);
-            path.vertices = new LinkedList<LatLng>();
-            path.drawingBool = false;
+
+            if (gameType == "Single Player")
+            {
+                player = new Player[1];
+
+                playerPosition = 0;
+
+                player[playerPosition].score = 0;
+
+                scoreTextView.Text = "Score: " + player[playerPosition].score.ToString();
+
+                player[playerPosition].currentPosition = new LatLng(0, 0);
+                player[playerPosition].vertices = new LinkedList<LatLng>();
+                player[playerPosition].drawingBool = false;
+                player[playerPosition].positionBool = true;
+                player[playerPosition].deathBool = false;
+            }
 
             rotationClass = new Rotation(this);
             gravity = new float[3];
@@ -177,7 +183,7 @@ namespace CaptureTheCampus
             Log.Debug("GoToScoreActivity", "GoToScoreActivity called, going to ScoreActivity...");
 
             Intent intent = new Intent(this, typeof(ScoreActivity));
-            intent.PutExtra("score", score);
+            intent.PutExtra("score", player[playerPosition].score);
             StartActivity(intent);
 
             finishBool = true;
@@ -199,13 +205,15 @@ namespace CaptureTheCampus
 
             LinkedList<LatLng> temporaryPlayAreaVertices = new LinkedList<LatLng>();
             LinkedList<LatLng> temporaryPathVertices = new LinkedList<LatLng>();
+            bool temporaryBool = new bool();
 
             while (true)
             {
                 CopyVertices(temporaryPlayAreaVertices, playArea.vertices);
-                CopyVertices(temporaryPathVertices, path.vertices);
+                CopyVertices(temporaryPathVertices, player[playerPosition].vertices);
+                CopyBool(out temporaryBool, player[playerPosition].deathBool);
 
-                hazards.RunHazards(temporaryPlayAreaVertices, temporaryPathVertices);
+                hazards.RunHazards(temporaryPlayAreaVertices, temporaryPathVertices, temporaryBool);
 
                 if(finishBool == true)
                 {
@@ -214,6 +222,22 @@ namespace CaptureTheCampus
 
                 Thread.Sleep(1000);
             }
+        }
+
+        private void CopyBool(out bool temporaryBool, bool deathBool)
+        {
+            temporaryBool = deathBool;
+        }
+
+        public void KillPlayer()
+        {
+            player[playerPosition].score = player[playerPosition].score / 2;
+
+            player[playerPosition].polyline.Remove();
+
+            player[playerPosition].drawingBool = false;
+            player[playerPosition].positionBool = false;
+            player[playerPosition].deathBool = true;
         }
 
         private void CopyVertices(LinkedList<LatLng> temporaryVertices, LinkedList<LatLng> inVertices)
