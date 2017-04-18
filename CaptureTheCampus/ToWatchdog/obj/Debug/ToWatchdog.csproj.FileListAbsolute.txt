@@ -1,0 +1,12 @@
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\bin\Debug\ToWatchdog.exe.config
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\bin\Debug\ToWatchdog.exe
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\bin\Debug\ToWatchdog.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\bin\Debug\Watchdog.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\bin\Debug\Client.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\bin\Debug\TCPServer.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\bin\Debug\Watchdog.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\bin\Debug\Client.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\bin\Debug\TCPServer.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\obj\Debug\ToWatchdog.csprojResolveAssemblyReference.cache
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\obj\Debug\ToWatchdog.exe
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToWatchdog\obj\Debug\ToWatchdog.pdb

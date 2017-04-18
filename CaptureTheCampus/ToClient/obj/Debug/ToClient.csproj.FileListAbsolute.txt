@@ -1,0 +1,7 @@
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToClient\bin\Debug\ToClient.exe.config
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToClient\bin\Debug\ToClient.exe
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToClient\bin\Debug\ToClient.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToClient\bin\Debug\Client.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToClient\bin\Debug\Client.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToClient\obj\Debug\ToClient.exe
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToClient\obj\Debug\ToClient.pdb
