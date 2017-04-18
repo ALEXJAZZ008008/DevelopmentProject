@@ -1,6 +1,0 @@
-namespace CaptureTheCampus
-{
-    class Host
-    {
-    }
-}
