@@ -398,23 +398,21 @@ namespace CaptureTheCampus
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                string temporaryString;
-                bool onlineBool;
-
-                for (int i = 0; i < numberOfPlayers; i++)
+                Parallel.For(0, numberOfPlayers, i =>
                 {
                     if (i != playerPosition)
                     {
-                        onlineBool = false;
+                        string temporaryString;
+                        bool onlineBool = false;
 
                         while (!onlineBool)
                         {
-                            // Poll on this property if you have to do
-                            // other cleanup before throwing.
-                            if (cancellationToken.IsCancellationRequested)
+                           // Poll on this property if you have to do
+                           // other cleanup before throwing.
+                           if (cancellationToken.IsCancellationRequested)
                             {
-                                // Clean up here, then...
-                                cancellationToken.ThrowIfCancellationRequested();
+                               // Clean up here, then...
+                               cancellationToken.ThrowIfCancellationRequested();
                             }
 
                             onlineBool = true;
@@ -423,16 +421,16 @@ namespace CaptureTheCampus
                             {
                                 player[i].currentPosition = Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "player" + i.ToString() }), ": ")[1], out temporaryString);
 
-                                utilities.UpdateLocationInformation(i, player[i].currentPosition);
+                                RunOnUiThread(() => utilities.UpdateLocationInformation(i, player[i].currentPosition));
                             }
                             catch (Exception ex)
                             {
 #if DEBUG
-                                //This prints to the screen an error message
-                                Console.WriteLine("ERROR: " + ex.ToString());
+                               //This prints to the screen an error message
+                               Console.WriteLine("ERROR: " + ex.ToString());
 #endif
 
-                                onlineBool = false;
+                               onlineBool = false;
                             }
 
                             Thread.Sleep(1000);
@@ -442,7 +440,7 @@ namespace CaptureTheCampus
                     {
                         client.Input(new string[] { "-t", "player" + i.ToString(), Serialise.SerialiseLatLng(player[i].currentPosition) });
                     }
-                }
+                });
 
                 client.Input(new string[] { "-t", "circle", Serialise.SerialiseLatLng(circle.Center) });
 
@@ -496,13 +494,11 @@ namespace CaptureTheCampus
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                bool onlineBool;
-
-                for (int i = 0; i < numberOfPlayers; i++)
+                Parallel.For(0, numberOfPlayers, i =>
                 {
                     if (i != playerPosition)
                     {
-                        onlineBool = false;
+                        bool onlineBool = false;
 
                         while (!onlineBool)
                         {
@@ -520,7 +516,7 @@ namespace CaptureTheCampus
                             {
                                 player[i].currentPosition = Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + i.ToString() }), ": ")[1], out temporaryString);
 
-                                utilities.UpdateLocationInformation(i, player[i].currentPosition);
+                                RunOnUiThread(() => utilities.UpdateLocationInformation(i, player[i].currentPosition));
                             }
                             catch (Exception ex)
                             {
@@ -539,7 +535,7 @@ namespace CaptureTheCampus
                     {
                         client.Input(new string[] { "-t", "player" + i.ToString(), Serialise.SerialiseLatLng(player[i].currentPosition) });
                     }
-                }
+                });
 
                 circle.Center = Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circle", }), ": ")[1], out temporaryString);
 

@@ -516,7 +516,7 @@ namespace CaptureTheCampus
 
         public bool CircleLineIntersect(LatLng a, LatLng b, LatLng c, double radius)
         {
-            double bc = LineSegmentLength(b, c);
+            double bc = LineSegmentLength(b, c) + radius;
             double ab = LineSegmentLength(a, b);
 
             if (ab > bc)

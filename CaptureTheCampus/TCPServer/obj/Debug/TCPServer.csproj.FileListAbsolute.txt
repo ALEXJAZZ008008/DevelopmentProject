@@ -6,5 +6,3 @@ C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\TCPServer
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\TCPServer\obj\Debug\TCPServer.pdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\TCPServer\obj\Debug\TCPServer.dll.mdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\TCPServer\bin\Debug\TCPServer.dll.mdb
-C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\TCPServer\obj\Debug\TCPServer.dll.mdb
-C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\TCPServer\bin\Debug\TCPServer.dll.mdb
