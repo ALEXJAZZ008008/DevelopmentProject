@@ -10,5 +10,3 @@ C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\Watchdog\
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\Watchdog\obj\Debug\Watchdog.pdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\Watchdog\obj\Debug\Watchdog.dll.mdb
 C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\Watchdog\bin\Debug\Watchdog.dll.mdb
-C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\Watchdog\obj\Debug\Watchdog.dll.mdb
-C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\Watchdog\bin\Debug\Watchdog.dll.mdb
