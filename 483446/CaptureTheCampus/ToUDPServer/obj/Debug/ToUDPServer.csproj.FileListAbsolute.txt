@@ -1,0 +1,8 @@
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToUDPServer\bin\Debug\ToUDPServer.exe.config
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToUDPServer\bin\Debug\ToUDPServer.exe
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToUDPServer\bin\Debug\ToUDPServer.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToUDPServer\bin\Debug\UDPServer.dll
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToUDPServer\bin\Debug\UDPServer.pdb
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToUDPServer\obj\Debug\ToUDPServer.csprojResolveAssemblyReference.cache
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToUDPServer\obj\Debug\ToUDPServer.exe
+C:\Users\483446\Documents\Visual Studio 2015\Projects\CaptureTheCampus\ToUDPServer\obj\Debug\ToUDPServer.pdb
