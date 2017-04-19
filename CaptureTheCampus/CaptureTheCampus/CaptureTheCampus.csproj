@@ -109,11 +109,13 @@
   <ItemGroup>
     <Compile Include="Game\Area.cs" />
     <Compile Include="Game\Hazards.cs" />
-    <Compile Include="Utilities\Serialise.cs" />
+    <Compile Include="Game\Triangle.cs" />
+    <Compile Include="Set\SetPlayArea.cs" />
+    <Compile Include="Static\Serialise.cs" />
     <Compile Include="Game\Maths.cs" />
-    <Compile Include="Game\PlayArea.cs" />
+    <Compile Include="Game\GamePlayArea.cs" />
     <Compile Include="Game\Player.cs" />
-    <Compile Include="Utilities\IP.cs" />
+    <Compile Include="Static\IP.cs" />
     <Compile Include="Score\ScoreActivity.cs" />
     <Compile Include="Set\SetPosition.cs" />
     <Compile Include="Set\SetActivity.cs" />
@@ -145,6 +147,8 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>

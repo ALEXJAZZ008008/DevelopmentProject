@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CaptureTheCampus.Area" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIEEgCBAAAQAEgAgAQAAhFQCQIgAAAAAAiAFCAAA=</HashCode>
+      <FileName>Game\Area.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.GameActivity" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kA0CEEkGUIBgIQgQQcIACAICSCAAaAAJAkA8ABCAoBU=</HashCode>
+      <FileName>Game\GameActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.GameMap" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAEAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Game\GameMap.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CaptureTheCampus.GamePosition" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQIEIAAAAAAAAQAAAAAAAAAAAAAAIAAgAAAABAAAA=</HashCode>
+      <FileName>Game\GamePosition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CaptureTheCampus.Hazards" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQAAAEAgAAAAACAAAAAACAQAAAIAIAAAEAQAQABAAgA=</HashCode>
+      <FileName>Game\Hazards.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.Maths" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>TgAAoAIAEQBCACDAAAEAAEMIAIAABAAAEAAoACBQAQA=</HashCode>
+      <FileName>Game\Maths.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.PlayArea" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAQAAAAEQAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Game\PlayArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.Player" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAIAAIBAAAIAAACAAAQAAAAAAAEIAAAAAA=</HashCode>
+      <FileName>Game\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.Rotation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAEAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Game\Rotation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CaptureTheCampus.Utilities" Collapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAQAAgAAgAEggACAAACAAgACAAAIABABAQAABRAAgE=</HashCode>
+      <FileName>Game\Utilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.MainActivity" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAEAAAAAEAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.MenuActivity" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CBAEAAAAQAAAAQgAAAAAAAAAAKAAAAAAAAgAABAAAAA=</HashCode>
+      <FileName>Menu\MenuActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.Resource" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.ScoreActivity" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQgAQAAIAAAAAKAAAAEAAAgAkBAAAAA=</HashCode>
+      <FileName>Score\ScoreActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.Host" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAgAAAAAABQAQCAIAAAACBAQAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Search\Host.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.Join" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAQAQCAAAAAAAAAQAAAAAAAAAAgAAAAQ=</HashCode>
+      <FileName>Search\Join.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.SearchActivity" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAhAAAAAAAQAAQgBEIAIAgACAKAAgAAAAAogIBCAgAA=</HashCode>
+      <FileName>Search\SearchActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.SetActivity" Collapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAiAECQAUIEABQgAIYAAAAIIAKAAQAAAAAkgIBDAgBA=</HashCode>
+      <FileName>Set\SetActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.SetMap" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gIAAAAAAAAAAAAACAAAAAEAACAAAAAAABAQAAAAAAAA=</HashCode>
+      <FileName>Set\SetMap.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CaptureTheCampus.SetPosition" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQIEIAAAAEAgAQAAACAEgAAAAAAAIAAgAAAAAAAAA=</HashCode>
+      <FileName>Set\SetPosition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CaptureTheCampus.IP" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Utilities\IP.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CaptureTheCampus.Serialise" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAIAAgAAAAAAAAAACAEAAgAAAAAA=</HashCode>
+      <FileName>Utilities\Serialise.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

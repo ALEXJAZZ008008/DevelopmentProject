@@ -1,17 +1,15 @@
-using Android.App;
 using Android.Content;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Graphics;
 using Android.Hardware;
-using Android.Locations;
 using Android.Util;
 using System;
 using System.Collections.Generic;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Game
 {
-    public class Utilities : Activity
+    public class Utilities
     {
         private GameActivity gameActivity;
         private Area area;
@@ -20,9 +18,9 @@ namespace CaptureTheCampus
         public Utilities(Context context)
         {
             Log.Info("Utilities", "Utilities built");
-
+            
             gameActivity = (GameActivity)context;
-            area = new Area(gameActivity, this);
+            area = new Area(gameActivity , this);
             maths = new Maths(gameActivity);
         }
 
@@ -33,7 +31,7 @@ namespace CaptureTheCampus
             googleMap.MapType = GoogleMap.MapTypeTerrain;
             MapSettings(googleMap, mapSettingsBools);
 
-            gameActivity.map = googleMap;
+            gameActivity.googleMap = googleMap;
         }
 
         public void MapSettings(GoogleMap googleMap, bool[] mapSettingsBools)
@@ -57,7 +55,7 @@ namespace CaptureTheCampus
 
             for (int i = 0; i < gameActivity.numberOfPlayers; i++)
             {
-                gameActivity.player[i].marker = gameActivity.map.AddMarker(BuildMarker(i));
+                gameActivity.playerArray[i].marker = gameActivity.googleMap.AddMarker(BuildMarker(i));
             }
         }
 
@@ -68,7 +66,7 @@ namespace CaptureTheCampus
             MarkerOptions markerOptions = new MarkerOptions();
 
             markerOptions.SetIcon(BitmapDescriptorFactory.DefaultMarker(Colour(playerPosition)));
-            markerOptions.SetPosition(gameActivity.player[playerPosition].currentPosition);
+            markerOptions.SetPosition(gameActivity.playerArray[playerPosition].currentPosition);
 
             return markerOptions;
         }
@@ -118,9 +116,9 @@ namespace CaptureTheCampus
 
         public void UpdateLocationInformation(int playerPosition, LatLng position)
         {
-            Log.Debug("Position", gameActivity.player[playerPosition].currentPosition.ToString());
+            Log.Debug("Position", gameActivity.playerArray[playerPosition].currentPosition.ToString());
 
-            gameActivity.player[playerPosition].currentPosition = new LatLng(position.Latitude, position.Longitude);
+            gameActivity.playerArray[playerPosition].currentPosition = new LatLng(position.Latitude, position.Longitude);
 
             UpdateLocation(playerPosition);
             area.UpdatePaths(playerPosition);
@@ -145,7 +143,7 @@ namespace CaptureTheCampus
                 CameraPosition cameraPosition = CameraBuilder(playerPosition, builderSettingsInts).Build();
                 CameraUpdate cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
 
-                gameActivity.map.MoveCamera(cameraUpdate);
+                gameActivity.googleMap.MoveCamera(cameraUpdate);
             }
         }
 
@@ -155,7 +153,7 @@ namespace CaptureTheCampus
 
             CameraPosition.Builder builder = CameraPosition.InvokeBuilder();
 
-            builder.Target(gameActivity.player[playerPosition].currentPosition);
+            builder.Target(gameActivity.playerArray[playerPosition].currentPosition);
             builder.Zoom(builderSettingsInts[0]);
             builder.Bearing(builderSettingsInts[1]);
             builder.Tilt(builderSettingsInts[2]);
@@ -165,14 +163,14 @@ namespace CaptureTheCampus
 
         private void MoveMarker(int playerPosition)
         {
-            gameActivity.player[playerPosition].marker.Position = gameActivity.player[playerPosition].currentPosition;
+            gameActivity.playerArray[playerPosition].marker.Position = gameActivity.playerArray[playerPosition].currentPosition;
         }
 
         public void SetPolyline(int playerPosition, LinkedList<LatLng> vertices)
         {
             Log.Debug("SetPolyline", "Setting polyline positions");
 
-            if (gameActivity.player[playerPosition].drawingBool == false)
+            if (gameActivity.playerArray[playerPosition].drawingBool == false)
             {
                 PolylineOptions polyline = new PolylineOptions();
                 LinkedListNode<LatLng> verticesNode = vertices.First;
@@ -195,7 +193,7 @@ namespace CaptureTheCampus
             }
             else
             {
-                gameActivity.player[playerPosition].polyline.Points = new List<LatLng>(vertices);
+                gameActivity.playerArray[playerPosition].polyline.Points = new List<LatLng>(vertices);
             }
         }
 
@@ -203,7 +201,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("BuildPolyline", "Building polyline");
 
-            gameActivity.player[playerPosition].polyline = gameActivity.map.AddPolyline(polyline);
+            gameActivity.playerArray[playerPosition].polyline = gameActivity.googleMap.AddPolyline(polyline);
         }
 
         public void SetPolygon(LinkedList<LatLng> vertices)
@@ -235,14 +233,14 @@ namespace CaptureTheCampus
         {
             Log.Debug("BuildPolygon", "Building polygon");
 
-            gameActivity.playArea.polygonsNode = gameActivity.playArea.polygons.AddLast(gameActivity.map.AddPolygon(polygon));
+            gameActivity.gamePlayArea.polygonsNode = gameActivity.gamePlayArea.polygons.AddLast(gameActivity.googleMap.AddPolygon(polygon));
 
-            if (gameActivity.playArea.playAreaDrawnBool == false)
+            if (gameActivity.gamePlayArea.playAreaDrawnBool == false)
             {
-                gameActivity.initialArea = maths.PolygonArea(gameActivity.playArea.vertices);
-                gameActivity.area = (int)((maths.PolygonArea(gameActivity.playArea.vertices) / gameActivity.initialArea) * 100);
+                gameActivity.initialArea = maths.PolygonArea(gameActivity.gamePlayArea.vertices);
+                gameActivity.area = (int)((maths.PolygonArea(gameActivity.gamePlayArea.vertices) / gameActivity.initialArea) * 100);
 
-                gameActivity.playArea.playAreaDrawnBool = true;
+                gameActivity.gamePlayArea.playAreaDrawnBool = true;
             }
         }
 
@@ -252,9 +250,9 @@ namespace CaptureTheCampus
 
             CircleOptions circleOptions = new CircleOptions();
 
-            double radius = maths.ShortestLineSegment(gameActivity.playArea.vertices) * 5000;
+            double radius = maths.ShortestLineSegment(gameActivity.gamePlayArea.vertices) * 5000;
 
-            circleOptions.InvokeCenter(FindCirclePosition(gameActivity.playArea.vertices, radius));
+            circleOptions.InvokeCenter(FindCirclePosition(gameActivity.gamePlayArea.vertices, radius));
             circleOptions.InvokeRadius(radius);
 
             BuildCircle(circleOptions);
@@ -318,7 +316,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("BuildCircle", "Building circle");
 
-            gameActivity.circle = gameActivity.map.AddCircle(circle);
+            gameActivity.circle = gameActivity.googleMap.AddCircle(circle);
 
             gameActivity.circle.FillColor = Color.HSVToColor(new float[] { BitmapDescriptorFactory.HueRed, 1.0f, 1.0f });
         }

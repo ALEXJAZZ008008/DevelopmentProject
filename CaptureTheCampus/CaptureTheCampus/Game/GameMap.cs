@@ -1,16 +1,16 @@
-using Android.App;
 using Android.Content;
 using Android.Gms.Maps;
 using Android.Util;
+using Android.Views;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Game
 {
-    class GameMap : Activity, IOnMapReadyCallback
+    class GameMap : View, IOnMapReadyCallback
     {
         private GameActivity gameActivity;
         private Utilities utilities;
 
-        public GameMap(Context context)
+        public GameMap(Context context) : base(context)
         {
             Log.Info("Map", "Map built");
 
@@ -43,7 +43,7 @@ namespace CaptureTheCampus
         private void SetObjects()
         {
             utilities.SetMarker();
-            utilities.SetPolygon(gameActivity.playArea.vertices);
+            utilities.SetPolygon(gameActivity.gamePlayArea.vertices);
             utilities.SetCircle();
         }
     }

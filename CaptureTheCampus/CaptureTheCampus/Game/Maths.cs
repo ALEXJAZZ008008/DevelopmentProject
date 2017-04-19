@@ -5,15 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Game
 {
     public class Maths
     {
-        public struct Triangle
-        {
-            public LatLng[] vertices;
-        }
-
         private GameActivity gameActivity;
 
         public Maths(Context context)
@@ -27,19 +22,19 @@ namespace CaptureTheCampus
         {
             // Get the angle between the point and the
             // first and last vertices.
-            double total_angle = GetAngle(gameActivity.playArea.vertices.Last.Value.Latitude, gameActivity.playArea.vertices.Last.Value.Longitude, gameActivity.player[playerPosition].currentPosition.Latitude, gameActivity.player[playerPosition].currentPosition.Longitude, gameActivity.playArea.vertices.First.Value.Latitude, gameActivity.playArea.vertices.First.Value.Longitude);
+            double total_angle = GetAngle(gameActivity.gamePlayArea.vertices.Last.Value.Latitude, gameActivity.gamePlayArea.vertices.Last.Value.Longitude, gameActivity.playerArray[playerPosition].currentPosition.Latitude, gameActivity.playerArray[playerPosition].currentPosition.Longitude, gameActivity.gamePlayArea.vertices.First.Value.Latitude, gameActivity.gamePlayArea.vertices.First.Value.Longitude);
 
             // Add the angles from the point
             // to each other pair of vertices.
-            gameActivity.playArea.verticesNode = gameActivity.playArea.vertices.First.Next;
+            gameActivity.gamePlayArea.verticesNode = gameActivity.gamePlayArea.vertices.First.Next;
 
             while (true)
             {
-                total_angle += GetAngle(gameActivity.playArea.verticesNode.Previous.Value.Latitude, gameActivity.playArea.verticesNode.Previous.Value.Longitude, gameActivity.player[playerPosition].currentPosition.Latitude, gameActivity.player[playerPosition].currentPosition.Longitude, gameActivity.playArea.verticesNode.Value.Latitude, gameActivity.playArea.verticesNode.Value.Longitude);
+                total_angle += GetAngle(gameActivity.gamePlayArea.verticesNode.Previous.Value.Latitude, gameActivity.gamePlayArea.verticesNode.Previous.Value.Longitude, gameActivity.playerArray[playerPosition].currentPosition.Latitude, gameActivity.playerArray[playerPosition].currentPosition.Longitude, gameActivity.gamePlayArea.verticesNode.Value.Latitude, gameActivity.gamePlayArea.verticesNode.Value.Longitude);
 
-                if (gameActivity.playArea.verticesNode.Next != null)
+                if (gameActivity.gamePlayArea.verticesNode.Next != null)
                 {
-                    gameActivity.playArea.verticesNode = gameActivity.playArea.verticesNode.Next;
+                    gameActivity.gamePlayArea.verticesNode = gameActivity.gamePlayArea.verticesNode.Next;
                 }
                 else
                 {
@@ -276,10 +271,10 @@ namespace CaptureTheCampus
         public LatLng FindCentroid()
         {
             // Add the first point to the end.
-            int num_points = gameActivity.playArea.vertices.Count;
+            int num_points = gameActivity.gamePlayArea.vertices.Count;
             LatLng[] pts = new LatLng[num_points + 1];
-            gameActivity.playArea.vertices.CopyTo(pts, 0);
-            pts[num_points] = gameActivity.playArea.vertices.First.Value;
+            gameActivity.gamePlayArea.vertices.CopyTo(pts, 0);
+            pts[num_points] = gameActivity.gamePlayArea.vertices.First.Value;
 
             // Find the centroid.
             double x = 0;
@@ -294,7 +289,7 @@ namespace CaptureTheCampus
             }
 
             // Divide by 6 times the polygon's area.
-            double polygon_area = PolygonArea(gameActivity.playArea.vertices);
+            double polygon_area = PolygonArea(gameActivity.gamePlayArea.vertices);
             x /= (6 * polygon_area);
             y /= (6 * polygon_area);
 
@@ -313,14 +308,14 @@ namespace CaptureTheCampus
         {
             double lenAB = Math.Sqrt(Math.Pow(secondPoint.Latitude - firstPoint.Latitude, 2.0) + Math.Pow(secondPoint.Longitude - firstPoint.Longitude, 2.0));
 
-            return new LatLng(firstPoint.Latitude + (firstPoint.Latitude - secondPoint.Latitude) / lenAB * (ShortestLineSegment(gameActivity.playArea.vertices) / 1000), firstPoint.Longitude + (firstPoint.Longitude - secondPoint.Longitude) / lenAB * (ShortestLineSegment(gameActivity.playArea.vertices) / 1000));
+            return new LatLng(firstPoint.Latitude + (firstPoint.Latitude - secondPoint.Latitude) / lenAB * (ShortestLineSegment(gameActivity.gamePlayArea.vertices) / 1000), firstPoint.Longitude + (firstPoint.Longitude - secondPoint.Longitude) / lenAB * (ShortestLineSegment(gameActivity.gamePlayArea.vertices) / 1000));
         }
 
         public LatLng FindRandomPoint()
         {
             Random random = new Random();
 
-            List<Triangle> triangles = Triangulate(gameActivity.playArea.vertices);
+            List<Triangle> triangles = Triangulate(gameActivity.gamePlayArea.vertices);
             Triangle triangle = triangles[random.Next(0, triangles.Count)];
 
             LatLng v1 = new LatLng(triangle.vertices[1].Latitude - triangle.vertices[0].Latitude, triangle.vertices[1].Longitude - triangle.vertices[0].Longitude);

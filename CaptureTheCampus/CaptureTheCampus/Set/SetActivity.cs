@@ -9,23 +9,17 @@ using Android.OS;
 using Android.Util;
 using Android.Widget;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Set
 {
     [Activity(Label = "@string/SetActivityLabel", Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class SetActivity : Activity
     {
-        public struct PlayArea
-        {
-            public LatLng[] vertices;
-            public Polygon polygon;
-        }
-
         private string gameType, numberOfPlayers, playerPosition;
 
         private SetMap mapClass;
         public GoogleMap map;
         private Marker[] markers;
-        public PlayArea playArea;
+        public SetPlayArea setPlayArea;
         private int markerNumber;
         public bool buttonClickBool;
 
@@ -87,13 +81,13 @@ namespace CaptureTheCampus
             }
 
             mapClass = new SetMap(this);
-            playArea = new PlayArea();
-            playArea.vertices = new LatLng[4];
+            setPlayArea = new SetPlayArea();
+            setPlayArea.vertices = new LatLng[4];
 
-            playArea.vertices[0] = new LatLng(0, 0);
-            playArea.vertices[1] = new LatLng(0, 0);
-            playArea.vertices[2] = new LatLng(0, 0);
-            playArea.vertices[3] = new LatLng(0, 0);
+            setPlayArea.vertices[0] = new LatLng(0, 0);
+            setPlayArea.vertices[1] = new LatLng(0, 0);
+            setPlayArea.vertices[2] = new LatLng(0, 0);
+            setPlayArea.vertices[3] = new LatLng(0, 0);
 
             markers = new Marker[2];
             markerNumber = -1;
@@ -213,23 +207,23 @@ namespace CaptureTheCampus
 
                 if (markerNumber == 0)
                 {
-                    playArea.vertices[0].Latitude = e.Point.Latitude;
-                    playArea.vertices[0].Longitude = e.Point.Longitude;
+                    setPlayArea.vertices[0].Latitude = e.Point.Latitude;
+                    setPlayArea.vertices[0].Longitude = e.Point.Longitude;
                 }
                 else
                 {
-                    playArea.vertices[2].Latitude = e.Point.Latitude;
-                    playArea.vertices[2].Longitude = e.Point.Longitude;
+                    setPlayArea.vertices[2].Latitude = e.Point.Latitude;
+                    setPlayArea.vertices[2].Longitude = e.Point.Longitude;
                 }
 
                 if (markers[0] != null && markers[1] != null)
                 {
-                    playArea.vertices[1].Latitude = playArea.vertices[0].Latitude;
-                    playArea.vertices[1].Longitude = playArea.vertices[2].Longitude;
-                    playArea.vertices[3].Latitude = playArea.vertices[2].Latitude;
-                    playArea.vertices[3].Longitude = playArea.vertices[0].Longitude;
+                    setPlayArea.vertices[1].Latitude = setPlayArea.vertices[0].Latitude;
+                    setPlayArea.vertices[1].Longitude = setPlayArea.vertices[2].Longitude;
+                    setPlayArea.vertices[3].Latitude = setPlayArea.vertices[2].Latitude;
+                    setPlayArea.vertices[3].Longitude = setPlayArea.vertices[0].Longitude;
 
-                    mapClass.SetPolygon(playArea.vertices);
+                    mapClass.SetPolygon(setPlayArea.vertices);
                 }
             }
         }
@@ -238,7 +232,7 @@ namespace CaptureTheCampus
         {
             if (markers[0] != null && markers[1] != null)
             {
-                Intent intent = new Intent(this, typeof(GameActivity));
+                Intent intent = new Intent(this, typeof(Game.GameActivity));
                 intent.PutExtra("gameType", gameType);
 
                 if(gameType == "Host")

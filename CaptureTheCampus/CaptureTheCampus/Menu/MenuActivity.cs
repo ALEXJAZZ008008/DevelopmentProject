@@ -4,7 +4,7 @@ using Android.OS;
 using Android.Util;
 using Android.Widget;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Menu
 {
     [Activity(Label = "@string/MenuActivityLabel", Icon = "@drawable/icon")]
     public class MenuActivity : Activity
@@ -86,7 +86,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("GoToSetActivity", "GoToSetActivity called, going to SetActivity...");
 
-            Intent intent = new Intent(this, typeof(SetActivity));
+            Intent intent = new Intent(this, typeof(Set.SetActivity));
             intent.PutExtra("gameType", "Single Player");
             StartActivity(intent);
 
@@ -97,7 +97,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("GoToSearchActivity", "GoToSearchActivity called, going to SearchActivity...");
 
-            Intent intent = new Intent(this, typeof(SearchActivity));
+            Intent intent = new Intent(this, typeof(Search.SearchActivity));
             intent.PutExtra("searchType", searchType);
             StartActivity(intent);
 

@@ -1,4 +1,3 @@
-using Android.App;
 using Android.Content;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
@@ -8,16 +7,17 @@ using Android.Gms.Maps.Model;
 using Android.Locations;
 using Android.OS;
 using Android.Util;
+using Android.Views;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Set
 {
-    public class SetPosition : Activity, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener
+    public class SetPosition : View, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener
     {
         private SetActivity setActivity;
 
         private LocationRequest locRequest;
 
-        public SetPosition(Context context)
+        public SetPosition(Context context) : base(context)
         {
             Log.Info("Position", "Position built");
 

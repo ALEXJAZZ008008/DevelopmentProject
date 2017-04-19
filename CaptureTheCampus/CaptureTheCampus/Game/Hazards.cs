@@ -4,7 +4,7 @@ using Android.Util;
 using System;
 using System.Collections.Generic;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Game
 {
     public class Hazards
     {
@@ -55,7 +55,7 @@ namespace CaptureTheCampus
             {
                 if(gameActivity.gameType == "Join")
                 {
-                    CheckPlayerInterception(circle.Radius);
+                    gameActivity.RunOnUiThread(() => CheckPlayerInterception(circle.Radius));
                 }
             }
         }
@@ -128,8 +128,8 @@ namespace CaptureTheCampus
 
             for (int i = 0; i < gameActivity.numberOfPlayers; i++)
             {
-                gameActivity.CopyVertices(pathVertices, gameActivity.player[i].vertices);
-                gameActivity.CopyBool(out deathBool, gameActivity.player[i].deathBool);
+                gameActivity.CopyVertices(pathVertices, gameActivity.playerArray[i].vertices);
+                gameActivity.CopyBool(out deathBool, gameActivity.playerArray[i].deathBool);
 
                 if (pathVertices.First != null && pathVertices.First.Next != null)
                 {

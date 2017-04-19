@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Search
 {
     public class Join
     {
