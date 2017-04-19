@@ -15,7 +15,7 @@ using Android.Content;
 using System;
 using System.Text.RegularExpressions;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Game
 {
     [Activity(Label = "@string/GameActivityLabel", Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class GameActivity : Activity
@@ -24,22 +24,23 @@ namespace CaptureTheCampus
         public int playerPosition, numberOfPlayers;
 
         private Utilities utilities;
+        private Maths maths;
         private CancellationTokenSource cancelationTokenSource;
         private Task finishTask, scoreTask, hazardTask, serverTask, heartbeatTask, clientTask;
         public TextView areaTextView, scoreTextView;
-        public double? initialArea;
+        public double initialArea;
         volatile public int area;
         volatile public bool finishBool;
 
-        private GameMap mapClass;
-        public GoogleMap map;
-        public PlayArea playArea;
+        private GameMap gameMap;
+        public GoogleMap googleMap;
+        public GamePlayArea gamePlayArea;
 
-        private GamePosition positionClass;
-        public GoogleApiClient apiClient;
-        public Player[] player;
+        private GamePosition gamePosition;
+        public GoogleApiClient googleAPIClient;
+        public Player[] playerArray;
 
-        private Rotation rotationClass;
+        private Rotation rotation;
         public SensorManager sensorManager;
         public float[] gravity, geoMagnetic;
         public float azimuth;
@@ -88,6 +89,7 @@ namespace CaptureTheCampus
             gameType = Intent.GetStringExtra("gameType");
 
             utilities = new Utilities(this);
+            maths = new Maths(this);
 
             cancelationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = cancelationTokenSource.Token;
@@ -102,23 +104,23 @@ namespace CaptureTheCampus
             areaTextView.Text = "Area: " + area.ToString();
             finishBool = false;
 
-            mapClass = new GameMap(this);
+            gameMap = new GameMap(this);
 
-            playArea = new PlayArea();
-            playArea.vertices = new LinkedList<LatLng>();
+            gamePlayArea = new GamePlayArea();
+            gamePlayArea.vertices = new LinkedList<LatLng>();
 
             GetVertices();
 
-            playArea.polygons = new LinkedList<Polygon>();
-            playArea.playAreaDrawnBool = false;
+            gamePlayArea.polygons = new LinkedList<Polygon>();
+            gamePlayArea.playAreaDrawnBool = false;
 
-            positionClass = new GamePosition(this);
+            gamePosition = new GamePosition(this);
 
             if (gameType == "Single Player")
             {
                 numberOfPlayers = 1;
 
-                player = new Player[numberOfPlayers];
+                playerArray = new Player[numberOfPlayers];
 
                 playerPosition = numberOfPlayers - 1;
             }
@@ -128,7 +130,7 @@ namespace CaptureTheCampus
                 {
                     numberOfPlayers = int.Parse(Intent.GetStringExtra("numberOfPlayers"));
 
-                    player = new Player[numberOfPlayers];
+                    playerArray = new Player[numberOfPlayers];
 
                     playerPosition = int.Parse(Intent.GetStringExtra("playerPosition")) - 1;
 
@@ -146,7 +148,7 @@ namespace CaptureTheCampus
                     {
                         numberOfPlayers = int.Parse(Intent.GetStringExtra("numberOfPlayers"));
 
-                        player = new Player[numberOfPlayers];
+                        playerArray = new Player[numberOfPlayers];
 
                         playerPosition = int.Parse(Intent.GetStringExtra("playerPosition")) - 1;
 
@@ -159,20 +161,20 @@ namespace CaptureTheCampus
 
             for (int i = 0; i < numberOfPlayers; i++)
             {
-                player[i] = new Player();
+                playerArray[i] = new Player();
 
-                player[i].score = 0;
+                playerArray[i].score = 0;
 
-                scoreTextView.Text = "Score: " + player[i].score.ToString();
+                scoreTextView.Text = "Score: " + playerArray[i].score.ToString();
 
-                player[i].currentPosition = new LatLng(0, 0);
-                player[i].vertices = new LinkedList<LatLng>();
-                player[i].drawingBool = false;
-                player[i].positionBool = true;
-                player[i].deathBool = false;
+                playerArray[i].currentPosition = new LatLng(0, 0);
+                playerArray[i].vertices = new LinkedList<LatLng>();
+                playerArray[i].drawingBool = false;
+                playerArray[i].positionBool = true;
+                playerArray[i].deathBool = false;
             }
 
-            rotationClass = new Rotation(this);
+            rotation = new Rotation(this);
             gravity = new float[3];
             geoMagnetic = new float[3];
             azimuth = 0;
@@ -217,15 +219,12 @@ namespace CaptureTheCampus
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                if (initialArea != null)
-                {
                     if (area <= 25 && area != 0)
                     {
                         GoToScoreActivity();
 
                         break;
                     }
-                }
 
                 Thread.Sleep(1000);
             }
@@ -235,8 +234,8 @@ namespace CaptureTheCampus
         {
             Log.Debug("GoToScoreActivity", "GoToScoreActivity called, going to ScoreActivity...");
 
-            Intent intent = new Intent(this, typeof(ScoreActivity));
-            intent.PutExtra("score", player[playerPosition].score);
+            Intent intent = new Intent(this, typeof(Score.ScoreActivity));
+            intent.PutExtra("score", playerArray[playerPosition].score);
             StartActivity(intent);
 
             finishBool = true;
@@ -276,7 +275,7 @@ namespace CaptureTheCampus
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                CopyVertices(temporaryPlayAreaVertices, playArea.vertices);
+                CopyVertices(temporaryPlayAreaVertices, gamePlayArea.vertices);
 
                 hazards.RunHazards(temporaryPlayAreaVertices);
 
@@ -305,13 +304,13 @@ namespace CaptureTheCampus
 
         public void KillPlayer(int killedPlayerPosition)
         {
-            player[killedPlayerPosition].score = player[killedPlayerPosition].score / 2;
+            playerArray[killedPlayerPosition].score = playerArray[killedPlayerPosition].score / 2;
 
-            player[killedPlayerPosition].polyline.Remove();
+            playerArray[killedPlayerPosition].polyline.Remove();
 
-            player[killedPlayerPosition].drawingBool = false;
-            player[killedPlayerPosition].positionBool = false;
-            player[killedPlayerPosition].deathBool = true;
+            playerArray[killedPlayerPosition].drawingBool = false;
+            playerArray[killedPlayerPosition].positionBool = false;
+            playerArray[killedPlayerPosition].deathBool = true;
         }
 
         private void HeartbeatTask(CancellationToken cancellationToken)
@@ -364,29 +363,9 @@ namespace CaptureTheCampus
 
             client.Input(new string[] { "-t", "start", "true" });
 
-            client.Input(new string[] { "-t", "-i", ip, "player" + playerPosition.ToString(), Serialise.SerialiseLatLng(player[playerPosition].currentPosition) });
+            client.Input(new string[] { "-t", "-i", ip, "player" + playerPosition.ToString(), Static.Serialise.SerialiseLatLng(playerArray[playerPosition].currentPosition) });
 
-            client.Input(new string[] { "-t", "playArea", Serialise.SerialiseLatLngLinkedList(playArea.vertices) });
-
-            while (initialArea == null)
-            {
-                // Poll on this property if you have to do
-                // other cleanup before throwing.
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    // Clean up here, then...
-                    cancellationToken.ThrowIfCancellationRequested();
-                }
-
-                if (initialArea != null)
-                {
-                    break;
-                }
-
-                Thread.Sleep(1000);
-            }
-
-            client.Input(new string[] { "-t", "initialArea", Serialise.SerialiseString(initialArea.ToString()) });
+            client.Input(new string[] { "-t", "playArea", Static.Serialise.SerialiseLatLngLinkedList(gamePlayArea.vertices) });
 
             while (true)
             {
@@ -419,9 +398,9 @@ namespace CaptureTheCampus
 
                             try
                             {
-                                player[i].currentPosition = Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "player" + i.ToString() }), ": ")[1], out temporaryString);
+                                playerArray[i].currentPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "player" + i.ToString() }), ": ")[1], out temporaryString);
 
-                                RunOnUiThread(() => utilities.UpdateLocationInformation(i, player[i].currentPosition));
+                                RunOnUiThread(() => utilities.UpdateLocationInformation(i, playerArray[i].currentPosition));
                             }
                             catch (Exception ex)
                             {
@@ -438,11 +417,11 @@ namespace CaptureTheCampus
                     }
                     else
                     {
-                        client.Input(new string[] { "-t", "player" + i.ToString(), Serialise.SerialiseLatLng(player[i].currentPosition) });
+                        client.Input(new string[] { "-t", "player" + i.ToString(), Static.Serialise.SerialiseLatLng(playerArray[i].currentPosition) });
                     }
                 });
 
-                client.Input(new string[] { "-t", "circle", Serialise.SerialiseLatLng(circle.Center) });
+                client.Input(new string[] { "-t", "circle", Static.Serialise.SerialiseLatLng(circle.Center) });
 
                 Thread.Sleep(1000);
             }
@@ -476,13 +455,14 @@ namespace CaptureTheCampus
                 Thread.Sleep(1000);
             }
 
-            client.Input(new string[] { "-t", "-i", ip, "player" + playerPosition.ToString(), Serialise.SerialiseLatLng(player[playerPosition].currentPosition) });
+            client.Input(new string[] { "-t", "-i", ip, "player" + playerPosition.ToString(), Static.Serialise.SerialiseLatLng(playerArray[playerPosition].currentPosition) });
 
             string temporaryString;
 
-            playArea.vertices = Serialise.DeserialiseLatLngLinkedList(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "playArea" }), ": ")[1]);
+            gamePlayArea.vertices = Static.Serialise.DeserialiseLatLngLinkedList(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "playArea" }), ": ")[1]);
 
-            initialArea = double.Parse(Serialise.DeserialiseString(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "initialArea", }), ": ")[1], out temporaryString));
+            initialArea = maths.PolygonArea(gamePlayArea.vertices);
+            area = (int)((maths.PolygonArea(gamePlayArea.vertices) / initialArea) * 100);
 
             while (true)
             {
@@ -514,9 +494,9 @@ namespace CaptureTheCampus
 
                             try
                             {
-                                player[i].currentPosition = Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + i.ToString() }), ": ")[1], out temporaryString);
+                                playerArray[i].currentPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + i.ToString() }), ": ")[1], out temporaryString);
 
-                                RunOnUiThread(() => utilities.UpdateLocationInformation(i, player[i].currentPosition));
+                                RunOnUiThread(() => utilities.UpdateLocationInformation(i, playerArray[i].currentPosition));
                             }
                             catch (Exception ex)
                             {
@@ -533,11 +513,11 @@ namespace CaptureTheCampus
                     }
                     else
                     {
-                        client.Input(new string[] { "-t", "player" + i.ToString(), Serialise.SerialiseLatLng(player[i].currentPosition) });
+                        client.Input(new string[] { "-t", "player" + i.ToString(), Static.Serialise.SerialiseLatLng(playerArray[i].currentPosition) });
                     }
                 });
 
-                circle.Center = Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circle", }), ": ")[1], out temporaryString);
+                circle.Center = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circle", }), ": ")[1], out temporaryString);
 
                 Thread.Sleep(1000);
             }
@@ -547,19 +527,19 @@ namespace CaptureTheCampus
         {
             if (gameType == "Single Player" || gameType == "Host")
             {
-                playArea.verticesNode = playArea.vertices.AddFirst(new LatLng(Intent.GetDoubleExtra("markerOneLatitude", 0), Intent.GetDoubleExtra("markerOneLongitude", 0)));
-                playArea.verticesNode = playArea.vertices.AddAfter(playArea.verticesNode, new LatLng(Intent.GetDoubleExtra("markerTwoLatitude", 0), Intent.GetDoubleExtra("markerTwoLongitude", 0)));
+                gamePlayArea.verticesNode = gamePlayArea.vertices.AddFirst(new LatLng(Intent.GetDoubleExtra("markerOneLatitude", 0), Intent.GetDoubleExtra("markerOneLongitude", 0)));
+                gamePlayArea.verticesNode = gamePlayArea.vertices.AddAfter(gamePlayArea.verticesNode, new LatLng(Intent.GetDoubleExtra("markerTwoLatitude", 0), Intent.GetDoubleExtra("markerTwoLongitude", 0)));
 
-                playArea.vertices.AddBefore(playArea.verticesNode, new LatLng(playArea.vertices.First.Value.Latitude, playArea.vertices.Last.Value.Longitude));
-                playArea.vertices.AddLast(new LatLng(playArea.vertices.Last.Value.Latitude, playArea.vertices.First.Value.Longitude));
+                gamePlayArea.vertices.AddBefore(gamePlayArea.verticesNode, new LatLng(gamePlayArea.vertices.First.Value.Latitude, gamePlayArea.vertices.Last.Value.Longitude));
+                gamePlayArea.vertices.AddLast(new LatLng(gamePlayArea.vertices.Last.Value.Latitude, gamePlayArea.vertices.First.Value.Longitude));
             }
             else
             {
-                playArea.verticesNode = playArea.vertices.AddFirst(new LatLng(1, 1));
-                playArea.verticesNode = playArea.vertices.AddAfter(playArea.verticesNode, new LatLng(-1, -1));
+                gamePlayArea.verticesNode = gamePlayArea.vertices.AddFirst(new LatLng(1, 1));
+                gamePlayArea.verticesNode = gamePlayArea.vertices.AddAfter(gamePlayArea.verticesNode, new LatLng(-1, -1));
 
-                playArea.vertices.AddBefore(playArea.verticesNode, new LatLng(playArea.vertices.First.Value.Latitude, playArea.vertices.Last.Value.Longitude));
-                playArea.vertices.AddLast(new LatLng(playArea.vertices.Last.Value.Latitude, playArea.vertices.First.Value.Longitude));
+                gamePlayArea.vertices.AddBefore(gamePlayArea.verticesNode, new LatLng(gamePlayArea.vertices.First.Value.Latitude, gamePlayArea.vertices.Last.Value.Longitude));
+                gamePlayArea.vertices.AddLast(new LatLng(gamePlayArea.vertices.Last.Value.Latitude, gamePlayArea.vertices.First.Value.Longitude));
             }
         }
 
@@ -567,7 +547,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("StartMap", "Starting map");
 
-            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.GameMap).GetMapAsync(mapClass);
+            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.GameMap).GetMapAsync(gameMap);
         }
 
         private void StartPosition()
@@ -575,7 +555,7 @@ namespace CaptureTheCampus
             Log.Debug("StartPosition", "Starting position client");
 
             // pass in the Context, ConnectionListener and ConnectionFailedListener
-            apiClient = new GoogleApiClient.Builder(this, positionClass, positionClass).AddApi(LocationServices.API).Build();
+            googleAPIClient = new GoogleApiClient.Builder(this, gamePosition, gamePosition).AddApi(LocationServices.API).Build();
         }
 
         private void StartRotation()
@@ -610,15 +590,15 @@ namespace CaptureTheCampus
         {
             Log.Debug("StartUpdatePosition", "Starting updates from position client");
 
-            apiClient.Connect();
+            googleAPIClient.Connect();
         }
 
         private void StartUpdateRotation()
         {
             Log.Debug("StartUpdateRotation", "Starting updates from rotation client");
 
-            sensorManager.RegisterListener(rotationClass, sensorManager.GetDefaultSensor(SensorType.MagneticField), SensorDelay.Game);
-            sensorManager.RegisterListener(rotationClass, sensorManager.GetDefaultSensor(SensorType.Accelerometer), SensorDelay.Game);
+            sensorManager.RegisterListener(rotation, sensorManager.GetDefaultSensor(SensorType.MagneticField), SensorDelay.Game);
+            sensorManager.RegisterListener(rotation, sensorManager.GetDefaultSensor(SensorType.Accelerometer), SensorDelay.Game);
         }
 
         private void StopUpdatePosition()
@@ -626,16 +606,16 @@ namespace CaptureTheCampus
             Log.Debug("StopUpdatePosition", "Stopping updates from position client");
 
             // stop location updates, passing in the LocationListener
-            LocationServices.FusedLocationApi.RemoveLocationUpdates(apiClient, positionClass);
+            LocationServices.FusedLocationApi.RemoveLocationUpdates(googleAPIClient, gamePosition);
 
-            apiClient.Disconnect();
+            googleAPIClient.Disconnect();
         }
 
         private void StopUpdateRotation()
         {
             Log.Debug("StopUpdateRotation", "Stopping updates from rotation client");
 
-            sensorManager.UnregisterListener(rotationClass);
+            sensorManager.UnregisterListener(rotation);
         }
     }
 }

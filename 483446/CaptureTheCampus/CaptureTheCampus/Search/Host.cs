@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Search
 {
     public class Host
     {
@@ -135,7 +135,7 @@ namespace CaptureTheCampus
 
         public void StartHost()
         {
-            searchActivity.ip = IP.GetIP();
+            searchActivity.ip = Static.IP.GetIP();
 
             searchActivity.searchTextView.Text = context.Resources.GetString(Resource.String.HostSearchTitle) + " " + searchActivity.ip;
 

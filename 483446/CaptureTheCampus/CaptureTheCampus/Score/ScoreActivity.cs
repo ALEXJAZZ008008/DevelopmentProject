@@ -4,7 +4,7 @@ using Android.OS;
 using Android.Util;
 using Android.Widget;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Score
 {
     [Activity(Label = "@string/ScoreActivityLabel", Icon = "@drawable/icon")]
     public class ScoreActivity : Activity
@@ -77,7 +77,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("GoToMainMenu", "GoToMainMenu called, going to SetActivity...");
 
-            Intent intent = new Intent(this, typeof(MenuActivity));
+            Intent intent = new Intent(this, typeof(Menu.MenuActivity));
             intent.PutExtra("gameType", "Single Player");
             StartActivity(intent);
 

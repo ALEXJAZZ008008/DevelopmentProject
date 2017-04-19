@@ -1,4 +1,3 @@
-using Android.App;
 using Android.Content;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
@@ -7,17 +6,18 @@ using Android.Gms.Maps.Model;
 using Android.Locations;
 using Android.OS;
 using Android.Util;
+using Android.Views;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Game
 {
-    public class GamePosition : Activity, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener
+    public class GamePosition : View, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener
     {
         private GameActivity gameActivity;
         private Utilities utilities;
 
         private LocationRequest locRequest;
 
-        public GamePosition(Context context)
+        public GamePosition(Context context) : base(context)
         {
             Log.Info("Position", "Position built");
 
@@ -53,7 +53,7 @@ namespace CaptureTheCampus
             Log.Debug("LocationRequest", "Request priority set to status code {0}, interval set to {1} ms", locRequest.Priority.ToString(), locRequest.Interval.ToString());
 
             // pass in a location request and LocationListener
-            LocationServices.FusedLocationApi.RequestLocationUpdates(gameActivity.apiClient, locRequest, this);
+            LocationServices.FusedLocationApi.RequestLocationUpdates(gameActivity.googleAPIClient, locRequest, this);
             // In OnLocationChanged (below), we will make calls to update the UI
             // with the new location data
         }
@@ -82,7 +82,7 @@ namespace CaptureTheCampus
 
         public void OnLocationChanged(Location location)
         {
-            if (location.Latitude != gameActivity.player[gameActivity.playerPosition].currentPosition.Latitude || location.Longitude != gameActivity.player[gameActivity.playerPosition].currentPosition.Longitude)
+            if (location.Latitude != gameActivity.playerArray[gameActivity.playerPosition].currentPosition.Latitude || location.Longitude != gameActivity.playerArray[gameActivity.playerPosition].currentPosition.Longitude)
             {
                 // This method returns changes in the user's location if they've been requested
 

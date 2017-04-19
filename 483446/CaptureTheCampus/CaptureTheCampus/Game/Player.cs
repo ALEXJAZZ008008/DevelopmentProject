@@ -1,7 +1,7 @@
 ﻿using Android.Gms.Maps.Model;
 using System.Collections.Generic;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Game
 {
     public class Player
     {

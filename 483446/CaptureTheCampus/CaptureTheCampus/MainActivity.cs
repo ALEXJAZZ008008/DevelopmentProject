@@ -61,7 +61,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("GoToMenuActivity", "GoToMenuActivity called, going to MenuActivity...");
 
-            Intent intent = new Intent(this, typeof(MenuActivity));
+            Intent intent = new Intent(this, typeof(Menu.MenuActivity));
             StartActivity(intent);
         }
     }

@@ -4,7 +4,7 @@ using Android.Gms.Maps.Model;
 using Android.Util;
 using Android.Views;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Set
 {
     public class SetMap : View, IOnMapReadyCallback
     {
@@ -84,13 +84,13 @@ namespace CaptureTheCampus
                 polygon.Add(vertices[i]);
             }
 
-            if (setActivity.playArea.polygon == null)
+            if (setActivity.setPlayArea.polygon == null)
             {
                 BuildPolygon(polygon);
             }
             else
             {
-                setActivity.playArea.polygon.Points = vertices;
+                setActivity.setPlayArea.polygon.Points = vertices;
             }
         }
 
@@ -98,7 +98,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("BuildPolygon", "Building polygon");
 
-            setActivity.playArea.polygon = setActivity.map.AddPolygon(polygon);
+            setActivity.setPlayArea.polygon = setActivity.map.AddPolygon(polygon);
         }
     }
 }

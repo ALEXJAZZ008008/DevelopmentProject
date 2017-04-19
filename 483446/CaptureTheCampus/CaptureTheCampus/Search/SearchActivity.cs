@@ -8,7 +8,7 @@ using Android.Widget;
 using System;
 using System.Threading;
 
-namespace CaptureTheCampus
+namespace CaptureTheCampus.Search
 {
     [Activity(Label = "@string/SearchActivityLabel", Icon = "@drawable/icon")]
     public class SearchActivity : Activity
@@ -111,7 +111,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("GoToSetActivity", "GoToSetActivity called, going to SetActivity...");
 
-            Intent intent = new Intent(this, typeof(SetActivity));
+            Intent intent = new Intent(this, typeof(Set.SetActivity));
             intent.PutExtra("gameType", gameType);
             intent.PutExtra("numberOfPlayers", numberOfPlayers.ToString());
             intent.PutExtra("playerPosition", playerPosition.ToString());
@@ -187,7 +187,7 @@ namespace CaptureTheCampus
         {
             Log.Debug("GoToGameActivity", "GoToGameActivity called, going to GameActivity...");
 
-            Intent intent = new Intent(this, typeof(GameActivity));
+            Intent intent = new Intent(this, typeof(Game.GameActivity));
             intent.PutExtra("gameType", gameType);
             intent.PutExtra("numberOfPlayers", numberOfPlayers.ToString());
             intent.PutExtra("playerPosition", playerPosition.ToString());
