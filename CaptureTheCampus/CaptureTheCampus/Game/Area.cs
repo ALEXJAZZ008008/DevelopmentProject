@@ -11,7 +11,6 @@ namespace CaptureTheCampus.Game
     {
         private GameActivity gameActivity;
         private Utilities utilities;
-        private Maths maths;
 
         public Area(Context context, Utilities inUtilities)
         {
@@ -19,14 +18,13 @@ namespace CaptureTheCampus.Game
 
             gameActivity = (GameActivity)context;
             utilities = inUtilities;
-            maths = new Maths(gameActivity);
         }
 
         public void UpdatePaths(int playerPosition)
         {
             if (gameActivity.playerArray[playerPosition].positionBool)
             {
-                gameActivity.playerArray[playerPosition].positionBool = maths.CheckPosition(playerPosition);
+                gameActivity.playerArray[playerPosition].positionBool = Static.Maths.CheckPosition(gameActivity, playerPosition);
             }
 
             if (gameActivity.playerArray[playerPosition].positionBool && gameActivity.playerArray[playerPosition].vertices.Count >= 1)
@@ -74,9 +72,9 @@ namespace CaptureTheCampus.Game
 
             while (true)
             {
-                if (maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.First.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.verticesNode.Previous.Value, gameActivity.gamePlayArea.verticesNode.Value))
+                if (Static.Maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.First.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.verticesNode.Previous.Value, gameActivity.gamePlayArea.verticesNode.Value))
                 {
-                    gameActivity.playerArray[playerPosition].vertices.First.Value = maths.LineIntersectionPoint(gameActivity.playerArray[playerPosition].vertices.First.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.verticesNode.Previous.Value, gameActivity.gamePlayArea.verticesNode.Value);
+                    gameActivity.playerArray[playerPosition].vertices.First.Value = Static.Maths.LineIntersectionPoint(gameActivity.playerArray[playerPosition].vertices.First.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.verticesNode.Previous.Value, gameActivity.gamePlayArea.verticesNode.Value);
 
                     break;
                 }
@@ -101,9 +99,9 @@ namespace CaptureTheCampus.Game
 
         private bool CheckInitialPathIntersectionCirularly(int playerPosition)
         {
-            if (maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.First.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.vertices.First.Value, gameActivity.gamePlayArea.vertices.Last.Value))
+            if (Static.Maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.First.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.vertices.First.Value, gameActivity.gamePlayArea.vertices.Last.Value))
             {
-                gameActivity.playerArray[playerPosition].vertices.First.Value = maths.LineIntersectionPoint(gameActivity.playerArray[playerPosition].vertices.First.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.vertices.First.Value, gameActivity.gamePlayArea.vertices.Last.Value);
+                gameActivity.playerArray[playerPosition].vertices.First.Value = Static.Maths.LineIntersectionPoint(gameActivity.playerArray[playerPosition].vertices.First.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.vertices.First.Value, gameActivity.gamePlayArea.vertices.Last.Value);
 
                 return true;
             }
@@ -122,7 +120,7 @@ namespace CaptureTheCampus.Game
 
             while (true)
             {
-                if (maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[playerPosition].verticesNode.Previous.Value, gameActivity.playerArray[playerPosition].verticesNode.Value))
+                if (Static.Maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[playerPosition].verticesNode.Previous.Value, gameActivity.playerArray[playerPosition].verticesNode.Value))
                 {
                     AmendPath(playerPosition, gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[playerPosition].verticesNode.Previous.Value, gameActivity.playerArray[playerPosition].verticesNode.Value);
 
@@ -167,7 +165,7 @@ namespace CaptureTheCampus.Game
                 }
             }
 
-            temporaryVertices.AddLast(maths.LineIntersectionPoint(p1, p2, q1, q2));
+            temporaryVertices.AddLast(Static.Maths.LineIntersectionPoint(p1, p2, q1, q2));
 
             temporaryVertices.AddLast(p2);
 
@@ -205,9 +203,9 @@ namespace CaptureTheCampus.Game
 
             while (true)
             {
-                if (maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.verticesNode.Previous.Value, gameActivity.gamePlayArea.verticesNode.Value))
+                if (Static.Maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.verticesNode.Previous.Value, gameActivity.gamePlayArea.verticesNode.Value))
                 {
-                    gameActivity.playerArray[playerPosition].vertices.Last.Value = maths.LineIntersectionPoint(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.verticesNode.Previous.Value, gameActivity.gamePlayArea.verticesNode.Value);
+                    gameActivity.playerArray[playerPosition].vertices.Last.Value = Static.Maths.LineIntersectionPoint(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.verticesNode.Previous.Value, gameActivity.gamePlayArea.verticesNode.Value);
 
                     break;
                 }
@@ -232,9 +230,9 @@ namespace CaptureTheCampus.Game
 
         private bool CheckFinalPathIntersectionCircularly(int playerPosition)
         {
-            if (maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.vertices.First.Value, gameActivity.gamePlayArea.vertices.Last.Value))
+            if (Static.Maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.vertices.First.Value, gameActivity.gamePlayArea.vertices.Last.Value))
             {
-                gameActivity.playerArray[playerPosition].vertices.Last.Value = maths.LineIntersectionPoint(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.vertices.First.Value, gameActivity.gamePlayArea.vertices.Last.Value);
+                gameActivity.playerArray[playerPosition].vertices.Last.Value = Static.Maths.LineIntersectionPoint(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.gamePlayArea.vertices.First.Value, gameActivity.gamePlayArea.vertices.Last.Value);
 
                 return true;
             }
@@ -278,14 +276,14 @@ namespace CaptureTheCampus.Game
 
         private bool CheckPlayAreaIntersection(LatLng value)
         {
-            LatLng firstExtendedPosition = maths.ExtendLineSegment(value, maths.FindCentroid());
-            LatLng secondExtendedPosition = maths.ExtendLineSegment(value, firstExtendedPosition);
+            LatLng firstExtendedPosition = Static.Maths.ExtendLineSegment(gameActivity, value, Static.Maths.FindCentroid(gameActivity));
+            LatLng secondExtendedPosition = Static.Maths.ExtendLineSegment(gameActivity, value, firstExtendedPosition);
 
             gameActivity.gamePlayArea.verticesNode = gameActivity.gamePlayArea.vertices.First.Next;
 
             while (true)
             {
-                if (maths.DoIntersect(firstExtendedPosition, secondExtendedPosition, gameActivity.gamePlayArea.verticesNode.Previous.Value, gameActivity.gamePlayArea.verticesNode.Value))
+                if (Static.Maths.DoIntersect(firstExtendedPosition, secondExtendedPosition, gameActivity.gamePlayArea.verticesNode.Previous.Value, gameActivity.gamePlayArea.verticesNode.Value))
                 {
                     gameActivity.gamePlayArea.vertices.AddBefore(gameActivity.gamePlayArea.verticesNode, value);
 
@@ -312,7 +310,7 @@ namespace CaptureTheCampus.Game
 
         private bool CheckPlayAreaIntersectionCircularly(LatLng firstExtendedPosition, LatLng secondExtendedPosition, LatLng value)
         {
-            if (maths.DoIntersect(firstExtendedPosition, secondExtendedPosition, gameActivity.gamePlayArea.vertices.First.Value, gameActivity.gamePlayArea.vertices.Last.Value))
+            if (Static.Maths.DoIntersect(firstExtendedPosition, secondExtendedPosition, gameActivity.gamePlayArea.vertices.First.Value, gameActivity.gamePlayArea.vertices.Last.Value))
             {
                 gameActivity.gamePlayArea.vertices.AddLast(value);
 
@@ -433,8 +431,8 @@ namespace CaptureTheCampus.Game
 
         private void TestAreas(int playerPosition)
         {
-            double firstArea = maths.PolygonArea(new LinkedList<LatLng>(gameActivity.gamePlayArea.polygons.Last.Previous.Value.Points));
-            double secondArea = maths.PolygonArea(new LinkedList<LatLng>(gameActivity.gamePlayArea.polygons.Last.Value.Points));
+            double firstArea = Static.Maths.PolygonArea(new LinkedList<LatLng>(gameActivity.gamePlayArea.polygons.Last.Previous.Value.Points));
+            double secondArea = Static.Maths.PolygonArea(new LinkedList<LatLng>(gameActivity.gamePlayArea.polygons.Last.Value.Points));
 
             if (firstArea <= secondArea)
             {

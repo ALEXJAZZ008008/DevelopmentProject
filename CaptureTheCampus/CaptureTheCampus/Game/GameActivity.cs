@@ -24,7 +24,6 @@ namespace CaptureTheCampus.Game
         public int playerPosition, numberOfPlayers;
 
         private Utilities utilities;
-        private Maths maths;
         private CancellationTokenSource cancelationTokenSource;
         private Task finishTask, scoreTask, hazardTask, serverTask, heartbeatTask, clientTask;
         public TextView areaTextView, scoreTextView;
@@ -89,7 +88,6 @@ namespace CaptureTheCampus.Game
             gameType = Intent.GetStringExtra("gameType");
 
             utilities = new Utilities(this);
-            maths = new Maths(this);
 
             cancelationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = cancelationTokenSource.Token;
@@ -461,8 +459,8 @@ namespace CaptureTheCampus.Game
 
             gamePlayArea.vertices = Static.Serialise.DeserialiseLatLngLinkedList(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "playArea" }), ": ")[1]);
 
-            initialArea = maths.PolygonArea(gamePlayArea.vertices);
-            area = (int)((maths.PolygonArea(gamePlayArea.vertices) / initialArea) * 100);
+            initialArea = Static.Maths.PolygonArea(gamePlayArea.vertices);
+            area = (int)((Static.Maths.PolygonArea(gamePlayArea.vertices) / initialArea) * 100);
 
             while (true)
             {

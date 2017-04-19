@@ -112,7 +112,7 @@
     <Compile Include="Game\Triangle.cs" />
     <Compile Include="Set\SetPlayArea.cs" />
     <Compile Include="Static\Serialise.cs" />
-    <Compile Include="Game\Maths.cs" />
+    <Compile Include="Static\Maths.cs" />
     <Compile Include="Game\GamePlayArea.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Static\IP.cs" />
