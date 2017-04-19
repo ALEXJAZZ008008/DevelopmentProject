@@ -10,7 +10,6 @@ namespace CaptureTheCampus.Game
     {
         private GameActivity gameActivity;
         private Utilities utilities;
-        private Maths maths;
 
         volatile private Circle circle;
         private double velocity;
@@ -23,7 +22,6 @@ namespace CaptureTheCampus.Game
 
             gameActivity = (GameActivity)context;
             utilities = new Utilities(gameActivity);
-            maths = new Maths(gameActivity);
 
             velocity = 1d / (111.3d / (10d / (60d * 60d)));
             degrees = 0;
@@ -65,7 +63,7 @@ namespace CaptureTheCampus.Game
             LatLng position = circle.Center;
             double radius = circle.Radius;
 
-            if (!maths.PointInPolygon(polygonVertices, position))
+            if (!Static.Maths.PointInPolygon(polygonVertices, position))
             {
                 gameActivity.circle.Center = utilities.FindCirclePosition(polygonVertices, radius);
 
@@ -107,7 +105,7 @@ namespace CaptureTheCampus.Game
 
         private void UpdatePosition(double radius)
         {
-            LatLng degreesUnitVector = maths.DegreesToUnitVector(degrees);
+            LatLng degreesUnitVector = Static.Maths.DegreesToUnitVector(degrees);
 
             circle.Center = new LatLng(circle.Center.Latitude + (degreesUnitVector.Latitude * velocity), circle.Center.Longitude + (degreesUnitVector.Longitude * velocity));
 
@@ -183,13 +181,13 @@ namespace CaptureTheCampus.Game
                 interceptionNormalVector.Longitude = 1;
             }
 
-            LatLng degreesUnitVector = maths.DegreesToUnitVector(degrees);
+            LatLng degreesUnitVector = Static.Maths.DegreesToUnitVector(degrees);
             degreesUnitVector = new LatLng(degreesUnitVector.Latitude * interceptionNormalVector.Latitude, degreesUnitVector.Longitude * interceptionNormalVector.Longitude);
 
             double degreesUnitVectorMagnitude = Math.Sqrt(Math.Pow(degreesUnitVector.Latitude, 2) + Math.Pow(degreesUnitVector.Longitude, 2));
             degreesUnitVector = new LatLng(degreesUnitVector.Latitude / degreesUnitVectorMagnitude, degreesUnitVector.Longitude / degreesUnitVectorMagnitude);
 
-            degrees = maths.UnitVectorToDegrees(degreesUnitVector);
+            degrees = Static.Maths.UnitVectorToDegrees(degreesUnitVector);
         }
     }
 }

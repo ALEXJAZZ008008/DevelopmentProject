@@ -13,7 +13,6 @@ namespace CaptureTheCampus.Game
     {
         private GameActivity gameActivity;
         private Area area;
-        private Maths maths;
 
         public Utilities(Context context)
         {
@@ -21,7 +20,6 @@ namespace CaptureTheCampus.Game
             
             gameActivity = (GameActivity)context;
             area = new Area(gameActivity , this);
-            maths = new Maths(gameActivity);
         }
 
         public void BuildMap(GoogleMap googleMap, bool[] mapSettingsBools)
@@ -237,8 +235,8 @@ namespace CaptureTheCampus.Game
 
             if (gameActivity.gamePlayArea.playAreaDrawnBool == false)
             {
-                gameActivity.initialArea = maths.PolygonArea(gameActivity.gamePlayArea.vertices);
-                gameActivity.area = (int)((maths.PolygonArea(gameActivity.gamePlayArea.vertices) / gameActivity.initialArea) * 100);
+                gameActivity.initialArea = Static.Maths.PolygonArea(gameActivity.gamePlayArea.vertices);
+                gameActivity.area = (int)((Static.Maths.PolygonArea(gameActivity.gamePlayArea.vertices) / gameActivity.initialArea) * 100);
 
                 gameActivity.gamePlayArea.playAreaDrawnBool = true;
             }
@@ -250,7 +248,7 @@ namespace CaptureTheCampus.Game
 
             CircleOptions circleOptions = new CircleOptions();
 
-            double radius = maths.ShortestLineSegment(gameActivity.gamePlayArea.vertices) * 5000;
+            double radius = Static.Maths.ShortestLineSegment(gameActivity.gamePlayArea.vertices) * 5000;
 
             circleOptions.InvokeCenter(FindCirclePosition(gameActivity.gamePlayArea.vertices, radius));
             circleOptions.InvokeRadius(radius);
@@ -265,9 +263,9 @@ namespace CaptureTheCampus.Game
 
             while (true)
             {
-                position = maths.FindRandomPoint();
+                position = Static.Maths.FindRandomPoint(gameActivity);
 
-                if (maths.PointInPolygon(vertices, position) && !CircleIntersectPolygon(vertices, position, radius, out interceptionVertex))
+                if (Static.Maths.PointInPolygon(vertices, position) && !CircleIntersectPolygon(vertices, position, radius, out interceptionVertex))
                 {
                     break;
                 }
@@ -285,7 +283,7 @@ namespace CaptureTheCampus.Game
 
             while (true)
             {
-                if (maths.CircleLineIntersect(position, verticesNode.Previous.Value, verticesNode.Value, radius))
+                if (Static.Maths.CircleLineIntersect(position, verticesNode.Previous.Value, verticesNode.Value, radius))
                 {
                     interceptionVertex[0] = verticesNode.Previous.Value;
                     interceptionVertex[1] = verticesNode.Value;
@@ -299,7 +297,7 @@ namespace CaptureTheCampus.Game
                 }
                 else
                 {
-                    if (maths.CircleLineIntersect(position, vertices.First.Value, vertices.Last.Value, radius))
+                    if (Static.Maths.CircleLineIntersect(position, vertices.First.Value, vertices.Last.Value, radius))
                     {
                         interceptionVertex[0] = vertices.First.Value;
                         interceptionVertex[1] = vertices.Last.Value;

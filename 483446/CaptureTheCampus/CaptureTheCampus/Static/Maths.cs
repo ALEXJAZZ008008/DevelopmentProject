@@ -1,24 +1,13 @@
-using Android.Content;
 using Android.Gms.Maps.Model;
-using Android.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace CaptureTheCampus.Game
+namespace CaptureTheCampus.Static
 {
-    public class Maths
+    public static class Maths
     {
-        private GameActivity gameActivity;
-
-        public Maths(Context context)
-        {
-            Log.Info("Maths", "Maths built");
-
-            gameActivity = (GameActivity)context;
-        }
-
-        public bool CheckPosition(int playerPosition)
+        public static bool CheckPosition(Game.GameActivity gameActivity, int playerPosition)
         {
             // Get the angle between the point and the
             // first and last vertices.
@@ -48,7 +37,7 @@ namespace CaptureTheCampus.Game
             return (Math.Abs(total_angle) > 0.000001);
         }
 
-        private double GetAngle(double aX, double aY, double bX, double bY, double cX, double cY)
+        private static double GetAngle(double aX, double aY, double bX, double bY, double cX, double cY)
         {
             // Get the dot product.
             double dot_product = DotProductThree(aX, aY, bX, bY, cX, cY);
@@ -60,7 +49,7 @@ namespace CaptureTheCampus.Game
             return Math.Atan2(cross_product, dot_product);
         }
 
-        private double DotProductThree(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
+        private static double DotProductThree(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
         {
             // Get the vectors' coordinates.
             double BAx = Ax - Bx;
@@ -72,7 +61,7 @@ namespace CaptureTheCampus.Game
             return (BAx * BCx + BAy * BCy);
         }
 
-        private double CrossProductLength(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
+        private static double CrossProductLength(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
         {
             // Get the vectors' coordinates.
             double BAx = Ax - Bx;
@@ -86,7 +75,7 @@ namespace CaptureTheCampus.Game
 
         // The main function that returns true if line segment 'p1q1'
         // and 'p2q2' intersect.
-        public bool DoIntersect(LatLng p1, LatLng q1, LatLng p2, LatLng q2)
+        public static bool DoIntersect(LatLng p1, LatLng q1, LatLng p2, LatLng q2)
         {
             // Find the four orientations needed for general and
             // special cases
@@ -134,7 +123,7 @@ namespace CaptureTheCampus.Game
         // 0 --> p, q and r are colinear
         // 1 --> Clockwise
         // 2 --> Counterclockwise
-        private int Orientation(LatLng p, LatLng q, LatLng r)
+        private static int Orientation(LatLng p, LatLng q, LatLng r)
         {
             double val = (q.Longitude - p.Longitude) * (r.Latitude - q.Latitude) - (q.Latitude - p.Latitude) * (r.Longitude - q.Longitude);
 
@@ -148,7 +137,7 @@ namespace CaptureTheCampus.Game
 
         // Given three colinear points p, q, r, the function checks if
         // point q lies on line segment 'pr'
-        private bool OnSegment(LatLng p, LatLng q, LatLng r)
+        private static bool OnSegment(LatLng p, LatLng q, LatLng r)
         {
             if (q.Latitude <= Math.Max(p.Latitude, r.Latitude) && q.Latitude >= Math.Min(p.Latitude, r.Latitude) && q.Longitude <= Math.Max(p.Longitude, r.Longitude) && q.Longitude >= Math.Min(p.Longitude, r.Longitude))
             {
@@ -160,7 +149,7 @@ namespace CaptureTheCampus.Game
             }
         }
 
-        public LatLng LineIntersectionPoint(LatLng ps1, LatLng pe1, LatLng ps2, LatLng pe2)
+        public static LatLng LineIntersectionPoint(LatLng ps1, LatLng pe1, LatLng ps2, LatLng pe2)
         {
             // Get A,B,C of first line - points : ps1 to pe1
             double a1 = pe1.Longitude - ps1.Longitude;
@@ -184,7 +173,7 @@ namespace CaptureTheCampus.Game
             return new LatLng((b2 * c1 - b1 * c2) / delta, (a1 * c2 - a2 * c1) / delta);
         }
 
-        public double PolygonArea(LinkedList<LatLng> vertices)
+        public static double PolygonArea(LinkedList<LatLng> vertices)
         {
             // Return the absolute value of the signed area.
             // The signed area is negative if the polyogn is
@@ -193,7 +182,7 @@ namespace CaptureTheCampus.Game
             return Math.Abs(SignedPolygonArea(vertices));
         }
 
-        private double SignedPolygonArea(LinkedList<LatLng> vertices)
+        private static double SignedPolygonArea(LinkedList<LatLng> vertices)
         {
             // Add the first point to the end.
             int num_points = vertices.Count;
@@ -213,7 +202,7 @@ namespace CaptureTheCampus.Game
             return area;
         }
 
-        public double ShortestLineSegment(LinkedList<LatLng> vertices)
+        public static double ShortestLineSegment(LinkedList<LatLng> vertices)
         {
             double shortestLength, temporaryShortestLength;
 
@@ -252,23 +241,23 @@ namespace CaptureTheCampus.Game
             return shortestLength;
         }
 
-        private double LineSegmentLength(LatLng firstPoint, LatLng secondPoint)
+        private static double LineSegmentLength(LatLng firstPoint, LatLng secondPoint)
         {
             return Math.Sqrt(SquareLineSegmentLength(firstPoint, secondPoint));
         }
 
-        private double SquareLineSegmentLength(LatLng firstPoint, LatLng secondPoint)
+        private static double SquareLineSegmentLength(LatLng firstPoint, LatLng secondPoint)
         {
             return Math.Abs(SignedSquareLineSegmentLength(firstPoint, secondPoint));
         }
 
-        private double SignedSquareLineSegmentLength(LatLng firstPoint, LatLng secondPoint)
+        private static double SignedSquareLineSegmentLength(LatLng firstPoint, LatLng secondPoint)
         {
             return Math.Pow((firstPoint.Latitude - secondPoint.Latitude), 2) + Math.Pow((firstPoint.Longitude - secondPoint.Longitude), 2);
         }
 
         // Find the polygon's centroid.
-        public LatLng FindCentroid()
+        public static LatLng FindCentroid(Game.GameActivity gameActivity)
         {
             // Add the first point to the end.
             int num_points = gameActivity.gamePlayArea.vertices.Count;
@@ -304,19 +293,19 @@ namespace CaptureTheCampus.Game
             return new LatLng(x, y);
         }
 
-        public LatLng ExtendLineSegment(LatLng firstPoint, LatLng secondPoint)
+        public static LatLng ExtendLineSegment(Game.GameActivity gameActivity, LatLng firstPoint, LatLng secondPoint)
         {
             double lenAB = Math.Sqrt(Math.Pow(secondPoint.Latitude - firstPoint.Latitude, 2.0) + Math.Pow(secondPoint.Longitude - firstPoint.Longitude, 2.0));
 
             return new LatLng(firstPoint.Latitude + (firstPoint.Latitude - secondPoint.Latitude) / lenAB * (ShortestLineSegment(gameActivity.gamePlayArea.vertices) / 1000), firstPoint.Longitude + (firstPoint.Longitude - secondPoint.Longitude) / lenAB * (ShortestLineSegment(gameActivity.gamePlayArea.vertices) / 1000));
         }
 
-        public LatLng FindRandomPoint()
+        public static LatLng FindRandomPoint(Game.GameActivity gameActivity)
         {
             Random random = new Random();
 
-            List<Triangle> triangles = Triangulate(gameActivity.gamePlayArea.vertices);
-            Triangle triangle = triangles[random.Next(0, triangles.Count)];
+            List<Game.Triangle> triangles = Triangulate(gameActivity.gamePlayArea.vertices);
+            Game.Triangle triangle = triangles[random.Next(0, triangles.Count)];
 
             LatLng v1 = new LatLng(triangle.vertices[1].Latitude - triangle.vertices[0].Latitude, triangle.vertices[1].Longitude - triangle.vertices[0].Longitude);
             LatLng v2 = new LatLng(triangle.vertices[2].Latitude - triangle.vertices[0].Latitude, triangle.vertices[2].Longitude - triangle.vertices[0].Longitude);
@@ -336,7 +325,7 @@ namespace CaptureTheCampus.Game
         }
 
         // Triangulate the polygon.
-        private List<Triangle> Triangulate(LinkedList<LatLng> vertices)
+        private static List<Game.Triangle> Triangulate(LinkedList<LatLng> vertices)
         {
             // Copy the points into a scratch array.
             int num_points = vertices.Count;
@@ -344,7 +333,7 @@ namespace CaptureTheCampus.Game
             vertices.CopyTo(pts, 0);
 
             // Make room for the triangles.
-            List<Triangle> triangles = new List<Triangle>();
+            List<Game.Triangle> triangles = new List<Game.Triangle>();
 
             // While the copy of the polygon has more than
             // three points, remove an ear.
@@ -360,9 +349,9 @@ namespace CaptureTheCampus.Game
             return triangles;
         }
 
-        private Triangle AddTriangle(LatLng a, LatLng b, LatLng c)
+        private static Game.Triangle AddTriangle(LatLng a, LatLng b, LatLng c)
         {
-            Triangle triangle = new Triangle();
+            Game.Triangle triangle = new Game.Triangle();
 
             triangle.vertices = new LatLng[3];
             triangle.vertices[0] = a;
@@ -374,7 +363,7 @@ namespace CaptureTheCampus.Game
 
         // Remove an ear from the polygon and
         // add it to the triangles array.
-        private void RemoveEar(ref LatLng[] pts, List<Triangle> triangles)
+        private static void RemoveEar(ref LatLng[] pts, List<Game.Triangle> triangles)
         {
             // Find an ear.
             int a = 0;
@@ -391,7 +380,7 @@ namespace CaptureTheCampus.Game
         }
 
         // Find the indexes of three points that form an "ear."
-        private void FindEar(LatLng[] pts, ref int a, ref int b, ref int c)
+        private static void FindEar(LatLng[] pts, ref int a, ref int b, ref int c)
         {
             int num_points = pts.Length;
 
@@ -414,7 +403,7 @@ namespace CaptureTheCampus.Game
         }
 
         // Return true if the three points form an ear.
-        private bool FormsEar(LatLng[] pts, int a, int b, int c)
+        private static bool FormsEar(LatLng[] pts, int a, int b, int c)
         {
             // See if the angle ABC is concave.
             if (GetAngle(pts[a].Latitude, pts[a].Longitude, pts[b].Latitude, pts[b].Longitude, pts[c].Latitude, pts[c].Longitude) > 0)
@@ -425,7 +414,7 @@ namespace CaptureTheCampus.Game
             }
 
             // Make the triangle A, B, C.
-            Triangle triangle = AddTriangle(pts[a], pts[b], pts[c]);
+            Game.Triangle triangle = AddTriangle(pts[a], pts[b], pts[c]);
 
             // Check the other points to see 
             // if they lie in triangle A, B, C.
@@ -447,7 +436,7 @@ namespace CaptureTheCampus.Game
         }
 
         // Return true if the point is in the polygon.
-        private bool PointInTriangle(Triangle triangle, LatLng point)
+        private static bool PointInTriangle(Game.Triangle triangle, LatLng point)
         {
             // Get the angle between the point and the
             // first and last vertices.
@@ -468,7 +457,7 @@ namespace CaptureTheCampus.Game
         }
 
         // Remove point target from the array.
-        private void RemovePointFromArray(ref LatLng[] pts, int target)
+        private static void RemovePointFromArray(ref LatLng[] pts, int target)
         {
             LatLng[] newPTS = new LatLng[pts.Length - 1];
 
@@ -479,7 +468,7 @@ namespace CaptureTheCampus.Game
         }
 
         // Return true if the point is in the polygon.
-        public bool PointInPolygon(LinkedList<LatLng> vertices, LatLng point)
+        public static bool PointInPolygon(LinkedList<LatLng> vertices, LatLng point)
         {
             // Get the angle between the point and the
             // first and last vertices.
@@ -509,7 +498,7 @@ namespace CaptureTheCampus.Game
             return (Math.Abs(total_angle) > 0.000001);
         }
 
-        public bool CircleLineIntersect(LatLng a, LatLng b, LatLng c, double radius)
+        public static bool CircleLineIntersect(LatLng a, LatLng b, LatLng c, double radius)
         {
             double bc = LineSegmentLength(b, c) + radius;
             double ab = LineSegmentLength(a, b);
@@ -536,7 +525,7 @@ namespace CaptureTheCampus.Game
             return true;
         }
 
-        public LatLng DegreesToUnitVector(int degrees)
+        public static LatLng DegreesToUnitVector(int degrees)
         {
             double radians = DegreesToRadians(degrees);
 
@@ -548,19 +537,19 @@ namespace CaptureTheCampus.Game
             return degreesUnitVector;
         }
 
-        private double DegreesToRadians(int degrees)
+        private static double DegreesToRadians(int degrees)
         {
             return (degrees - 180) * (Math.PI / 180);
         }
 
-        public int UnitVectorToDegrees(LatLng degreesUnitVector)
+        public static int UnitVectorToDegrees(LatLng degreesUnitVector)
         {
             double radians = Math.Atan2(degreesUnitVector.Longitude, degreesUnitVector.Latitude);
 
             return RadiansToDegrees(radians);
         }
 
-        private int RadiansToDegrees(double radians)
+        private static int RadiansToDegrees(double radians)
         {
             return (int)(radians * (180 / Math.PI)) + 180;
         }
