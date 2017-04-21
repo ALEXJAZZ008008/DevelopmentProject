@@ -417,13 +417,13 @@ namespace CaptureTheCampus.Game
 
                                 RunOnUiThread(() =>
                                 {
-                                    temporaryPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "player" + i.ToString() }), ": ")[1], out temporaryString);
+                                    temporaryPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "player" + (i - 1).ToString() }), ": ")[1], out temporaryString);
 
-                                    if (playerArray[i].currentPosition != temporaryPosition)
+                                    if (playerArray[i - 1].currentPosition != temporaryPosition)
                                     {
-                                        playerArray[i].currentPosition = temporaryPosition;
+                                        playerArray[i - 1].currentPosition = temporaryPosition;
 
-                                        utilities.UpdateLocationInformation(i, playerArray[i].currentPosition);
+                                        utilities.UpdateLocationInformation(i - 1, playerArray[i - 1].currentPosition);
                                     }
                                 });
                             }
@@ -532,13 +532,13 @@ namespace CaptureTheCampus.Game
 
                                 RunOnUiThread(() =>
                                 {
-                                    temporaryPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + i.ToString() }), ": ")[1], out temporaryString);
+                                    temporaryPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + (i - 1).ToString() }), ": ")[1], out temporaryString);
 
-                                    if (playerArray[i].currentPosition != temporaryPosition)
+                                    if (playerArray[i - 1].currentPosition != temporaryPosition)
                                     {
-                                        playerArray[i].currentPosition = temporaryPosition;
+                                        playerArray[i - 1].currentPosition = temporaryPosition;
 
-                                        utilities.UpdateLocationInformation(i, playerArray[i].currentPosition);
+                                        utilities.UpdateLocationInformation(i - 1, playerArray[i - 1].currentPosition);
                                     }
                                 });
                             }
