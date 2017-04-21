@@ -134,6 +134,8 @@ namespace TCPServer
                 // other cleanup before throwing.
                 if (cancellationToken.IsCancellationRequested)
                 {
+                    listener.Stop();
+
                     // Clean up here, then...
                     cancellationToken.ThrowIfCancellationRequested();
                 }

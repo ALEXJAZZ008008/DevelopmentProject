@@ -9,7 +9,7 @@ namespace Client
     {
         public string Input()
         {
-            const int listnerPort = 1025;
+            const int listnerPort = 1026;
             string toOutput = "ERROR: incorrect key";
             string received = string.Empty;
 
