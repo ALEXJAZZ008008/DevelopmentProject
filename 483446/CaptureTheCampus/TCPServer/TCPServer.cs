@@ -122,7 +122,7 @@ namespace TCPServer
         private void Loop(CancellationToken cancellationToken)
         {
             //This starts a listener
-            TcpListener listener = new TcpListener(IPAddress.Any, 1024);
+            TcpListener listener = new TcpListener(IPAddress.Any, 1025);
             listener.Start();
 
             #region To Threads

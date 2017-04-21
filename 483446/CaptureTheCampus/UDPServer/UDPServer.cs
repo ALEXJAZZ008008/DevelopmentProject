@@ -10,7 +10,7 @@ namespace UDPServer
     {
         public void Input(CancellationToken cancellationToken)
         {
-            const int broadcastPort = 1025;
+            const int broadcastPort = 1026;
 
             UdpClient broadcaster = new UdpClient();
             IPEndPoint groupEP = new IPEndPoint(IPAddress.Broadcast, broadcastPort);
