@@ -7,7 +7,7 @@ namespace Client
     {
         //This pair of variables holds the IP address of the server and the port of the server globally for easy access
         public static IPAddress ipAddress = IPAddress.Loopback;
-        public static int port = 1024;
+        public static int port = 1025;
 
         //These are used to store the variables that will bypassed from the client to the server
         public static string username;
