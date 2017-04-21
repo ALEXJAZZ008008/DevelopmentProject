@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Net.Sockets;
 
 namespace Client
@@ -55,16 +54,7 @@ namespace Client
                     //This initializes a new Tcp client to handle the requests to the server
                     TcpClient client = new TcpClient();
 
-                    IPAddress ipAddress;
-
-                    if (IPAddress.TryParse(Client.ipAddress, out ipAddress))
-                    {
-                        client.Connect(ipAddress, Client.port);
-                    }
-                    else
-                    {
-                        client.Connect(Client.ipAddress, Client.port);
-                    }
+                    client.Connect(Client.ipAddress, Client.port);
 
                     //These are the variables used to pass data too and from the server
                     StreamWriter streamWriter = new StreamWriter(client.GetStream());
