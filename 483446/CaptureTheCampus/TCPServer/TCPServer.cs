@@ -121,32 +121,54 @@ namespace TCPServer
 
         private void Loop(CancellationToken cancellationToken)
         {
-            //This starts a listener
-            TcpListener listener = new TcpListener(IPAddress.Any, 1025);
-            listener.Start();
-
-            #region To Threads
-
-            //This is the main loop of the program
             while (true)
             {
                 // Poll on this property if you have to do
                 // other cleanup before throwing.
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    listener.Stop();
-
                     // Clean up here, then...
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
+                //This starts a listener
+                TcpListener listener = new TcpListener(IPAddress.Any, 1025);
+
                 try
                 {
-                    //This creates new sockets
-                    Socket socket = listener.AcceptSocket();
+                    listener.Start();
 
-                    //This calls the thread method
-                    Tasks(socket);
+                    #region To Threads
+
+                    //This is the main loop of the program
+                    while (true)
+                    {
+                        // Poll on this property if you have to do
+                        // other cleanup before throwing.
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            listener.Stop();
+
+                            // Clean up here, then...
+                            cancellationToken.ThrowIfCancellationRequested();
+                        }
+
+                        try
+                        {
+                            //This creates new sockets
+                            Socket socket = listener.AcceptSocket();
+
+                            //This calls the thread method
+                            Tasks(socket);
+                        }
+                        catch (Exception ex)
+                        {
+#if DEBUG
+                            //This prints to the screen an error message
+                            Console.WriteLine("ERROR: " + ex.ToString());
+#endif
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -155,6 +177,12 @@ namespace TCPServer
                     Console.WriteLine("ERROR: " + ex.ToString());
 #endif
                 }
+                finally
+                {
+                    listener.Stop();
+                }
+
+                Thread.Sleep(1000);
             }
 
             #endregion

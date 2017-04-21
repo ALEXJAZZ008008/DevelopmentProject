@@ -12,10 +12,10 @@ namespace CaptureTheCampus.Static
 
             for(int i = 0; i < linkedList.Count; i++)
             {
-                outString = SerialiseString(SerialiseLatLng(linkedList.ElementAt(i))) + outString;
+                outString += SerialiseString(SerialiseLatLng(linkedList.ElementAt(i)));
             }
 
-            return outString;
+            return outString.TrimEnd(',');
         }
 
         public static string SerialiseLatLng(LatLng latLng)
