@@ -62,10 +62,7 @@ namespace CaptureTheCampus.Search
                     {
                         client.Input(new string[] { "-t", "-i", searchActivity.ip, "test", "123" });
 
-                        string g = client.Input(new string[] { "-t", "-i", searchActivity.ip, "test" });
-                        string d = Regex.Split(g, ": ")[1];
-
-                        int.Parse(d);
+                        int.Parse(Regex.Split(client.Input(new string[] { "-t", "-i", searchActivity.ip, "test" }), ": ")[1]);
                     }
                     catch (Exception ex)
                     {
@@ -80,14 +77,9 @@ namespace CaptureTheCampus.Search
 
                 Thread.Sleep(1000);
             }
-            try
-            {
-                searchActivity.playerPosition = int.Parse(Regex.Split(client.Input(new string[] { "-t", "-i", searchActivity.ip, "numberOfPlayers" }), ": ")[1]) + 1;
-            }
-            catch(Exception e)
-            {
-                ;
-            }
+
+            searchActivity.playerPosition = int.Parse(Regex.Split(client.Input(new string[] { "-t", "-i", searchActivity.ip, "numberOfPlayers" }), ": ")[1]) + 1;
+
             searchActivity.numberOfPlayers = searchActivity.playerPosition;
 
             client.Input(new string[] { "-t", "-i", searchActivity.ip, "numberOfPlayers", searchActivity.numberOfPlayers.ToString() });
@@ -104,19 +96,9 @@ namespace CaptureTheCampus.Search
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                try
+                if (Regex.Split(client.Input(new string[] { "-t", "-i", searchActivity.ip, "start" }), ": ")[1] == "true")
                 {
-                    if (Regex.Split(client.Input(new string[] { "-t", "-i", searchActivity.ip, "start" }), ": ")[1] == "true")
-                    {
-                        searchActivity.GoToGameActivity(searchActivity.searchType);
-                    }
-                }
-                catch (Exception ex)
-                {
-#if DEBUG
-                    //This prints to the screen an error message
-                    Console.WriteLine("ERROR: " + ex.ToString());
-#endif
+                    searchActivity.GoToGameActivity(searchActivity.searchType);
                 }
 
                 Thread.Sleep(1000);

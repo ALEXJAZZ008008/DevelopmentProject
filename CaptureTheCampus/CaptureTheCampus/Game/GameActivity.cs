@@ -217,12 +217,12 @@ namespace CaptureTheCampus.Game
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                    if (area <= 25 && area != 0)
-                    {
-                        GoToScoreActivity();
+                if (area <= 25 && area != 0)
+                {
+                    GoToScoreActivity();
 
-                        break;
-                    }
+                    break;
+                }
 
                 Thread.Sleep(1000);
             }
@@ -325,7 +325,17 @@ namespace CaptureTheCampus.Game
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                client.Input(new string[] { "-t", "dateTime", (DateTime.Now + TimeSpan.FromMilliseconds(3000)).ToString() });
+                try
+                {
+                    client.Input(new string[] { "-t", "dateTime", (DateTime.Now + TimeSpan.FromMilliseconds(3000)).ToString() });
+                }
+                catch (Exception ex)
+                {
+#if DEBUG
+                    //This prints to the screen an error message
+                    Console.WriteLine("ERROR: " + ex.ToString());
+#endif
+                }
 
                 Thread.Sleep(1000);
             }
@@ -333,11 +343,10 @@ namespace CaptureTheCampus.Game
 
         private void HostClientTask(CancellationToken cancellationToken)
         {
+            bool notStartedBool = true;
             Client.Client client = new Client.Client();
 
-            string test;
-
-            while (true)
+            while (notStartedBool)
             {
                 // Poll on this property if you have to do
                 // other cleanup before throwing.
@@ -347,13 +356,22 @@ namespace CaptureTheCampus.Game
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                client.Input(new string[] { "-t", "test", "123" });
+                notStartedBool = false;
 
-                test = Regex.Split(client.Input(new string[] { "-t", "test" }), ": ")[1];
-
-                if (test == "123")
+                try
                 {
-                    break;
+                    client.Input(new string[] { "-t", "test", "123" });
+
+                    int.Parse(Regex.Split(client.Input(new string[] { "-t", "test" }), ": ")[1]);
+                }
+                catch (Exception ex)
+                {
+#if DEBUG
+                    //This prints to the screen an error message
+                    Console.WriteLine("ERROR: " + ex.ToString());
+#endif
+
+                    notStartedBool = true;
                 }
 
                 Thread.Sleep(1000);
@@ -380,37 +398,27 @@ namespace CaptureTheCampus.Game
                     if (i != playerPosition)
                     {
                         string temporaryString;
-                        bool onlineBool = false;
 
-                        while (!onlineBool)
+                        // Poll on this property if you have to do
+                        // other cleanup before throwing.
+                        if (cancellationToken.IsCancellationRequested)
                         {
-                           // Poll on this property if you have to do
-                           // other cleanup before throwing.
-                           if (cancellationToken.IsCancellationRequested)
-                            {
-                               // Clean up here, then...
-                               cancellationToken.ThrowIfCancellationRequested();
-                            }
+                            // Clean up here, then...
+                            cancellationToken.ThrowIfCancellationRequested();
+                        }
 
-                            onlineBool = true;
+                        try
+                        {
+                            playerArray[i].currentPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "player" + i.ToString() }), ": ")[1], out temporaryString);
 
-                            try
-                            {
-                                playerArray[i].currentPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "player" + i.ToString() }), ": ")[1], out temporaryString);
-
-                                RunOnUiThread(() => utilities.UpdateLocationInformation(i, playerArray[i].currentPosition));
-                            }
-                            catch (Exception ex)
-                            {
+                            RunOnUiThread(() => utilities.UpdateLocationInformation(i, playerArray[i].currentPosition));
+                        }
+                        catch (Exception ex)
+                        {
 #if DEBUG
-                               //This prints to the screen an error message
-                               Console.WriteLine("ERROR: " + ex.ToString());
+                            //This prints to the screen an error message
+                            Console.WriteLine("ERROR: " + ex.ToString());
 #endif
-
-                               onlineBool = false;
-                            }
-
-                            Thread.Sleep(1000);
                         }
                     }
                     else
@@ -427,11 +435,10 @@ namespace CaptureTheCampus.Game
 
         private void JoinClientTask(CancellationToken cancellationToken)
         {
+            bool notStartedBool = true;
             Client.Client client = new Client.Client();
 
-            string test;
-
-            while (true)
+            while (notStartedBool)
             {
                 // Poll on this property if you have to do
                 // other cleanup before throwing.
@@ -441,13 +448,22 @@ namespace CaptureTheCampus.Game
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                client.Input(new string[] { "-t", "-i", ip, "test", "123" });
+                notStartedBool = false;
 
-                test = Regex.Split(client.Input(new string[] { "-t", "-i", ip, "test" }), ": ")[1];
-
-                if (test == "123")
+                try
                 {
-                    break;
+                    client.Input(new string[] { "-t", "test", "123" });
+
+                    int.Parse(Regex.Split(client.Input(new string[] { "-t", "test" }), ": ")[1]);
+                }
+                catch (Exception ex)
+                {
+#if DEBUG
+                    //This prints to the screen an error message
+                    Console.WriteLine("ERROR: " + ex.ToString());
+#endif
+
+                    notStartedBool = true;
                 }
 
                 Thread.Sleep(1000);
@@ -476,37 +492,26 @@ namespace CaptureTheCampus.Game
                 {
                     if (i != playerPosition)
                     {
-                        bool onlineBool = false;
-
-                        while (!onlineBool)
+                        // Poll on this property if you have to do
+                        // other cleanup before throwing.
+                        if (cancellationToken.IsCancellationRequested)
                         {
-                            // Poll on this property if you have to do
-                            // other cleanup before throwing.
-                            if (cancellationToken.IsCancellationRequested)
-                            {
-                                // Clean up here, then...
-                                cancellationToken.ThrowIfCancellationRequested();
-                            }
+                            // Clean up here, then...
+                            cancellationToken.ThrowIfCancellationRequested();
+                        }
 
-                            onlineBool = true;
+                        try
+                        {
+                            playerArray[i].currentPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + i.ToString() }), ": ")[1], out temporaryString);
 
-                            try
-                            {
-                                playerArray[i].currentPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + i.ToString() }), ": ")[1], out temporaryString);
-
-                                RunOnUiThread(() => utilities.UpdateLocationInformation(i, playerArray[i].currentPosition));
-                            }
-                            catch (Exception ex)
-                            {
+                            RunOnUiThread(() => utilities.UpdateLocationInformation(i, playerArray[i].currentPosition));
+                        }
+                        catch (Exception ex)
+                        {
 #if DEBUG
-                                //This prints to the screen an error message
-                                Console.WriteLine("ERROR: " + ex.ToString());
+                            //This prints to the screen an error message
+                            Console.WriteLine("ERROR: " + ex.ToString());
 #endif
-
-                                onlineBool = false;
-                            }
-
-                            Thread.Sleep(1000);
                         }
                     }
                     else

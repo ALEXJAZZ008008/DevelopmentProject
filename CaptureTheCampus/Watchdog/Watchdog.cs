@@ -68,13 +68,15 @@ namespace Watchdog
 
             DateTime serverDateTime = DateTime.Parse(Regex.Split(client.Input(new string[] { "-t", "dateTime" }), ": ")[1]);
 
-            while (serverDateTime >= DateTime.Now)
+            //while (serverDateTime >= DateTime.Now)
+            while(true)
             {
                 // Poll on this property if you have to do
                 // other cleanup before throwing.
                 if (cancellationToken.IsCancellationRequested)
                 {
                     cancelationTokenSource.Cancel();
+
                     // Clean up here, then...
                     cancellationToken.ThrowIfCancellationRequested();
                 }
