@@ -26,7 +26,39 @@ namespace Watchdog
 
         private void Output(CancellationToken cancellationToken)
         {
+            bool notStartedBool = true;
             Client.Client client = new Client.Client();
+
+            while (notStartedBool)
+            {
+                // Poll on this property if you have to do
+                // other cleanup before throwing.
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    // Clean up here, then...
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+
+                notStartedBool = false;
+
+                try
+                {
+                    client.Input(new string[] { "-t", "test", "123" });
+
+                    int.Parse(Regex.Split(client.Input(new string[] { "-t", "test" }), ": ")[1]);
+                }
+                catch (Exception ex)
+                {
+#if DEBUG
+                    //This prints to the screen an error message
+                    Console.WriteLine("ERROR: " + ex.ToString());
+#endif
+
+                    notStartedBool = true;
+                }
+
+                Thread.Sleep(1000);
+            }
 
             Console.WriteLine(DateTime.Now + TimeSpan.FromMilliseconds(10000));
 

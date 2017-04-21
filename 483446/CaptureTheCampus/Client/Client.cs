@@ -108,7 +108,7 @@ namespace Client
                                 try
                                 {
                                     //This sets the IP address
-                                    ipAddress = args[i + 1];
+                                    ipAddress = IPAddress.Parse(args[i + 1]);
 
                                     //This tracks the number of arguments
                                     noOfArgs = noOfArgs + 2;
