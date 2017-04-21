@@ -61,6 +61,10 @@ namespace CaptureTheCampus.Search
                     try
                     {
                         client.Input(new string[] { "-t", "-i", searchActivity.ip, "test", "123" });
+
+                        string d = Regex.Split(client.Input(new string[] { "-t", "-i", searchActivity.ip, "test" }), ": ")[1];
+
+                        int.Parse(d);
                     }
                     catch (Exception ex)
                     {
@@ -75,8 +79,14 @@ namespace CaptureTheCampus.Search
 
                 Thread.Sleep(1000);
             }
-
-            searchActivity.playerPosition = int.Parse(Regex.Split(client.Input(new string[] { "-t", "-i", searchActivity.ip, "numberOfPlayers" }), ": ")[1]) + 1;
+            try
+            {
+                searchActivity.playerPosition = int.Parse(Regex.Split(client.Input(new string[] { "-t", "-i", searchActivity.ip, "numberOfPlayers" }), ": ")[1]) + 1;
+            }
+            catch(Exception e)
+            {
+                ;
+            }
             searchActivity.numberOfPlayers = searchActivity.playerPosition;
 
             client.Input(new string[] { "-t", "-i", searchActivity.ip, "numberOfPlayers", searchActivity.numberOfPlayers.ToString() });

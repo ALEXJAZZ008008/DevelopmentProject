@@ -56,7 +56,17 @@ namespace CaptureTheCampus.Search
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                client.Input(new string[] { "-t", "dateTime", (DateTime.Now + TimeSpan.FromMilliseconds(3000)).ToString() });
+                try
+                {
+                    client.Input(new string[] { "-t", "dateTime", (DateTime.Now + TimeSpan.FromMilliseconds(3000)).ToString() });
+                }
+                catch (Exception ex)
+                {
+#if DEBUG
+                    //This prints to the screen an error message
+                    Console.WriteLine("ERROR: " + ex.ToString());
+#endif
+                }
 
                 Thread.Sleep(1000);
             }
@@ -64,11 +74,10 @@ namespace CaptureTheCampus.Search
 
         private void ClientTask(CancellationToken cancellationToken)
         {
+            bool notStartedBool = true;
             Client.Client client = new Client.Client();
 
-            string test;
-
-            while(true)
+            while(notStartedBool)
             {
                 // Poll on this property if you have to do
                 // other cleanup before throwing.
@@ -78,13 +87,22 @@ namespace CaptureTheCampus.Search
                     cancellationToken.ThrowIfCancellationRequested();
                 }
 
-                client.Input(new string[] { "-t", "test", "123" });
+                notStartedBool = false;
 
-                test = Regex.Split(client.Input(new string[] { "-t", "test" }), ": ")[1];
-
-                if(test == "123")
+                try
                 {
-                    break;
+                    client.Input(new string[] { "-t", "test", "123" });
+
+                    int.Parse(Regex.Split(client.Input(new string[] { "-t", "test" }), ": ")[1]);
+                }
+                catch (Exception ex)
+                {
+#if DEBUG
+                    //This prints to the screen an error message
+                    Console.WriteLine("ERROR: " + ex.ToString());
+#endif
+
+                    notStartedBool = true;
                 }
 
                 Thread.Sleep(1000);
