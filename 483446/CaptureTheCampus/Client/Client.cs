@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Net;
 
 namespace Client
 {
     public class Client
     {
         //This pair of variables holds the IP address of the server and the port of the server globally for easy access
-        public static string ipAddress = "localhost";
+        public static IPAddress ipAddress = IPAddress.Loopback;
         public static int port = 1024;
 
         //These are used to store the variables that will bypassed from the client to the server

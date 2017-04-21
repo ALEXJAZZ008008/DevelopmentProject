@@ -62,7 +62,8 @@ namespace CaptureTheCampus.Search
                     {
                         client.Input(new string[] { "-t", "-i", searchActivity.ip, "test", "123" });
 
-                        string d = Regex.Split(client.Input(new string[] { "-t", "-i", searchActivity.ip, "test" }), ": ")[1];
+                        string g = client.Input(new string[] { "-t", "-i", searchActivity.ip, "test" });
+                        string d = Regex.Split(g, ": ")[1];
 
                         int.Parse(d);
                     }
