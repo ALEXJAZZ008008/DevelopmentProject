@@ -12,21 +12,21 @@ namespace UDPServer
         {
             const int broadcastPort = 1026;
 
-            UdpClient broadcaster = new UdpClient();
-            IPEndPoint groupEP = new IPEndPoint(IPAddress.Broadcast, broadcastPort);
-
-            try
+            while (true)
             {
-                while (true)
+                // Poll on this property if you have to do
+                // other cleanup before throwing.
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    // Poll on this property if you have to do
-                    // other cleanup before throwing.
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        // Clean up here, then...
-                        cancellationToken.ThrowIfCancellationRequested();
-                    }
+                    // Clean up here, then...
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
 
+                UdpClient broadcaster = new UdpClient();
+                IPEndPoint groupEP = new IPEndPoint(IPAddress.Broadcast, broadcastPort);
+
+                try
+                {
                     byte[] bytes = Encoding.ASCII.GetBytes("Capture the Campus!");
 
 #if DEBUG
@@ -34,21 +34,21 @@ namespace UDPServer
 #endif
 
                     broadcaster.Send(bytes, bytes.Length, groupEP);
-
-                    Thread.Sleep(1000);
+                }
+                catch (Exception ex)
+                {
+#if DEBUG
+                    //This prints to the screen an error message
+                    Console.WriteLine("ERROR: " + ex.ToString());
+#endif
+                }
+                finally
+                {
+                    broadcaster.Close();
                 }
 
-            }
-            catch (Exception ex)
-            {
-#if DEBUG
-                //This prints to the screen an error message
-                Console.WriteLine("ERROR: " + ex.ToString());
-#endif
-            }
-            finally
-            {
-                broadcaster.Close();
+
+                Thread.Sleep(1000);
             }
         }
     }

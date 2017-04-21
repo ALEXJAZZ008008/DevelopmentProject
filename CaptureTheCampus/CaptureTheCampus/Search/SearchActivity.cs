@@ -96,7 +96,10 @@ namespace CaptureTheCampus.Search
         {
             if (searchType == "Host")
             {
-                GoToSetActivity(searchType);
+                if (playerPosition > 0)
+                {
+                    GoToSetActivity(searchType);
+                }
             }
             else
             {
