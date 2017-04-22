@@ -382,6 +382,7 @@ namespace CaptureTheCampus.Game
             RunOnUiThread(() =>
             {
                 client.Input(new string[] { "-t", "player" + playerPosition.ToString(), Static.Serialise.SerialiseLatLng(playerArray[playerPosition].currentPosition) });
+
                 client.Input(new string[] { "-t", "playArea", Static.Serialise.SerialiseLatLngLinkedList(gamePlayArea.vertices) });
                 client.Input(new string[] { "-t", "circleCentre", Static.Serialise.SerialiseLatLng(circle.Center) });
                 client.Input(new string[] { "-t", "circleRadius", Static.Serialise.SerialiseString(circle.Radius.ToString()) });
@@ -399,7 +400,7 @@ namespace CaptureTheCampus.Game
 
                 try
                 {
-                    for (int i = 0; i < numberOfPlayers; i++)
+                    Parallel.For(0, numberOfPlayers, (i) =>
                     {
                         if (i != playerPosition)
                         {
@@ -441,7 +442,7 @@ namespace CaptureTheCampus.Game
                         {
                             RunOnUiThread(() => client.Input(new string[] { "-t", "player" + playerPosition.ToString(), Static.Serialise.SerialiseLatLng(playerArray[playerPosition].currentPosition) }));
                         }
-                    }
+                    });
 
                     RunOnUiThread(() => client.Input(new string[] { "-t", "circle", Static.Serialise.SerialiseLatLng(circle.Center) }));
                 }
@@ -500,12 +501,14 @@ namespace CaptureTheCampus.Game
             RunOnUiThread(() =>
             {
                 client.Input(new string[] { "-t", "-i", ip, "player" + playerPosition.ToString(), Static.Serialise.SerialiseLatLng(playerArray[playerPosition].currentPosition) });
+
                 gamePlayArea.vertices = Static.Serialise.DeserialiseLatLngLinkedList(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "playArea" }), ": ")[1]);
 
                 initialArea = Static.Maths.PolygonArea(gamePlayArea.vertices);
                 area = (int)((Static.Maths.PolygonArea(gamePlayArea.vertices) / initialArea) * 100);
+
                 circle.Center = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circleCentre", }), ": ")[1], out temporaryString);
-                circle.Radius = double.Parse(Static.Serialise.DeserialiseString(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "CircleRadius", }), ": ")[1], out temporaryString));
+                circle.Radius = double.Parse(Static.Serialise.DeserialiseString(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circleRadius", }), ": ")[1], out temporaryString));
             });
 
             while (true)
@@ -520,47 +523,47 @@ namespace CaptureTheCampus.Game
 
                 try
                 {
-                    for (int i = 0; i < numberOfPlayers; i++)
-                    {
-                        if (i != playerPosition)
-                        {
-                            // Poll on this property if you have to do
-                            // other cleanup before throwing.
-                            if (cancellationToken.IsCancellationRequested)
-                            {
-                                // Clean up here, then...
-                                cancellationToken.ThrowIfCancellationRequested();
-                            }
+                    Parallel.For(0, numberOfPlayers, (i) =>
+                   {
+                       if (i != playerPosition)
+                       {
+                           // Poll on this property if you have to do
+                           // other cleanup before throwing.
+                           if (cancellationToken.IsCancellationRequested)
+                           {
+                               // Clean up here, then...
+                               cancellationToken.ThrowIfCancellationRequested();
+                           }
 
-                            try
-                            {
-                                LatLng temporaryPosition;
+                           try
+                           {
+                               LatLng temporaryPosition;
 
-                                RunOnUiThread(() =>
-                                {
-                                    temporaryPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + (i - 1).ToString() }), ": ")[1], out temporaryString);
+                               RunOnUiThread(() =>
+                               {
+                                   temporaryPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + (i - 1).ToString() }), ": ")[1], out temporaryString);
 
-                                    if (playerArray[i - 1].currentPosition != temporaryPosition)
-                                    {
-                                        playerArray[i - 1].currentPosition = temporaryPosition;
+                                   if (playerArray[i - 1].currentPosition != temporaryPosition)
+                                   {
+                                       playerArray[i - 1].currentPosition = temporaryPosition;
 
-                                        utilities.UpdateLocationInformation(i - 1, playerArray[i - 1].currentPosition);
-                                    }
-                                });
-                            }
-                            catch (Exception ex)
-                            {
+                                       utilities.UpdateLocationInformation(i - 1, playerArray[i - 1].currentPosition);
+                                   }
+                               });
+                           }
+                           catch (Exception ex)
+                           {
 #if DEBUG
-                                //This prints to the screen an error message
-                                Console.WriteLine("ERROR: " + ex.ToString());
+                               //This prints to the screen an error message
+                               Console.WriteLine("ERROR: " + ex.ToString());
 #endif
-                            }
-                        }
-                        else
-                        {
-                            RunOnUiThread(() => client.Input(new string[] { "-t", "-i", ip, "player" + playerPosition.ToString(), Static.Serialise.SerialiseLatLng(playerArray[playerPosition].currentPosition) }));
-                        }
-                    }
+                           }
+                       }
+                       else
+                       {
+                           RunOnUiThread(() => client.Input(new string[] { "-t", "-i", ip, "player" + playerPosition.ToString(), Static.Serialise.SerialiseLatLng(playerArray[playerPosition].currentPosition) }));
+                       }
+                   });
 
                     RunOnUiThread(() => circle.Center = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circleCentre", }), ": ")[1], out temporaryString));
                 }
