@@ -116,24 +116,34 @@ namespace CaptureTheCampus.Game
 
         private void CheckPathIntercetion(int playerPosition)
         {
-            gameActivity.playerArray[playerPosition].verticesNode = gameActivity.playerArray[playerPosition].vertices.First.Next;
-
-            while (true)
+            for (int i = 0; i < gameActivity.numberOfPlayers; i++)
             {
-                if (Static.Maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[playerPosition].verticesNode.Previous.Value, gameActivity.playerArray[playerPosition].verticesNode.Value))
-                {
-                    AmendPath(playerPosition, gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[playerPosition].verticesNode.Previous.Value, gameActivity.playerArray[playerPosition].verticesNode.Value);
+                gameActivity.playerArray[i].verticesNode = gameActivity.playerArray[i].vertices.First.Next;
 
-                    break;
-                }
+                while (true)
+                {
+                    if (Static.Maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[i].verticesNode.Previous.Value, gameActivity.playerArray[i].verticesNode.Value))
+                    {
+                        if (i == playerPosition)
+                        {
+                            AmendPath(playerPosition, gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[playerPosition].verticesNode.Previous.Value, gameActivity.playerArray[playerPosition].verticesNode.Value);
+                        }
+                        else
+                        {
+                            gameActivity.KillPlayer(playerPosition);
+                        }
 
-                if (gameActivity.playerArray[playerPosition].verticesNode.Next != null)
-                {
-                    gameActivity.playerArray[playerPosition].verticesNode = gameActivity.playerArray[playerPosition].verticesNode.Next;
-                }
-                else
-                {
-                    break;
+                        break;
+                    }
+
+                    if (gameActivity.playerArray[i].verticesNode.Next != null)
+                    {
+                        gameActivity.playerArray[i].verticesNode = gameActivity.playerArray[i].verticesNode.Next;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
         }
