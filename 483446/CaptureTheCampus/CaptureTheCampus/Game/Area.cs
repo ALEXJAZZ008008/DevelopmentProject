@@ -92,6 +92,8 @@ namespace CaptureTheCampus.Game
                     else
                     {
                         gameActivity.finishBool = true;
+
+                        break;
                     }
                 }
             }
@@ -118,31 +120,34 @@ namespace CaptureTheCampus.Game
         {
             for (int i = 0; i < gameActivity.numberOfPlayers; i++)
             {
-                gameActivity.playerArray[i].verticesNode = gameActivity.playerArray[i].vertices.First.Next;
-
-                while (true)
+                if (gameActivity.playerArray[i].vertices.First != null && gameActivity.playerArray[i].vertices.First.Next != null)
                 {
-                    if (Static.Maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[i].verticesNode.Previous.Value, gameActivity.playerArray[i].verticesNode.Value))
+                    gameActivity.playerArray[i].verticesNode = gameActivity.playerArray[i].vertices.First.Next;
+
+                    while (true)
                     {
-                        if (i == playerPosition)
+                        if (Static.Maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[i].verticesNode.Previous.Value, gameActivity.playerArray[i].verticesNode.Value))
                         {
-                            AmendPath(playerPosition, gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[playerPosition].verticesNode.Previous.Value, gameActivity.playerArray[playerPosition].verticesNode.Value);
+                            if (i == playerPosition)
+                            {
+                                AmendPath(playerPosition, gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[playerPosition].verticesNode.Previous.Value, gameActivity.playerArray[playerPosition].verticesNode.Value);
+                            }
+                            else
+                            {
+                                gameActivity.KillPlayer(playerPosition);
+                            }
+
+                            break;
+                        }
+
+                        if (gameActivity.playerArray[i].verticesNode.Next != null)
+                        {
+                            gameActivity.playerArray[i].verticesNode = gameActivity.playerArray[i].verticesNode.Next;
                         }
                         else
                         {
-                            gameActivity.KillPlayer(playerPosition);
+                            break;
                         }
-
-                        break;
-                    }
-
-                    if (gameActivity.playerArray[i].verticesNode.Next != null)
-                    {
-                        gameActivity.playerArray[i].verticesNode = gameActivity.playerArray[i].verticesNode.Next;
-                    }
-                    else
-                    {
-                        break;
                     }
                 }
             }
@@ -233,6 +238,8 @@ namespace CaptureTheCampus.Game
                     else
                     {
                         gameActivity.finishBool = true;
+
+                        break;
                     }
                 }
             }
