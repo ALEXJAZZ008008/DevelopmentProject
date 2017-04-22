@@ -105,7 +105,10 @@ namespace CaptureTheCampus.Search
             {
                 if (searchType == "Join")
                 {
-                    GoToTextEntry();
+                    if (ip == string.Empty)
+                    {
+                        GoToTextEntry();
+                    }
                 }
             }
         }
