@@ -420,13 +420,13 @@ namespace CaptureTheCampus.Game
 
                                 RunOnUiThread(() =>
                                 {
-                                    temporaryPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "player" + (i - 1).ToString() }), ": ")[1], out temporaryString);
+                                    temporaryPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "player" + (i).ToString() }), ": ")[1], out temporaryString);
 
-                                    if (playerArray[i - 1].currentPosition != temporaryPosition)
+                                    if (temporaryPosition.Latitude != playerArray[i].currentPosition.Latitude || temporaryPosition.Longitude != playerArray[i].currentPosition.Longitude)
                                     {
-                                        playerArray[i - 1].currentPosition = temporaryPosition;
+                                        playerArray[i].currentPosition = temporaryPosition;
 
-                                        utilities.UpdateLocationInformation(i - 1, playerArray[i - 1].currentPosition);
+                                        utilities.UpdateLocationInformation(i, playerArray[i].currentPosition);
                                     }
                                 });
                             }
@@ -504,8 +504,10 @@ namespace CaptureTheCampus.Game
 
                 gamePlayArea.vertices = Static.Serialise.DeserialiseLatLngLinkedList(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "playArea" }), ": ")[1]);
 
-                initialArea = Static.Maths.PolygonArea(gamePlayArea.vertices);
-                area = (int)((Static.Maths.PolygonArea(gamePlayArea.vertices) / initialArea) * 100);
+                gamePlayArea.polygons.RemoveFirst();
+                gamePlayArea.playAreaDrawnBool = false;
+
+                utilities.SetPolygon(gamePlayArea.vertices);
 
                 circle.Center = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circleCentre", }), ": ")[1], out temporaryString);
                 circle.Radius = double.Parse(Static.Serialise.DeserialiseString(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circleRadius", }), ": ")[1], out temporaryString));
@@ -541,13 +543,13 @@ namespace CaptureTheCampus.Game
 
                                RunOnUiThread(() =>
                                {
-                                   temporaryPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + (i - 1).ToString() }), ": ")[1], out temporaryString);
+                                   temporaryPosition = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "player" + (i).ToString() }), ": ")[1], out temporaryString);
 
-                                   if (playerArray[i - 1].currentPosition != temporaryPosition)
+                                   if (temporaryPosition.Latitude != playerArray[i].currentPosition.Latitude || temporaryPosition.Longitude != playerArray[i].currentPosition.Longitude)
                                    {
-                                       playerArray[i - 1].currentPosition = temporaryPosition;
+                                       playerArray[i].currentPosition = temporaryPosition;
 
-                                       utilities.UpdateLocationInformation(i - 1, playerArray[i - 1].currentPosition);
+                                       utilities.UpdateLocationInformation(i, playerArray[i].currentPosition);
                                    }
                                });
                            }
