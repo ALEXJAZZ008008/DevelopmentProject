@@ -100,6 +100,7 @@ namespace CaptureTheCampus.Game
             scoreTextView = (TextView)FindViewById(Resource.Id.Score);
             area = 100;
             areaTextView.Text = "Area: " + area.ToString();
+            scoreTextView.Text = "Score: " + playerArray[playerPosition].score.ToString();
             finishBool = false;
 
             gameMap = new GameMap(this);
@@ -162,8 +163,6 @@ namespace CaptureTheCampus.Game
                 playerArray[i] = new Player();
 
                 playerArray[i].score = 0;
-
-                scoreTextView.Text = "Score: " + playerArray[i].score.ToString();
 
                 playerArray[i].currentPosition = new LatLng(0, 0);
                 playerArray[i].vertices = new LinkedList<LatLng>();
@@ -508,6 +507,11 @@ namespace CaptureTheCampus.Game
                 gamePlayArea.playAreaDrawnBool = false;
 
                 utilities.SetPolygon(gamePlayArea.vertices);
+
+                playerArray[playerPosition].vertices = new LinkedList<LatLng>();
+                playerArray[playerPosition].drawingBool = false;
+                playerArray[playerPosition].positionBool = true;
+                playerArray[playerPosition].deathBool = false;
 
                 circle.Center = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circleCentre", }), ": ")[1], out temporaryString);
                 circle.Radius = double.Parse(Static.Serialise.DeserialiseString(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circleRadius", }), ": ")[1], out temporaryString));
