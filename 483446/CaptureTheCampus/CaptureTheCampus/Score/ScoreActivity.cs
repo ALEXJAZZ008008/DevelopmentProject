@@ -1,12 +1,13 @@
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Util;
 using Android.Widget;
 
 namespace CaptureTheCampus.Score
 {
-    [Activity(Label = "@string/ScoreActivityLabel", Icon = "@drawable/icon")]
+    [Activity(Label = "@string/ScoreActivityLabel", Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ScoreActivity : Activity
     {
         private int score;

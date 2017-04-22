@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Gms.Common;
 using Android.OS;
 using Android.Util;
@@ -7,7 +8,7 @@ using Android.Widget;
 
 namespace CaptureTheCampus
 {
-    [Activity(Label = "@string/MainActivityLabel", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "@string/MainActivityLabel", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : Activity
     {
         private bool isGooglePlayServicesInstalled;
