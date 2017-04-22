@@ -100,7 +100,6 @@ namespace CaptureTheCampus.Game
             scoreTextView = (TextView)FindViewById(Resource.Id.Score);
             area = 100;
             areaTextView.Text = "Area: " + area.ToString();
-            scoreTextView.Text = "Score: " + playerArray[playerPosition].score.ToString();
             finishBool = false;
 
             gameMap = new GameMap(this);
@@ -170,6 +169,8 @@ namespace CaptureTheCampus.Game
                 playerArray[i].positionBool = true;
                 playerArray[i].deathBool = false;
             }
+
+            scoreTextView.Text = "Score: " + playerArray[playerPosition].score.ToString();
 
             rotation = new Rotation(this);
             gravity = new float[3];
