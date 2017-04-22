@@ -487,7 +487,11 @@ namespace CaptureTheCampus.Game
             gameActivity.areaTextView.Text = "Area: " + gameActivity.area.ToString();
 
             gameActivity.playerArray[playerPosition].score += (int)((takenArea / gameActivity.initialArea) * 100);
-            gameActivity.scoreTextView.Text = "Score: " + gameActivity.playerArray[playerPosition].score.ToString();
+
+            if (playerPosition == gameActivity.playerPosition)
+            {
+                gameActivity.scoreTextView.Text = "Score: " + gameActivity.playerArray[gameActivity.playerPosition].score.ToString();
+            }
         }
 
         private void UpdatePolygons(int playerPosition)
