@@ -1,12 +1,13 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Util;
 using Android.Widget;
 
 namespace CaptureTheCampus.Menu
 {
-    [Activity(Label = "@string/MenuActivityLabel", Icon = "@drawable/icon")]
+    [Activity(Label = "@string/MenuActivityLabel", Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MenuActivity : Activity
     {
         private Button singlePlayerButton, hostMultiplayerButton, joinMultiplayerButton;
