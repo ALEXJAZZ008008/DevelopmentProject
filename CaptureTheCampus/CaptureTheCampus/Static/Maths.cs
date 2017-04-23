@@ -166,7 +166,9 @@ namespace CaptureTheCampus.Static
 
             if (delta == 0)
             {
-                throw new Exception("Lines are parallel");
+#if DEBUG
+                Console.WriteLine("ERROR: Lines are parallel");
+#endif
             }
 
             // now return the Vector2 intersection point
