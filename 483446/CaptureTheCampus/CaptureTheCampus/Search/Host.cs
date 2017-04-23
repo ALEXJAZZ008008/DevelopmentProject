@@ -31,18 +31,18 @@ namespace CaptureTheCampus.Search
             searchActivity.cancelationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = searchActivity.cancelationTokenSource.Token;
 
-            tcpServerTask = new Task(() => watchdog.Input(cancellationToken), searchActivity.cancelationTokenSource.Token);
+            tcpServerTask = new Task(() => watchdog.Input(cancellationToken), searchActivity.cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
 
-            heartbeatTask = new Task(() => HeartbeatTask(cancellationToken), searchActivity.cancelationTokenSource.Token);
+            heartbeatTask = new Task(() => Heartbeat(cancellationToken), searchActivity.cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
 
             UDPServer.UDPServer udpServer = new UDPServer.UDPServer();
 
-            udpServerTask = new Task(() => udpServer.Input(cancellationToken), searchActivity.cancelationTokenSource.Token);
+            udpServerTask = new Task(() => udpServer.Input(cancellationToken), searchActivity.cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
 
-            clientTask = new Task(() => ClientTask(cancellationToken), searchActivity.cancelationTokenSource.Token);
+            clientTask = new Task(() => Client(cancellationToken), searchActivity.cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
         }
 
-        private void HeartbeatTask(CancellationToken cancellationToken)
+        private void Heartbeat(CancellationToken cancellationToken)
         {
             Client.Client client = new Client.Client();
 
@@ -72,7 +72,7 @@ namespace CaptureTheCampus.Search
             }
         }
 
-        private void ClientTask(CancellationToken cancellationToken)
+        private void Client(CancellationToken cancellationToken)
         {
             bool notStartedBool = true;
             Client.Client client = new Client.Client();

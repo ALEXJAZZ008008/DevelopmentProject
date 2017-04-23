@@ -17,9 +17,9 @@ namespace CaptureTheCampus.Game
         public Utilities(Context context)
         {
             Log.Info("Utilities", "Utilities built");
-            
+
             gameActivity = (GameActivity)context;
-            area = new Area(gameActivity , this);
+            area = new Area(gameActivity, this);
         }
 
         public void BuildMap(GoogleMap googleMap, bool[] mapSettingsBools)
@@ -126,17 +126,33 @@ namespace CaptureTheCampus.Game
         {
             Log.Debug("LocationClient", "Location updated");
 
-            SetCamera(playerPosition);
+            if (!gameActivity.cameraInitiallySet)
+            {
+                SetCamera(playerPosition);
+
+                gameActivity.cameraInitiallySet = true;
+            }
+
             MoveMarker(playerPosition);
         }
 
-        private void SetCamera(int playerPosition)
+        public void SetCamera(int playerPosition)
         {
             if (playerPosition == gameActivity.playerPosition)
             {
                 Log.Debug("SetCamera", "Setting camera position");
 
-                int[] builderSettingsInts = { 17, (int)gameActivity.azimuth, 21 };
+
+                int[] builderSettingsInts;
+
+                if (!gameActivity.cameraInitiallySet)
+                {
+                    builderSettingsInts = new int[] { 17, (int)gameActivity.azimuth, 21 };
+                }
+                else
+                {
+                    builderSettingsInts = new int[] { (int)gameActivity.googleMap.CameraPosition.Zoom, (int)gameActivity.azimuth, 21 };
+                }
 
                 CameraPosition cameraPosition = CameraBuilder(playerPosition, builderSettingsInts).Build();
                 CameraUpdate cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
@@ -276,7 +292,7 @@ namespace CaptureTheCampus.Game
 
         public bool CircleIntersectPolygon(LinkedList<LatLng> vertices, LatLng position, double inRadius, out LatLng[] interceptionVertex)
         {
-            double radius = 1d / (111.3d / (inRadius / 1000d));
+            double radius = 1d / (gameActivity.latLngToKM / (inRadius / 1000d));
 
             interceptionVertex = new LatLng[2];
             LinkedListNode<LatLng> verticesNode = vertices.First.Next;

@@ -16,7 +16,7 @@ namespace Tests
             TCPServer.TCPServer tcpServer = new TCPServer.TCPServer();
             CancellationToken ct = new CancellationToken();
 
-            Task serverTask = new Task(() => tcpServer.Input(ct));
+            Task serverTask = new Task(() => tcpServer.Input(ct), TaskCreationOptions.LongRunning);
             serverTask.Start();
 
             do

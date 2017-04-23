@@ -29,10 +29,10 @@ namespace CaptureTheCampus.Search
             searchActivity.cancelationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = searchActivity.cancelationTokenSource.Token;
 
-            clientTask = new Task(() => ClientTask(cancellationToken), searchActivity.cancelationTokenSource.Token);
+            clientTask = new Task(() => Client(cancellationToken), searchActivity.cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
         }
 
-        private void ClientTask(CancellationToken cancellationToken)
+        private void Client(CancellationToken cancellationToken)
         {
             string temporaryIP = string.Empty;
             Client.Client client = new Client.Client();

@@ -23,7 +23,7 @@ namespace CaptureTheCampus.Game
             gameActivity = (GameActivity)context;
             utilities = new Utilities(gameActivity);
 
-            velocity = 1d / (111.3d / (10d / (60d * 60d)));
+            velocity = 1d / (gameActivity.latLngToKM / (10d / (60d * 60d)));
             degrees = 0;
 
             SetDegrees();
