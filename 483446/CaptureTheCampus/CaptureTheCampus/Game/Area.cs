@@ -9,8 +9,8 @@ namespace CaptureTheCampus.Game
 {
     public class Area
     {
-        private GameActivity gameActivity;
-        private Utilities utilities;
+        volatile private GameActivity gameActivity;
+        volatile private Utilities utilities;
 
         public Area(Context context, Utilities inUtilities)
         {
@@ -53,11 +53,11 @@ namespace CaptureTheCampus.Game
             {
                 FindInitialPathIntersection(playerPosition);
 
+                CheckPathIntercetion(playerPosition);
+
                 utilities.SetPolyline(playerPosition, gameActivity.playerArray[playerPosition].vertices);
 
                 gameActivity.playerArray[playerPosition].drawingBool = true;
-
-                CheckPathIntercetion(playerPosition);
             }
             else
             {

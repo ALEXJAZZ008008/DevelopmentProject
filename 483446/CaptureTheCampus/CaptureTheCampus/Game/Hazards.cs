@@ -8,13 +8,12 @@ namespace CaptureTheCampus.Game
 {
     public class Hazards
     {
-        private GameActivity gameActivity;
-        private Utilities utilities;
+        volatile private GameActivity gameActivity;
+        volatile private Utilities utilities;
 
         volatile private Circle circle;
-        private double velocity;
-        private int degrees;
-        private int attempts;
+        volatile private float velocity;
+        volatile private int degrees, attempts;
 
         public Hazards(Context context)
         {
@@ -23,7 +22,7 @@ namespace CaptureTheCampus.Game
             gameActivity = (GameActivity)context;
             utilities = new Utilities(gameActivity);
 
-            velocity = 1d / (gameActivity.latLngToKM / (10d / (60d * 60d)));
+            velocity = 1f / (gameActivity.latLngToKM / (10f / (60f * 60f)));
             degrees = 0;
 
             SetDegrees();

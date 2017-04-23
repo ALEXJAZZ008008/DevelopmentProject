@@ -8,8 +8,8 @@ namespace CaptureTheCampus.Game
 {
     public class Rotation : View, ISensorEventListener
     {
-        private GameActivity gameActivity;
-        private Utilities utilities;
+        volatile private GameActivity gameActivity;
+        volatile private Utilities utilities;
 
         public Rotation(Context context) : base(context)
         {

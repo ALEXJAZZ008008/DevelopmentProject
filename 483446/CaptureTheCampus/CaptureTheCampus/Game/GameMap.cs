@@ -7,8 +7,8 @@ namespace CaptureTheCampus.Game
 {
     class GameMap : View, IOnMapReadyCallback
     {
-        private GameActivity gameActivity;
-        private Utilities utilities;
+        volatile private GameActivity gameActivity;
+        volatile private Utilities utilities;
 
         public GameMap(Context context) : base(context)
         {

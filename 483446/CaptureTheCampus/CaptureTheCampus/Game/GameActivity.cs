@@ -20,33 +20,33 @@ namespace CaptureTheCampus.Game
     [Activity(Label = "@string/GameActivityLabel", Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class GameActivity : Activity
     {
-        public string gameType, ip;
-        public int playerPosition, numberOfPlayers;
-        public double latLngToKM;
+        volatile public string gameType, ip;
+        volatile public int playerPosition, numberOfPlayers;
+        volatile public float latLngToKM;
 
-        private Utilities utilities;
-        private CancellationTokenSource cancelationTokenSource;
-        private Task finishTask, scoreTask, hazardTask, serverTask, heartbeatTask, clientTask, cameraTask;
-        public TextView areaTextView, scoreTextView;
-        public double initialArea;
+        volatile private Utilities utilities;
+        volatile private CancellationTokenSource cancelationTokenSource;
+        volatile private Task finishTask, scoreTask, hazardTask, serverTask, heartbeatTask, clientTask, cameraTask;
+        volatile public TextView areaTextView, scoreTextView;
+        volatile public float initialArea;
         volatile public int area;
         volatile public bool finishBool;
 
-        private GameMap gameMap;
-        public GoogleMap googleMap;
-        public GamePlayArea gamePlayArea;
-        public bool cameraInitiallySet;
+        volatile private GameMap gameMap;
+        volatile public GoogleMap googleMap;
+        volatile public GamePlayArea gamePlayArea;
+        volatile public bool cameraInitiallySet;
 
-        private GamePosition gamePosition;
-        public GoogleApiClient googleAPIClient;
-        public Player[] playerArray;
+        volatile private GamePosition gamePosition;
+        volatile public GoogleApiClient googleAPIClient;
+        volatile public Player[] playerArray;
 
-        private Rotation rotation;
-        public SensorManager sensorManager;
-        public float[] gravity, geoMagnetic;
-        public float azimuth;
+        volatile private Rotation rotation;
+        volatile public SensorManager sensorManager;
+        volatile public float[] gravity, geoMagnetic;
+        volatile public float azimuth;
 
-        private Hazards hazards;
+        volatile private Hazards hazards;
         volatile public Circle circle;
 
         protected override void OnCreate(Bundle bundle)
@@ -89,7 +89,7 @@ namespace CaptureTheCampus.Game
         {
             gameType = Intent.GetStringExtra("gameType");
 
-            latLngToKM = 105.65;
+            latLngToKM = 105.65F;
 
             utilities = new Utilities(this);
 
@@ -311,9 +311,9 @@ namespace CaptureTheCampus.Game
         {
             playerArray[killedPlayerPosition].score = playerArray[killedPlayerPosition].score / 2;
 
-            playerArray[killedPlayerPosition].currentPosition = new LatLng(0, 0);
             playerArray[killedPlayerPosition].vertices = new LinkedList<LatLng>();
-            playerArray[killedPlayerPosition].polyline.Remove();
+            playerArray[killedPlayerPosition].polyline.Visible = false;
+            playerArray[killedPlayerPosition].polyline.Points.Clear();
 
             playerArray[killedPlayerPosition].drawingBool = false;
             playerArray[killedPlayerPosition].positionBool = false;
@@ -559,9 +559,7 @@ namespace CaptureTheCampus.Game
 
                 utilities.SetPolygon(gamePlayArea.vertices);
 
-                playerArray[playerPosition].currentPosition = new LatLng(0, 0);
                 playerArray[playerPosition].vertices = new LinkedList<LatLng>();
-                playerArray[playerPosition].polyline.Remove();
 
                 playerArray[playerPosition].drawingBool = false;
                 playerArray[playerPosition].positionBool = false;

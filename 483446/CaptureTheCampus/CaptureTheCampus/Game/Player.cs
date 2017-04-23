@@ -5,12 +5,12 @@ namespace CaptureTheCampus.Game
 {
     public class Player
     {
-        public Marker marker;
-        public int score;
-        public LatLng currentPosition;
-        public LinkedList<LatLng> vertices;
-        public LinkedListNode<LatLng> verticesNode;
-        public Polyline polyline;
-        public bool drawingBool, positionBool, deathBool;
+        volatile public Marker marker;
+        volatile public int score;
+        volatile public LatLng currentPosition;
+        volatile public LinkedList<LatLng> vertices;
+        volatile public LinkedListNode<LatLng> verticesNode;
+        volatile public Polyline polyline;
+        volatile public bool drawingBool, positionBool, deathBool;
     }
 }

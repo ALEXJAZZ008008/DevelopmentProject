@@ -12,10 +12,10 @@ namespace CaptureTheCampus.Game
 {
     public class GamePosition : View, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener
     {
-        private GameActivity gameActivity;
-        private Utilities utilities;
+        volatile private GameActivity gameActivity;
+        volatile private Utilities utilities;
 
-        private LocationRequest locRequest;
+        volatile private LocationRequest locRequest;
 
         public GamePosition(Context context) : base(context)
         {

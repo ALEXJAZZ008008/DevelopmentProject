@@ -13,17 +13,17 @@ namespace CaptureTheCampus.Search
     [Activity(Label = "@string/SearchActivityLabel", Icon = "@drawable/icon")]
     public class SearchActivity : Activity
     {
-        public string searchType;
-        public string ip;
-        public int playerPosition, numberOfPlayers;
+        volatile public string searchType;
+        volatile public string ip;
+        volatile public int playerPosition, numberOfPlayers;
 
-        private Host host;
-        private Join join;
+        volatile private Host host;
+        volatile private Join join;
 
-        public CancellationTokenSource cancelationTokenSource;
+        volatile public CancellationTokenSource cancelationTokenSource;
 
-        public TextView searchTextView;
-        public Button searchButton;
+        volatile public TextView searchTextView;
+        volatile public Button searchButton;
 
         protected override void OnCreate(Bundle bundle)
         {
