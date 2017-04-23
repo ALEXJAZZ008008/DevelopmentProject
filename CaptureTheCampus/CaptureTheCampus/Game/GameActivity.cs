@@ -559,9 +559,12 @@ namespace CaptureTheCampus.Game
 
                 utilities.SetPolygon(gamePlayArea.vertices);
 
+                playerArray[playerPosition].currentPosition = new LatLng(0, 0);
                 playerArray[playerPosition].vertices = new LinkedList<LatLng>();
+                playerArray[playerPosition].polyline.Remove();
+
                 playerArray[playerPosition].drawingBool = false;
-                playerArray[playerPosition].positionBool = true;
+                playerArray[playerPosition].positionBool = false;
                 playerArray[playerPosition].deathBool = false;
 
                 circle.Center = Static.Serialise.DeserialiseLatLng(Regex.Split(client.Input(new string[] { "-t", "-i", ip, "circleCentre", }), ": ")[1], out temporaryString);
