@@ -312,8 +312,12 @@ namespace CaptureTheCampus.Game
             playerArray[killedPlayerPosition].score = playerArray[killedPlayerPosition].score / 2;
 
             playerArray[killedPlayerPosition].vertices = new LinkedList<LatLng>();
-            playerArray[killedPlayerPosition].polyline.Visible = false;
-            playerArray[killedPlayerPosition].polyline.Points.Clear();
+
+            if (playerArray[killedPlayerPosition].polyline != null)
+            {
+                playerArray[killedPlayerPosition].polyline.Visible = false;
+                playerArray[killedPlayerPosition].polyline.Points.Clear();
+            }
 
             playerArray[killedPlayerPosition].drawingBool = false;
             playerArray[killedPlayerPosition].positionBool = false;

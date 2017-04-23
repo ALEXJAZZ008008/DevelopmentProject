@@ -180,7 +180,7 @@ namespace CaptureTheCampus.Game
             gameActivity.playerArray[playerPosition].marker.Position = gameActivity.playerArray[playerPosition].currentPosition;
         }
 
-        public void SetPolyline(int playerPosition, LinkedList<LatLng> vertices)
+        public bool SetPolyline(int playerPosition, LinkedList<LatLng> vertices)
         {
             Log.Debug("SetPolyline", "Setting polyline positions");
 
@@ -189,25 +189,36 @@ namespace CaptureTheCampus.Game
                 PolylineOptions polyline = new PolylineOptions();
                 LinkedListNode<LatLng> verticesNode = vertices.First;
 
-                while (true)
+                if (verticesNode != null)
                 {
-                    polyline.Add(verticesNode.Value);
+                    while (true)
+                    {
+                        polyline.Add(verticesNode.Value);
 
-                    if (verticesNode.Next != null)
-                    {
-                        verticesNode = verticesNode.Next;
+                        if (verticesNode.Next != null)
+                        {
+                            verticesNode = verticesNode.Next;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
-                    else
-                    {
-                        break;
-                    }
+
+                    BuildPolyline(playerPosition, polyline);
+
+                    return true;
                 }
-
-                BuildPolyline(playerPosition, polyline);
+                else
+                {
+                    return false;
+                }
             }
             else
             {
                 gameActivity.playerArray[playerPosition].polyline.Points = new List<LatLng>(vertices);
+
+                return true;
             }
         }
 
