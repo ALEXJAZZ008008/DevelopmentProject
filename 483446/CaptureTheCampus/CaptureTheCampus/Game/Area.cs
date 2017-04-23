@@ -56,6 +56,8 @@ namespace CaptureTheCampus.Game
                 utilities.SetPolyline(playerPosition, gameActivity.playerArray[playerPosition].vertices);
 
                 gameActivity.playerArray[playerPosition].drawingBool = true;
+
+                CheckPathIntercetion(playerPosition);
             }
             else
             {
@@ -126,7 +128,7 @@ namespace CaptureTheCampus.Game
 
                     while (true)
                     {
-                        if ((gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value != gameActivity.playerArray[i].verticesNode.Previous.Value && gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value != gameActivity.playerArray[i].verticesNode.Value) && (gameActivity.playerArray[playerPosition].vertices.Last.Value != gameActivity.playerArray[i].verticesNode.Previous.Value && gameActivity.playerArray[playerPosition].vertices.Last.Value != gameActivity.playerArray[i].verticesNode.Value))
+                        if (gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value != gameActivity.playerArray[i].verticesNode.Previous.Value || gameActivity.playerArray[playerPosition].vertices.Last.Value != gameActivity.playerArray[i].verticesNode.Value)
                         {
                             if (Static.Maths.DoIntersect(gameActivity.playerArray[playerPosition].vertices.Last.Previous.Value, gameActivity.playerArray[playerPosition].vertices.Last.Value, gameActivity.playerArray[i].verticesNode.Previous.Value, gameActivity.playerArray[i].verticesNode.Value))
                             {

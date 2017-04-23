@@ -444,7 +444,7 @@ namespace CaptureTheCampus.Game
                         }
                     });
 
-                    RunOnUiThread(() => client.Input(new string[] { "-t", "circle", Static.Serialise.SerialiseLatLng(circle.Center) }));
+                    RunOnUiThread(() => client.Input(new string[] { "-t", "circleCentre", Static.Serialise.SerialiseLatLng(circle.Center) }));
                 }
                 catch (Exception ex)
                 {
