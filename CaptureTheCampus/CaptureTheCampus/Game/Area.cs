@@ -55,7 +55,10 @@ namespace CaptureTheCampus.Game
 
                 CheckPathIntercetion(playerPosition);
 
-                utilities.SetPolyline(playerPosition, gameActivity.playerArray[playerPosition].vertices);
+                if (!utilities.SetPolyline(playerPosition, gameActivity.playerArray[playerPosition].vertices))
+                {
+                    return;
+                }
 
                 gameActivity.playerArray[playerPosition].drawingBool = true;
             }
@@ -63,7 +66,10 @@ namespace CaptureTheCampus.Game
             {
                 CheckPathIntercetion(playerPosition);
 
-                utilities.SetPolyline(playerPosition, gameActivity.playerArray[gameActivity.playerPosition].vertices);
+                if (!utilities.SetPolyline(playerPosition, gameActivity.playerArray[playerPosition].vertices))
+                {
+                    return;
+                }
             }
 
         }
@@ -198,11 +204,20 @@ namespace CaptureTheCampus.Game
 
                 FindFinalPathIntersection(playerPosition);
 
-                utilities.SetPolyline(playerPosition, gameActivity.playerArray[playerPosition].vertices);
+                CheckPathIntercetion(playerPosition);
+
+                if (!utilities.SetPolyline(playerPosition, gameActivity.playerArray[playerPosition].vertices))
+                {
+                    return;
+                }
 
                 BuildArea(playerPosition);
 
-                gameActivity.playerArray[playerPosition].polyline = null;
+                if (gameActivity.playerArray[playerPosition].polyline != null)
+                {
+                    gameActivity.playerArray[playerPosition].polyline.Visible = false;
+                    gameActivity.playerArray[playerPosition].polyline.Points.Clear();
+                }
 
                 gameActivity.playerArray[playerPosition].drawingBool = false;
             }
