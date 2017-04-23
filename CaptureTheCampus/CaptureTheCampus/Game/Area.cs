@@ -93,8 +93,6 @@ namespace CaptureTheCampus.Game
                     }
                     else
                     {
-                        gameActivity.finishBool = true;
-
                         break;
                     }
                 }
@@ -112,7 +110,6 @@ namespace CaptureTheCampus.Game
             else
             {
                 Log.Error("CheckInitialPathIntersectionCirularly", "Error in path");
-                Toast.MakeText(gameActivity, "Error in path", ToastLength.Long).Show();
 
                 return false;
             }
@@ -242,8 +239,6 @@ namespace CaptureTheCampus.Game
                     }
                     else
                     {
-                        gameActivity.finishBool = true;
-
                         break;
                     }
                 }
@@ -261,7 +256,6 @@ namespace CaptureTheCampus.Game
             else
             {
                 Log.Error("CheckFinalPathIntersectionCircularly", "Error in path");
-                Toast.MakeText(gameActivity, "Error in path", ToastLength.Long).Show();
 
                 return false;
             }

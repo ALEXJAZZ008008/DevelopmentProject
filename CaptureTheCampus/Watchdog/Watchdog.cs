@@ -16,7 +16,7 @@ namespace Watchdog
             cancelationTokenSource = new CancellationTokenSource();
             CancellationToken childCancellationToken = cancelationTokenSource.Token;
 
-            Task tcpServerTask = new Task(() => tcpServer.Input(childCancellationToken), cancelationTokenSource.Token);
+            Task tcpServerTask = new Task(() => tcpServer.Input(childCancellationToken), cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
             tcpServerTask.Start();
 
             Output(parentCancellationToken);

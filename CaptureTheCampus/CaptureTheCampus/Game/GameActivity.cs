@@ -22,10 +22,11 @@ namespace CaptureTheCampus.Game
     {
         public string gameType, ip;
         public int playerPosition, numberOfPlayers;
+        public double latLngToKM;
 
         private Utilities utilities;
         private CancellationTokenSource cancelationTokenSource;
-        private Task finishTask, scoreTask, hazardTask, serverTask, heartbeatTask, clientTask;
+        private Task finishTask, scoreTask, hazardTask, serverTask, heartbeatTask, clientTask, cameraTask;
         public TextView areaTextView, scoreTextView;
         public double initialArea;
         volatile public int area;
@@ -34,6 +35,7 @@ namespace CaptureTheCampus.Game
         private GameMap gameMap;
         public GoogleMap googleMap;
         public GamePlayArea gamePlayArea;
+        public bool cameraInitiallySet;
 
         private GamePosition gamePosition;
         public GoogleApiClient googleAPIClient;
@@ -87,14 +89,17 @@ namespace CaptureTheCampus.Game
         {
             gameType = Intent.GetStringExtra("gameType");
 
+            latLngToKM = 105.65;
+
             utilities = new Utilities(this);
 
             cancelationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = cancelationTokenSource.Token;
 
-            finishTask = new Task(() => FinishCheck(cancellationToken), cancelationTokenSource.Token);
-            scoreTask = new Task(() => EndConditions(cancellationToken), cancelationTokenSource.Token);
-            hazardTask = new Task(() => RunHazards(cancellationToken), cancelationTokenSource.Token);
+            finishTask = new Task(() => FinishCheck(cancellationToken), cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
+            scoreTask = new Task(() => EndConditions(cancellationToken), cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
+            hazardTask = new Task(() => RunHazards(cancellationToken), cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
+            cameraTask = new Task(() => MoveCamera(cancellationToken), cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
 
             areaTextView = (TextView)FindViewById(Resource.Id.Area);
             scoreTextView = (TextView)FindViewById(Resource.Id.Score);
@@ -113,6 +118,8 @@ namespace CaptureTheCampus.Game
             gamePlayArea.playAreaDrawnBool = false;
 
             gamePosition = new GamePosition(this);
+
+            cameraInitiallySet = false;
 
             if (gameType == "Single Player")
             {
@@ -134,11 +141,11 @@ namespace CaptureTheCampus.Game
 
                     Watchdog.Watchdog watchdog = new Watchdog.Watchdog();
 
-                    serverTask = new Task(() => watchdog.Input(cancellationToken), cancelationTokenSource.Token);
+                    serverTask = new Task(() => watchdog.Input(cancellationToken), cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
 
-                    heartbeatTask = new Task(() => HeartbeatTask(cancellationToken), cancelationTokenSource.Token);
+                    heartbeatTask = new Task(() => Heartbeat(cancellationToken), cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
 
-                    clientTask = new Task(() => HostClientTask(cancellationToken), cancelationTokenSource.Token);
+                    clientTask = new Task(() => HostClient(cancellationToken), cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
                 }
                 else
                 {
@@ -152,7 +159,7 @@ namespace CaptureTheCampus.Game
 
                         ip = Intent.GetStringExtra("ip");
 
-                        clientTask = new Task(() => JoinClientTask(cancellationToken), cancelationTokenSource.Token);
+                        clientTask = new Task(() => JoinClient(cancellationToken), cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
                     }
                 }
             }
@@ -311,7 +318,48 @@ namespace CaptureTheCampus.Game
             playerArray[killedPlayerPosition].deathBool = true;
         }
 
-        private void HeartbeatTask(CancellationToken cancellationToken)
+        private void MoveCamera(CancellationToken cancellationToken)
+        {
+            int count = 0;
+            Client.Client client = new Client.Client();
+
+            while (true)
+            {
+                // Poll on this property if you have to do
+                // other cleanup before throwing.
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    // Clean up here, then...
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+
+                try
+                {
+                    RunOnUiThread(() =>
+                    {
+                        if (!googleMap.Projection.VisibleRegion.LatLngBounds.Contains(playerArray[playerPosition].currentPosition) || count >= 10)
+                        {
+                            count = 0;
+
+                            utilities.SetCamera(playerPosition);
+                        }
+                    });
+                }
+                catch (Exception ex)
+                {
+#if DEBUG
+                    //This prints to the screen an error message
+                    Console.WriteLine("ERROR: " + ex.ToString());
+#endif
+                }
+
+                count++;
+
+                Thread.Sleep(1000);
+            }
+        }
+
+        private void Heartbeat(CancellationToken cancellationToken)
         {
             Client.Client client = new Client.Client();
 
@@ -341,7 +389,7 @@ namespace CaptureTheCampus.Game
             }
         }
 
-        private void HostClientTask(CancellationToken cancellationToken)
+        private void HostClient(CancellationToken cancellationToken)
         {
             bool notStartedBool = true;
             Client.Client client = new Client.Client();
@@ -458,7 +506,7 @@ namespace CaptureTheCampus.Game
             }
         }
 
-        private void JoinClientTask(CancellationToken cancellationToken)
+        private void JoinClient(CancellationToken cancellationToken)
         {
             bool notStartedBool = true;
             Client.Client client = new Client.Client();
@@ -633,6 +681,7 @@ namespace CaptureTheCampus.Game
             finishTask.Start();
             scoreTask.Start();
             hazardTask.Start();
+            cameraTask.Start();
 
             if (gameType == "Host")
             {
