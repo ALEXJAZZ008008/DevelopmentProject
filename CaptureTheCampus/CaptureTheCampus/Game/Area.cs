@@ -136,6 +136,7 @@ namespace CaptureTheCampus.Game
                                 else
                                 {
                                     gameActivity.KillPlayer(playerPosition);
+                                    gameActivity.KillPlayer(i);
                                 }
 
                                 break;
