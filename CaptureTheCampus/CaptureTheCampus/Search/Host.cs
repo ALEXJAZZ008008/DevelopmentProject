@@ -8,10 +8,10 @@ namespace CaptureTheCampus.Search
 {
     public class Host
     {
-        private SearchActivity searchActivity;
-        private Context context;
+        volatile private SearchActivity searchActivity;
+        volatile private Context context;
 
-        private Task tcpServerTask, heartbeatTask, udpServerTask, clientTask;
+        volatile private Task tcpServerTask, heartbeatTask, udpServerTask, clientTask;
 
         public Host(Context inContext)
         {

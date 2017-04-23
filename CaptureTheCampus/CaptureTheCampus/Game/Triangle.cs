@@ -4,6 +4,6 @@ namespace CaptureTheCampus.Game
 {
     public class Triangle
     {
-        public LatLng[] vertices;
+        volatile public LatLng[] vertices;
     }
 }

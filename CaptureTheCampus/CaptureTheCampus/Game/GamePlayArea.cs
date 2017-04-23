@@ -6,9 +6,9 @@ namespace CaptureTheCampus.Game
     public class GamePlayArea
     {
         volatile public LinkedList<LatLng> vertices;
-        public LinkedListNode<LatLng> verticesNode;
-        public LinkedList<Polygon> polygons;
-        public LinkedListNode<Polygon> polygonsNode;
-        public bool playAreaDrawnBool;
+        volatile public LinkedListNode<LatLng> verticesNode;
+        volatile public LinkedList<Polygon> polygons;
+        volatile public LinkedListNode<Polygon> polygonsNode;
+        volatile public bool playAreaDrawnBool;
     }
 }

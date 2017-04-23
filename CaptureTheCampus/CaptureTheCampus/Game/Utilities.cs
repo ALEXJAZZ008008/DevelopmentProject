@@ -11,8 +11,8 @@ namespace CaptureTheCampus.Game
 {
     public class Utilities
     {
-        private GameActivity gameActivity;
-        private Area area;
+        volatile private GameActivity gameActivity;
+        volatile private Area area;
 
         public Utilities(Context context)
         {
@@ -251,7 +251,7 @@ namespace CaptureTheCampus.Game
 
             if (gameActivity.gamePlayArea.playAreaDrawnBool == false)
             {
-                gameActivity.initialArea = Static.Maths.PolygonArea(gameActivity.gamePlayArea.vertices);
+                gameActivity.initialArea = (float)Static.Maths.PolygonArea(gameActivity.gamePlayArea.vertices);
                 gameActivity.area = (int)((Static.Maths.PolygonArea(gameActivity.gamePlayArea.vertices) / gameActivity.initialArea) * 100);
 
                 gameActivity.gamePlayArea.playAreaDrawnBool = true;

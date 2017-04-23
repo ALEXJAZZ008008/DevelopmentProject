@@ -8,10 +8,10 @@ namespace CaptureTheCampus.Search
 {
     public class Join
     {
-        private SearchActivity searchActivity;
-        private Context context;
+        volatile private SearchActivity searchActivity;
+        volatile private Context context;
 
-        private Task clientTask;
+        volatile private Task clientTask;
 
         public Join(Context inContext)
         {
