@@ -351,7 +351,6 @@ namespace CaptureTheCampus.Game
             else
             {
                 Log.Error("CheckPlayAreaIntersectionCircularly", "Error in play area");
-                Toast.MakeText(gameActivity, "Error in play area", ToastLength.Long).Show();
 
                 return false;
             }
