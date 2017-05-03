@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>  
+  <string name="MainActivityLabel">Capture The Campus!</string>
+  <string name="MenuActivityLabel">Main Menu</string>
+  <string name="SetActivityLabel">Capture The Campus!</string>
+  <string name="SearchActivityLabel">Search Menu</string>
+  <string name="GameActivityLabel">Capture The Campus!</string>
+  <string name="ScoreActivityLabel">Score</string>
+  <string name="MainMenuTitle">Capture The Campus!</string>
+  <string name="SinglePlayerButtonLabel">Single Player</string>
+  <string name="HostMultiplayerButtonLabel">Host Multiplayer</string>
+  <string name="JoinMultiplayerButtonLabel">Join Multiplayer</string>
+  <string name="SetFirstMarkerButton">Set First Marker</string>
+  <string name="SetSecondMarkerButton">Set Second Marker</string>
+  <string name="CompletePlayAreaButton">Start</string>
+  <string name="MainMenuButtonLabel">Return to Main Menu</string>
+  <string name="HostSearchTitle">IP:</string>
+  <string name="HostSearchButtonLabelPlay">Play With</string>
+  <string name="HostSearchButtonLabelPlayers">Player/s</string>
+  <string name="JoinSearchTitleWait">Please Wait:</string>
+  <string name="JoinSearchTitleNotConnected">Not Connected</string>
+  <string name="JoinSearchTitleConnected">Connected:</string>
+  <string name="JoinSearchTitleWaiting">Waiting For Host</string>
+  <string name="JoinSearchButtonLabel">Enter IP Manually</string>
+</resources>
